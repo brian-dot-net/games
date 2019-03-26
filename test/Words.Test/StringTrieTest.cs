@@ -62,5 +62,16 @@ namespace Words.Test
             three.IsTerminal.Should().BeTrue();
             three.Value.Should().Be("GHI");
         }
+
+        [Fact]
+        public void GetNonExistentNode()
+        {
+            StringTrie trie = new StringTrie();
+            trie.Add("ABC");
+
+            var notThere = trie['X'];
+
+            notThere.Should().BeNull();
+        }
     }
 }

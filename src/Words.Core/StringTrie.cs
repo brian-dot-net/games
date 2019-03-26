@@ -53,7 +53,14 @@ namespace Words
 
             public string Value { get; set; }
 
-            public INode this[char key] => this.children[key];
+            public INode this[char key]
+            {
+                get
+                {
+                    this.children.TryGetValue(key, out Node child);
+                    return child;
+                }
+            }
 
             public bool Add(string value, int index)
             {
