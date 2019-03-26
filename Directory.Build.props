@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <RuleSetFileName>CodeAnalysis.ruleset</RuleSetFileName>
+    <StyleCopFileName>stylecop.json</StyleCopFileName>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)$(RuleSetFileName)</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <OutputPath>$(MSBuildThisFileDirectory)\bin\$(Configuration)\$(TargetFramework)</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)$(RuleSetFileName)">
+      <Link>$(RuleSetFileName)</Link>
+    </None>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)$(StyleCopFileName)">
+      <Link>$(StyleCopFileName)</Link>
+    </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
