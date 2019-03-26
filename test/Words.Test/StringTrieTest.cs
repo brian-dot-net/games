@@ -16,5 +16,15 @@ namespace Words.Test
 
             trie.Count.Should().Be(0);
         }
+
+        [Fact]
+        public void OneItemLength1()
+        {
+            StringTrie trie = new StringTrie();
+
+            trie.Add("X");
+
+            trie.Count.Should().Be(1);
+        }
     }
 }
