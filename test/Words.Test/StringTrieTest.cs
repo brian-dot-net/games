@@ -41,5 +41,26 @@ namespace Words.Test
             node['A'].IsTerminal.Should().BeTrue();
             node['I'].IsTerminal.Should().BeTrue();
         }
+
+        [Fact]
+        public void ThreeItemsLength3NoSharedPrefix()
+        {
+            StringTrie trie = new StringTrie();
+
+            trie.Add("ABC");
+            trie.Add("DEF");
+            trie.Add("GHI");
+
+            trie.Count.Should().Be(3);
+            var one = trie['A']['B']['C'];
+            one.IsTerminal.Should().BeTrue();
+            one.Value.Should().Be("ABC");
+            var two = trie['D']['E']['F'];
+            two.IsTerminal.Should().BeTrue();
+            two.Value.Should().Be("DEF");
+            var three = trie['G']['H']['I'];
+            three.IsTerminal.Should().BeTrue();
+            three.Value.Should().Be("GHI");
+        }
     }
 }

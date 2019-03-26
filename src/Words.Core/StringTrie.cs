@@ -19,6 +19,8 @@ namespace Words
         {
             bool IsTerminal { get; }
 
+            string Value { get; }
+
             INode this[char key] { get; }
         }
 
@@ -26,11 +28,13 @@ namespace Words
 
         public bool IsTerminal => this.root.IsTerminal;
 
+        public string Value => this.root.Value;
+
         public INode this[char key] => this.root[key];
 
         public void Add(string value)
         {
-            if (this.root.Add(value))
+            if (this.root.Add(value, 0))
             {
                 ++this.Count;
             }
@@ -45,26 +49,28 @@ namespace Words
                 this.children = new Dictionary<char, Node>();
             }
 
-            public bool IsTerminal { get; private set; }
+            public bool IsTerminal => this.Value != null;
+
+            public string Value { get; set; }
 
             public INode this[char key] => this.children[key];
 
-            public bool Add(string value)
+            public bool Add(string value, int index)
             {
-                if (value.Length == 0)
+                if (index == value.Length)
                 {
-                    this.IsTerminal = true;
+                    this.Value = value;
                     return true;
                 }
 
-                char key = value[0];
+                char key = value[index];
                 if (!this.children.TryGetValue(key, out Node child))
                 {
                     child = new Node();
                     this.children.Add(key, child);
                 }
 
-                return child.Add(value.Substring(1));
+                return child.Add(value, index + 1);
             }
         }
     }
