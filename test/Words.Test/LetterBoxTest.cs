@@ -4,6 +4,7 @@
 
 namespace Words.Test
 {
+    using System;
     using System.Linq;
     using FluentAssertions;
     using Xunit;
@@ -17,6 +18,19 @@ namespace Words.Test
 
             Enumerable.Range(0, 12).Select(v => box[v]).Should().BeEquivalentTo(
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L');
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(12)]
+        public void FailsCharLookupOutOfRange(int index)
+        {
+            LetterBox box = new LetterBox("ABCDEFGHIJKL");
+
+            char c;
+            Action act = () => c = box[index];
+
+            act.Should().Throw<IndexOutOfRangeException>();
         }
     }
 }
