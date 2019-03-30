@@ -43,6 +43,8 @@ namespace Words
             }
         }
 
+        public override string ToString() => this.box;
+
         public struct Vertices
         {
             private readonly ushort bits;

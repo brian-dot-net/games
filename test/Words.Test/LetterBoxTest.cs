@@ -96,6 +96,17 @@ namespace Words.Test
             z.ToString().Should().Be(expected);
         }
 
+        [Theory]
+        [InlineData("ABCDEFGHIJKL")]
+        [InlineData("ZYXWVUTSRQPO")]
+        [InlineData("MMMNNNMMMNNN")]
+        public void StringValue(string expected)
+        {
+            LetterBox box = new LetterBox(expected);
+
+            box.ToString().Should().Be(expected);
+        }
+
         private static LetterBox New() => new LetterBox("ABCDEFGHIJKL");
     }
 }
