@@ -15,11 +15,8 @@ namespace Words.Test
         {
             StringTrie trie = new StringTrie();
             LetterBoxSearch search = New(trie);
-            int count = 0;
 
-            search.Run((_, __) => ++count);
-
-            count.Should().Be(0);
+            FindWords(search).Should().BeEmpty();
         }
 
         [Fact]
@@ -30,9 +27,7 @@ namespace Words.Test
             LetterBoxSearch search = New(trie);
             List<string> found = new List<string>();
 
-            search.Run((w, v) => found.Add(w + ":" + v));
-
-            found.Should().BeEquivalentTo("ALE:100010000001");
+            FindWords(search).Should().BeEquivalentTo("ALE:100010000001");
         }
 
         [Fact]
@@ -54,9 +49,7 @@ namespace Words.Test
             LetterBoxSearch search = New(trie);
             List<string> found = new List<string>();
 
-            search.Run((w, v) => found.Add(w + ":" + v));
-
-            found.Should().BeEquivalentTo(
+            FindWords(search).Should().BeEquivalentTo(
                 "ALE:100010000001",
                 "BEG:010010100000",
                 "CEL:001010000001",
@@ -84,14 +77,21 @@ namespace Words.Test
             LetterBoxSearch search = New(trie);
             List<string> found = new List<string>();
 
-            search.Run((w, v) => found.Add(w + ":" + v));
-
-            found.Should().BeEquivalentTo("ALA:100000000001");
+            FindWords(search).Should().BeEquivalentTo("ALA:100000000001");
         }
 
         private static LetterBoxSearch New(StringTrie trie)
         {
             return new LetterBoxSearch(trie, new LetterBox("ABCDEFGHIJKL"));
+        }
+
+        private static IList<string> FindWords(LetterBoxSearch search)
+        {
+            List<string> found = new List<string>();
+
+            search.Run((w, v) => found.Add(w + ":" + v));
+
+            return found;
         }
     }
 }
