@@ -61,6 +61,30 @@ namespace Words.Test
             FindSolutions(words).Should().BeEquivalentTo("ADB-BECFHJGKIL", "ADBECF-FGJHKIL", "ADBECF-FAHKILJG");
         }
 
+        [Fact]
+        public void CountsWords()
+        {
+            LetterBoxWords words = new LetterBoxWords();
+
+            words.Count.Should().Be(0);
+
+            words.Add("AB", default(LetterBox.Vertices));
+
+            words.Count.Should().Be(1);
+
+            words.Add("AB", default(LetterBox.Vertices));
+
+            words.Count.Should().Be(1);
+
+            words.Add("ABC", default(LetterBox.Vertices));
+
+            words.Count.Should().Be(2);
+
+            words.Add("BCD", default(LetterBox.Vertices));
+
+            words.Count.Should().Be(3);
+        }
+
         private static IList<string> FindSolutions(LetterBoxWords words)
         {
             List<string> found = new List<string>();

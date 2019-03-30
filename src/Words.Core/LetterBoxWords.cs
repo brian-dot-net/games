@@ -17,6 +17,8 @@ namespace Words
             this.words = new Dictionary<char, HashSet<Word>>();
         }
 
+        public int Count { get; private set; }
+
         public void Add(string word, LetterBox.Vertices verts)
         {
             HashSet<Word> keyedWords;
@@ -27,7 +29,10 @@ namespace Words
                 this.words.Add(key, keyedWords);
             }
 
-            keyedWords.Add(new Word(word, verts));
+            if (keyedWords.Add(new Word(word, verts)))
+            {
+                ++this.Count;
+            }
         }
 
         public void Find(Action<string, string> found)
