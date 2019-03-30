@@ -73,5 +73,18 @@ namespace Words.Test
 
             notThere.Should().BeNull();
         }
+
+        [Fact]
+        public void AddNodesMultipleTimes()
+        {
+            StringTrie trie = new StringTrie();
+
+            trie.Add("AB");
+            trie.Add("AB");
+            trie.Add("ABC");
+            trie.Add("ABC");
+
+            trie.Count.Should().Be(2);
+        }
     }
 }

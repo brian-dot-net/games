@@ -66,6 +66,11 @@ namespace Words
             {
                 if (index == value.Length)
                 {
+                    if (this.Value != null)
+                    {
+                        return false;
+                    }
+
                     this.Value = value;
                     return true;
                 }
