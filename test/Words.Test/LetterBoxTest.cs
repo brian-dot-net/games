@@ -127,6 +127,16 @@ namespace Words.Test
             act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("box");
         }
 
+        [Theory]
+        [InlineData("ZZZYYYXXXWWWVVV")]
+        [InlineData("NOTAVALIDLETTERBOX")]
+        public void InputTooLong(string input)
+        {
+            Action act = () => New(input);
+
+            act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("box");
+        }
+
         private static LetterBox New(string input = null) => new LetterBox(input ?? "ABCDEFGHIJKL");
     }
 }
