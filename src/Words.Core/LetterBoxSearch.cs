@@ -19,10 +19,12 @@ namespace Words
 
         public void Run(Action<string, LetterBox.Vertices> found)
         {
-            int v = 0;
-            char c = this.box[v];
-            LetterBox.Vertices verts = new LetterBox.Vertices((ushort)(1 << v));
-            this.Next(this.trie[c], v, verts, found);
+            for (int v1 = 0; v1 < 12; ++v1)
+            {
+                char c = this.box[v1];
+                LetterBox.Vertices verts = new LetterBox.Vertices((ushort)(1 << v1));
+                this.Next(this.trie[c], v1, verts, found);
+            }
         }
 
         private void Next(StringTrie.INode node, int v1, LetterBox.Vertices verts, Action<string, LetterBox.Vertices> found)
@@ -42,8 +44,9 @@ namespace Words
             {
                 if (next[v2])
                 {
+                    char c = this.box[v2];
                     LetterBox.Vertices nextVerts = verts + new LetterBox.Vertices((ushort)(1 << v2));
-                    this.Next(node[this.box[v2]], v2, nextVerts, found);
+                    this.Next(node[c], v2, nextVerts, found);
                 }
             }
         }
