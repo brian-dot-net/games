@@ -52,13 +52,14 @@ namespace Words
                 this.bits = bits;
             }
 
+            public bool this[int index] => ((this.bits >> index) & 1) == 1;
+
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder(12);
                 for (int i = 0; i < 12; ++i)
                 {
-                    bool b = ((this.bits >> i) & 1) == 1;
-                    sb.Append(b ? '1' : '0');
+                    sb.Append(this[i] ? '1' : '0');
                 }
 
                 return sb.ToString();
