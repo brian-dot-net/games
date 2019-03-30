@@ -64,6 +64,8 @@ namespace Words
                 this.bits = bits;
             }
 
+            public bool IsCovered => this.bits == 0xFFF;
+
             public bool this[int index] => ((this.bits >> index) & 1) == 1;
 
             public static Vertices operator +(Vertices x, Vertices y)
