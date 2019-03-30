@@ -13,6 +13,11 @@ namespace Words
 
         public LetterBox(string box)
         {
+            if (box.Length < 12)
+            {
+                throw new ArgumentOutOfRangeException(nameof(box));
+            }
+
             this.box = box;
         }
 

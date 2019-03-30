@@ -102,11 +102,31 @@ namespace Words.Test
         [InlineData("MMMNNNMMMNNN")]
         public void StringValue(string expected)
         {
-            LetterBox box = new LetterBox(expected);
+            LetterBox box = New(expected);
 
             box.ToString().Should().Be(expected);
         }
 
-        private static LetterBox New() => new LetterBox("ABCDEFGHIJKL");
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
+        [InlineData("BC")]
+        [InlineData("DEF")]
+        [InlineData("GHIJ")]
+        [InlineData("KLMNO")]
+        [InlineData("PQRSTU")]
+        [InlineData("VWXYZAB")]
+        [InlineData("CDEFGHIJ")]
+        [InlineData("KLMNOPQRS")]
+        [InlineData("TUVWXYZABC")]
+        [InlineData("DEFGHIJKLMN")]
+        public void InputTooShort(string input)
+        {
+            Action act = () => New(input);
+
+            act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("box");
+        }
+
+        private static LetterBox New(string input = null) => new LetterBox(input ?? "ABCDEFGHIJKL");
     }
 }
