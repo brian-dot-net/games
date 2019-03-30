@@ -63,7 +63,7 @@ namespace Words
             public static bool IsSolution(Word w1, Word w2)
             {
                 LetterBox.Vertices union = w1.verts + w2.verts;
-                return union.IsCovered;
+                return union.IsComplete;
             }
 
             public bool Equals(Word other) => this.word == other.word;

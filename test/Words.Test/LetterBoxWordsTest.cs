@@ -47,12 +47,27 @@ namespace Words.Test
             FindSolutions(words).Should().BeEquivalentTo("ADBECF-FGJHKIL");
         }
 
+        [Fact]
+        public void ManyWordsFindsAllSolutions()
+        {
+            LetterBoxWords words = new LetterBoxWords();
+            words.Add("ADB", new LetterBox.Vertices(0b000000001011));
+            words.Add("ADBECF", new LetterBox.Vertices(0b000000111111));
+            words.Add("BECFHJGKIL", new LetterBox.Vertices(0b111111111110));
+            words.Add("FGJHKIL", new LetterBox.Vertices(0b111111100000));
+            words.Add("FAHKILJG", new LetterBox.Vertices(0b111111100001));
+            words.Add("FAHKILJ", new LetterBox.Vertices(0b111110100001));
+
+            FindSolutions(words).Should().BeEquivalentTo("ADB-BECFHJGKIL", "ADBECF-FGJHKIL", "ADBECF-FAHKILJG");
+        }
+
         private static IList<string> FindSolutions(LetterBoxWords words)
         {
             List<string> found = new List<string>();
 
             words.Find((w1, w2) => found.Add(w1 + "-" + w2));
 
+            found.Sort();
             return found;
         }
     }
