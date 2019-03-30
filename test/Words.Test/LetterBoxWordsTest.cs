@@ -19,5 +19,17 @@ namespace Words.Test
 
             count.Should().Be(0);
         }
+
+        [Fact]
+        public void OneWordFindsNothing()
+        {
+            LetterBoxWords words = new LetterBoxWords();
+            words.Add("ALE", new LetterBox.Vertices(0b100000010001));
+            int count = 0;
+
+            words.Find((w1, w2) => ++count);
+
+            count.Should().Be(0);
+        }
     }
 }
