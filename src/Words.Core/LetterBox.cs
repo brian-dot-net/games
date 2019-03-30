@@ -54,6 +54,11 @@ namespace Words
 
             public bool this[int index] => ((this.bits >> index) & 1) == 1;
 
+            public static Vertices operator +(Vertices x, Vertices y)
+            {
+                return new Vertices((ushort)(x.bits | y.bits));
+            }
+
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder(12);
