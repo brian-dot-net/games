@@ -34,7 +34,7 @@ namespace Words
 
         public void Add(string value)
         {
-            if (this.root.Add(value, 0))
+            if ((value.Length > 0) && this.root.Add(value, 0))
             {
                 ++this.Count;
             }
