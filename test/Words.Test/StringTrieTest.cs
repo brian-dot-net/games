@@ -96,5 +96,15 @@ namespace Words.Test
 
             trie.Count.Should().Be(0);
         }
+
+        [Fact]
+        public void AddNullNode()
+        {
+            StringTrie trie = new StringTrie();
+
+            trie.Add(null);
+
+            trie.Count.Should().Be(0);
+        }
     }
 }

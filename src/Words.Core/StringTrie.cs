@@ -34,7 +34,12 @@ namespace Words
 
         public void Add(string value)
         {
-            if ((value.Length > 0) && this.root.Add(value, 0))
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            if (this.root.Add(value, 0))
             {
                 ++this.Count;
             }
