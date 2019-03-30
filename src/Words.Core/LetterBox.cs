@@ -13,6 +13,11 @@ namespace Words
 
         public LetterBox(string box)
         {
+            if (box == null)
+            {
+                throw new ArgumentNullException(nameof(box));
+            }
+
             if (box.Length != 12)
             {
                 throw new ArgumentOutOfRangeException(nameof(box));
