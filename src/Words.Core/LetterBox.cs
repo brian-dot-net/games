@@ -4,6 +4,7 @@
 
 namespace Words
 {
+    using System;
     using System.Text;
 
     public sealed class LetterBox
@@ -33,8 +34,12 @@ namespace Words
                 case 7:
                 case 8:
                     return new Vertices(0b111000111111);
-                default:
+                case 9:
+                case 10:
+                case 11:
                     return new Vertices(0b000111111111);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(start));
             }
         }
 
