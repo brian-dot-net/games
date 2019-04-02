@@ -24,7 +24,7 @@ namespace LetterBoxedSolver
             LetterBox box = new LetterBox(args[0]);
 
             Log("Loading trie...");
-            StringTrie trie = LoadTrie(args[1]);
+            StringTrie trie = StringTrie.Load(File.OpenRead(args[1]));
             Log($"Loaded {trie.Count} words.");
 
             LetterBoxSearch search = new LetterBoxSearch(trie, box);
@@ -43,26 +43,6 @@ namespace LetterBoxedSolver
         private static void Log(string message)
         {
             Console.WriteLine("[{0:000.000}] {1}", Watch.Elapsed.TotalSeconds, message);
-        }
-
-        private static StringTrie LoadTrie(string file)
-        {
-            StringTrie trie = new StringTrie();
-            using (StreamReader reader = new StreamReader(File.OpenRead(file)))
-            {
-                string line;
-                do
-                {
-                    line = reader.ReadLine();
-                    if ((line != null) && (line.Length > 2) && (line.Length < 13))
-                    {
-                        trie.Add(line);
-                    }
-                }
-                while (line != null);
-            }
-
-            return trie;
         }
     }
 }
