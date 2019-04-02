@@ -118,6 +118,15 @@ namespace Words.Test
             trie.Count.Should().Be(0);
         }
 
+        [Fact]
+        public void LoadFromStreamOneWord()
+        {
+            StringTrie trie = Load("ONE");
+
+            trie.Count.Should().Be(1);
+            trie['O']['N']['E'].Value.Should().Be("ONE");
+        }
+
         private static StringTrie Load(params string[] lines)
         {
             WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l)).ToArray());
