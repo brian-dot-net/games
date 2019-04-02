@@ -4,6 +4,9 @@
 
 namespace Words.Test
 {
+    using System.IO;
+    using System.Linq;
+    using System.Text;
     using FluentAssertions;
     using Xunit;
 
@@ -105,6 +108,40 @@ namespace Words.Test
             trie.Add(null);
 
             trie.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public void LoadFromStreamEmpty()
+        {
+            StringTrie trie = Load();
+
+            trie.Count.Should().Be(0);
+        }
+
+        private static StringTrie Load(params string[] lines)
+        {
+            WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l)).ToArray());
+
+            StringTrie trie = StringTrie.Load(stream);
+
+            stream.DisposeCount.Should().Be(1);
+            return trie;
+        }
+
+        private sealed class WrappedMemoryStream : MemoryStream
+        {
+            public WrappedMemoryStream(byte[] buffer)
+                : base(buffer)
+            {
+            }
+
+            public int DisposeCount { get; private set; }
+
+            protected override void Dispose(bool disposing)
+            {
+                ++this.DisposeCount;
+                base.Dispose(disposing);
+            }
         }
     }
 }

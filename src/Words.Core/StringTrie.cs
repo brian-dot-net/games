@@ -4,7 +4,9 @@
 
 namespace Words
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
 
     public sealed class StringTrie : StringTrie.INode
     {
@@ -31,6 +33,16 @@ namespace Words
         public string Value => this.root.Value;
 
         public INode this[char key] => this.root[key];
+
+        public static StringTrie Load(Stream stream)
+        {
+            StringTrie trie = new StringTrie();
+            using (StreamReader reader = new StreamReader(stream))
+            {
+            }
+
+            return trie;
+        }
 
         public void Add(string value)
         {
