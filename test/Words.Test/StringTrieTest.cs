@@ -139,6 +139,15 @@ namespace Words.Test
             trie['T']['H']['R']['E']['E'].Value.Should().Be("THREE");
         }
 
+        [Fact]
+        public void LoadFromStreamSomeWordsTooShort()
+        {
+            StringTrie trie = Load("S", "SH", "LONG");
+
+            trie.Count.Should().Be(1);
+            trie['L']['O']['N']['G'].Value.Should().Be("LONG");
+        }
+
         private static StringTrie Load(params string[] lines)
         {
             WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l + Environment.NewLine)).ToArray());

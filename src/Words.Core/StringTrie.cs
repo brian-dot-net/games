@@ -43,7 +43,7 @@ namespace Words
                 do
                 {
                     line = reader.ReadLine();
-                    if (line != null)
+                    if ((line != null) && (line.Length > 2))
                     {
                         trie.Add(line);
                     }
