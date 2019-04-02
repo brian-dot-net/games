@@ -148,6 +148,15 @@ namespace Words.Test
             trie['L']['O']['N']['G'].Value.Should().Be("LONG");
         }
 
+        [Fact]
+        public void LoadFromStreamSomeWordsTooLong()
+        {
+            StringTrie trie = Load("OK", "OKAY", "THISISTOOLONG");
+
+            trie.Count.Should().Be(1);
+            trie['O']['K']['A']['Y'].Value.Should().Be("OKAY");
+        }
+
         private static StringTrie Load(params string[] lines)
         {
             WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l + Environment.NewLine)).ToArray());
