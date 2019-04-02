@@ -39,8 +39,16 @@ namespace Words
             StringTrie trie = new StringTrie();
             using (StreamReader reader = new StreamReader(stream))
             {
-                string word = reader.ReadLine();
-                trie.Add(word);
+                string line;
+                do
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        trie.Add(line);
+                    }
+                }
+                while (line != null);
             }
 
             return trie;

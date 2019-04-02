@@ -4,6 +4,7 @@
 
 namespace Words.Test
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -127,9 +128,20 @@ namespace Words.Test
             trie['O']['N']['E'].Value.Should().Be("ONE");
         }
 
+        [Fact]
+        public void LoadFromStreamThreeWords()
+        {
+            StringTrie trie = Load("ONE", "TWO", "THREE");
+
+            trie.Count.Should().Be(3);
+            trie['O']['N']['E'].Value.Should().Be("ONE");
+            trie['T']['W']['O'].Value.Should().Be("TWO");
+            trie['T']['H']['R']['E']['E'].Value.Should().Be("THREE");
+        }
+
         private static StringTrie Load(params string[] lines)
         {
-            WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l)).ToArray());
+            WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l + Environment.NewLine)).ToArray());
 
             StringTrie trie = StringTrie.Load(stream);
 
