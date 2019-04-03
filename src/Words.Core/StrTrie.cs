@@ -27,6 +27,11 @@ namespace Words
 
         public void Add(Str value)
         {
+            if (value.Length == 0)
+            {
+                return;
+            }
+
             if (this.nodes.ContainsKey(value))
             {
                 return;

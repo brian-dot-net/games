@@ -80,5 +80,15 @@ namespace Words.Test
             trie.Find(default(Str).Append(Ch.A).Append(Ch.B)).Should().Be(StrTrie.NodeKind.Terminal);
             trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
         }
+
+        [Fact]
+        public void AddEmptyNode()
+        {
+            StrTrie trie = new StrTrie();
+
+            trie.Add(default(Str));
+
+            trie.Count.Should().Be(0);
+        }
     }
 }
