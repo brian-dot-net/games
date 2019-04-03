@@ -5,6 +5,7 @@
 namespace Words.Test
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
     using Xunit;
@@ -327,6 +328,21 @@ namespace Words.Test
             TestEquals(ba, ba, true);
             TestEquals(cdefgh, ba, false);
             TestEquals(cdefgh, cdefgh, true);
+        }
+
+        [Fact]
+        public void HashCode()
+        {
+            Str empty = default(Str);
+            Str a = default(Str).Append(Ch.A);
+            Str b = default(Str).Append(Ch.B);
+            Str ab = default(Str).Append(Ch.A).Append(Ch.B);
+            Str ba = default(Str).Append(Ch.B).Append(Ch.A);
+            Str cdefgh = default(Str).Append(Ch.C).Append(Ch.D).Append(Ch.E).Append(Ch.F).Append(Ch.G).Append(Ch.H);
+
+            HashSet<int> codes = new HashSet<int>(new Str[] { empty, a, b, ab, ba, cdefgh }.Select(s => s.GetHashCode()));
+
+            codes.Should().HaveCount(6);
         }
 
         private static void TestEquals(Str x, Str y, bool expected)

@@ -34,6 +34,8 @@ namespace Words
 
         public bool Equals(Str other) => this.data == other.data;
 
+        public override int GetHashCode() => this.data.GetHashCode();
+
         public Str Append(Ch c)
         {
             if (this.Length == 12)
