@@ -49,9 +49,16 @@ namespace Words.Benchmark
         }
 
         [Benchmark]
-        public int FromFile()
+        public int String()
         {
             StringTrie trie = StringTrie.Load(File.OpenRead(FileName(this.Pct)));
+            return trie.Count;
+        }
+
+        [Benchmark]
+        public int Str()
+        {
+            StrTrie trie = StrTrie.Load(File.OpenRead(FileName(this.Pct)));
             return trie.Count;
         }
 
