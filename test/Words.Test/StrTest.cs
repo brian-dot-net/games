@@ -4,6 +4,7 @@
 
 namespace Words.Test
 {
+    using System;
     using System.Linq;
     using FluentAssertions;
     using Xunit;
@@ -182,6 +183,28 @@ namespace Words.Test
                 c9,
                 c10,
                 c11);
+        }
+
+        [Fact]
+        public void AppendTooMany()
+        {
+            Str max = default(Str)
+                .Append(Ch.A)
+                .Append(Ch.B)
+                .Append(Ch.C)
+                .Append(Ch.D)
+                .Append(Ch.E)
+                .Append(Ch.F)
+                .Append(Ch.G)
+                .Append(Ch.H)
+                .Append(Ch.I)
+                .Append(Ch.J)
+                .Append(Ch.K)
+                .Append(Ch.L);
+
+            Action act = () => max.Append(Ch.X);
+
+            act.Should().Throw<InvalidOperationException>();
         }
     }
 }

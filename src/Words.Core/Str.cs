@@ -4,6 +4,7 @@
 
 namespace Words
 {
+    using System;
     using System.Text;
 
     public struct Str
@@ -28,6 +29,11 @@ namespace Words
 
         public Str Append(Ch c)
         {
+            if (this.Length == 12)
+            {
+                throw new InvalidOperationException();
+            }
+
             ulong ch = (ulong)c << (4 + (5 * this.Length));
             return new Str((ch | this.data) + 1);
         }
