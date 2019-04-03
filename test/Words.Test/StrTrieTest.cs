@@ -55,5 +55,14 @@ namespace Words.Test
             trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
             trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
         }
+
+        [Fact]
+        public void GetNonExistentNode()
+        {
+            StrTrie trie = new StrTrie();
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
+
+            trie.Find(default(Str).Append(Ch.X)).Should().Be(StrTrie.NodeKind.None);
+        }
     }
 }
