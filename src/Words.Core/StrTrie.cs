@@ -28,9 +28,22 @@ namespace Words
 
         public static StrTrie Load(Stream stream)
         {
-            using (new StreamReader(stream))
+            using (StreamReader reader = new StreamReader(stream))
             {
-                return new StrTrie();
+                StrTrie trie = new StrTrie();
+                string line = reader.ReadLine();
+                if (line != null)
+                {
+                    Str value = default(Str);
+                    foreach (char c in line)
+                    {
+                        value = value.Append((Ch)(c - 'A' + 1));
+                    }
+
+                    trie.Add(value);
+                }
+
+                return trie;
             }
         }
 
