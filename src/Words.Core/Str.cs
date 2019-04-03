@@ -8,51 +8,39 @@ namespace Words
 
     public struct Str
     {
-        private readonly Ch c0;
+        private readonly ulong data;
 
-        private Str(Ch c0)
+        private Str(ulong data)
         {
-            this.c0 = c0;
+            this.data = data;
         }
 
-        public byte Length
-        {
-            get
-            {
-                if (this.c0 == Ch.None)
-                {
-                    return 0;
-                }
-
-                return 1;
-            }
-        }
+        public byte Length => (byte)(this.data & 0xF);
 
         public Ch this[int index]
         {
             get
             {
-                if (index == 0)
-                {
-                    return this.c0;
-                }
-
-                return Ch.None;
+                byte b = (byte)(this.data >> (4 + (5 * index)) & 0xF);
+                return (Ch)b;
             }
         }
 
-        public Str Append(Ch c) => new Str(c);
+        public Str Append(Ch c)
+        {
+            ulong ch = (ulong)c << (4 + (5 * this.Length));
+            return new Str((ch | this.data) + 1);
+        }
 
         public override string ToString()
         {
-            if (this.c0 == Ch.None)
+            StringBuilder sb = new StringBuilder(this.Length);
+            for (byte i = 0; i < this.Length; ++i)
             {
-                return string.Empty;
+                char c = (char)('A' - 1 + (char)this[i]);
+                sb.Append(c);
             }
 
-            StringBuilder sb = new StringBuilder();
-            char c = (char)('A' - 1 + (char)this.c0);
-            sb.Append(c);
             return sb.ToString();
         }
     }

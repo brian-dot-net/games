@@ -38,13 +38,41 @@ namespace Words.Test
         [InlineData(Ch.C, "C")]
         public void OneChar(Ch c0, string expected)
         {
-            Str s = default(Str).Append(c0);
+            Str s = default(Str)
+                .Append(c0);
 
             s.Length.Should().Be(1);
             s.ToString().Should().Be(expected);
             Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
                 c0,
                 Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None);
+        }
+
+        [Theory]
+        [InlineData(Ch.D, Ch.E, "DE")]
+        [InlineData(Ch.F, Ch.G, "FG")]
+        [InlineData(Ch.H, Ch.I, "HI")]
+        public void TwoChars(Ch c0, Ch c1, string expected)
+        {
+            Str s = default(Str)
+                .Append(c0)
+                .Append(c1);
+
+            s.Length.Should().Be(2);
+            s.ToString().Should().Be(expected);
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+                c0,
+                c1,
                 Ch.None,
                 Ch.None,
                 Ch.None,
