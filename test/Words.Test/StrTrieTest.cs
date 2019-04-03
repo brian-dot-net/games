@@ -131,6 +131,16 @@ namespace Words.Test
             trie.Find(default(Str).Append(Ch.L).Append(Ch.O).Append(Ch.N).Append(Ch.G)).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
+        [Fact]
+        public void LoadFromStreamSomeWordsTooLong()
+        {
+            StrTrie trie = Load("OK", "OKAY", "THISISTOOLONG", "YES");
+
+            trie.Count.Should().Be(2);
+            trie.Find(default(Str).Append(Ch.O).Append(Ch.K).Append(Ch.A).Append(Ch.Y)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.Y).Append(Ch.E).Append(Ch.S)).Should().Be(StrTrie.NodeKind.Terminal);
+        }
+
         private static StrTrie Load(params string[] lines)
         {
             WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l + Environment.NewLine)).ToArray());

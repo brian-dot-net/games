@@ -151,10 +151,11 @@ namespace Words.Test
         [Fact]
         public void LoadFromStreamSomeWordsTooLong()
         {
-            StringTrie trie = Load("OK", "OKAY", "THISISTOOLONG");
+            StringTrie trie = Load("OK", "OKAY", "THISISTOOLONG", "YES");
 
-            trie.Count.Should().Be(1);
+            trie.Count.Should().Be(2);
             trie['O']['K']['A']['Y'].Value.Should().Be("OKAY");
+            trie['Y']['E']['S'].Value.Should().Be("YES");
         }
 
         private static StringTrie Load(params string[] lines)

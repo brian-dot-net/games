@@ -35,7 +35,7 @@ namespace Words
                 do
                 {
                     line = reader.ReadLine();
-                    if (line != null)
+                    if ((line != null) && (line.Length > 2) && (line.Length < 13))
                     {
                         Str value = default(Str);
                         foreach (char c in line)
@@ -43,10 +43,7 @@ namespace Words
                             value = value.Append((Ch)(c - 'A' + 1));
                         }
 
-                        if (value.Length > 2)
-                        {
-                            trie.Add(value);
-                        }
+                        trie.Add(value);
                     }
                 }
                 while (line != null);
