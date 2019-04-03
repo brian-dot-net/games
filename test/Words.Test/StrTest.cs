@@ -206,5 +206,31 @@ namespace Words.Test
 
             act.Should().Throw<InvalidOperationException>();
         }
+
+        [Theory]
+        [InlineData(12)]
+        [InlineData(100)]
+        [InlineData(255)]
+        public void IndexTooBig(byte index)
+        {
+            Str max = default(Str)
+                .Append(Ch.A)
+                .Append(Ch.B)
+                .Append(Ch.C)
+                .Append(Ch.D)
+                .Append(Ch.E)
+                .Append(Ch.F)
+                .Append(Ch.G)
+                .Append(Ch.H)
+                .Append(Ch.I)
+                .Append(Ch.J)
+                .Append(Ch.K)
+                .Append(Ch.L);
+
+            Ch c;
+            Action act = () => c = max[index];
+
+            act.Should().Throw<IndexOutOfRangeException>();
+        }
     }
 }

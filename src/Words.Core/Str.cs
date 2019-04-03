@@ -22,6 +22,11 @@ namespace Words
         {
             get
             {
+                if (index > 11)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
                 byte b = (byte)(this.data >> (4 + (5 * index)) & 0x1F);
                 return (Ch)b;
             }
