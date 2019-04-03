@@ -308,5 +308,31 @@ namespace Words.Test
             t.Length.Should().Be(0);
             t.ToString().Should().Be(string.Empty);
         }
+
+        [Fact]
+        public void Equality()
+        {
+            Str empty = default(Str);
+            Str a = default(Str).Append(Ch.A);
+            Str b = default(Str).Append(Ch.B);
+            Str ab = default(Str).Append(Ch.A).Append(Ch.B);
+            Str ba = default(Str).Append(Ch.B).Append(Ch.A);
+            Str cdefgh = default(Str).Append(Ch.C).Append(Ch.D).Append(Ch.E).Append(Ch.F).Append(Ch.G).Append(Ch.H);
+
+            TestEquals(empty, a, false);
+            TestEquals(empty, empty, true);
+            TestEquals(a, a, true);
+            TestEquals(a, b, false);
+            TestEquals(ab, ba, false);
+            TestEquals(ba, ba, true);
+            TestEquals(cdefgh, ba, false);
+            TestEquals(cdefgh, cdefgh, true);
+        }
+
+        private static void TestEquals(Str x, Str y, bool expected)
+        {
+            x.Equals(y).Should().Be(expected);
+            y.Equals(x).Should().Be(expected);
+        }
     }
 }

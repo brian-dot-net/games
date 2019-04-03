@@ -7,7 +7,7 @@ namespace Words
     using System;
     using System.Text;
 
-    public struct Str
+    public struct Str : IEquatable<Str>
     {
         private readonly ulong data;
 
@@ -31,6 +31,8 @@ namespace Words
                 return (Ch)b;
             }
         }
+
+        public bool Equals(Str other) => this.data == other.data;
 
         public Str Append(Ch c)
         {
