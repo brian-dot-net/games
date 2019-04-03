@@ -6,6 +6,11 @@ namespace Words
 {
     public sealed class StrTrie
     {
-        public int Count => 0;
+        public int Count { get; private set; }
+
+        public void Add(Str value)
+        {
+            ++this.Count;
+        }
     }
 }
