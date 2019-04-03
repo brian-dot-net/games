@@ -166,21 +166,5 @@ namespace Words.Test
             stream.DisposeCount.Should().Be(1);
             return trie;
         }
-
-        private sealed class WrappedMemoryStream : MemoryStream
-        {
-            public WrappedMemoryStream(byte[] buffer)
-                : base(buffer)
-            {
-            }
-
-            public int DisposeCount { get; private set; }
-
-            protected override void Dispose(bool disposing)
-            {
-                ++this.DisposeCount;
-                base.Dispose(disposing);
-            }
-        }
     }
 }

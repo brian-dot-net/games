@@ -6,6 +6,7 @@ namespace Words
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     public sealed class StrTrie
     {
@@ -24,6 +25,14 @@ namespace Words
         }
 
         public int Count { get; private set; }
+
+        public static StrTrie Load(Stream stream)
+        {
+            using (new StreamReader(stream))
+            {
+                return new StrTrie();
+            }
+        }
 
         public void Add(Str value)
         {
