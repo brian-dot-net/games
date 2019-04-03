@@ -43,7 +43,10 @@ namespace Words
                             value = value.Append((Ch)(c - 'A' + 1));
                         }
 
-                        trie.Add(value);
+                        if (value.Length > 2)
+                        {
+                            trie.Add(value);
+                        }
                     }
                 }
                 while (line != null);
