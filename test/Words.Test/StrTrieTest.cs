@@ -40,5 +40,20 @@ namespace Words.Test
             trie.Find(default(Str).Append(Ch.H).Append(Ch.A)).Should().Be(StrTrie.NodeKind.Terminal);
             trie.Find(default(Str).Append(Ch.H).Append(Ch.I)).Should().Be(StrTrie.NodeKind.Terminal);
         }
+
+        [Fact]
+        public void ThreeItemsLength3NoSharedPrefix()
+        {
+            StrTrie trie = new StrTrie();
+
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
+            trie.Add(default(Str).Append(Ch.D).Append(Ch.E).Append(Ch.F));
+            trie.Add(default(Str).Append(Ch.G).Append(Ch.H).Append(Ch.I));
+
+            trie.Count.Should().Be(3);
+            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+        }
     }
 }
