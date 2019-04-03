@@ -232,5 +232,71 @@ namespace Words.Test
 
             act.Should().Throw<IndexOutOfRangeException>();
         }
+
+        [Fact]
+        public void ChopChars()
+        {
+            Str s = default(Str)
+                .Append(Ch.A)
+                .Append(Ch.B)
+                .Append(Ch.C)
+                .Append(Ch.D)
+                .Append(Ch.E)
+                .Append(Ch.F)
+                .Append(Ch.G)
+                .Append(Ch.H)
+                .Append(Ch.I)
+                .Append(Ch.J)
+                .Append(Ch.K)
+                .Append(Ch.L);
+
+            Str t = s.Chop();
+            t.Length.Should().Be(11);
+            t.ToString().Should().Be("ABCDEFGHIJK");
+
+            t = t.Chop();
+            t.Length.Should().Be(10);
+            t.ToString().Should().Be("ABCDEFGHIJ");
+
+            t = t.Chop();
+            t.Length.Should().Be(9);
+            t.ToString().Should().Be("ABCDEFGHI");
+
+            t = t.Chop();
+            t.Length.Should().Be(8);
+            t.ToString().Should().Be("ABCDEFGH");
+
+            t = t.Chop();
+            t.Length.Should().Be(7);
+            t.ToString().Should().Be("ABCDEFG");
+
+            t = t.Chop();
+            t.Length.Should().Be(6);
+            t.ToString().Should().Be("ABCDEF");
+
+            t = t.Chop();
+            t.Length.Should().Be(5);
+            t.ToString().Should().Be("ABCDE");
+
+            t = t.Chop();
+            t.Length.Should().Be(4);
+            t.ToString().Should().Be("ABCD");
+
+            t = t.Chop();
+            t.Length.Should().Be(3);
+            t.ToString().Should().Be("ABC");
+
+            t = t.Chop();
+            t.Length.Should().Be(2);
+            t.ToString().Should().Be("AB");
+
+            t = t.Chop();
+            t.Length.Should().Be(1);
+            t.ToString().Should().Be("A");
+
+            t = t.Chop();
+            t.Length.Should().Be(0);
+            t.ToString().Should().Be(string.Empty);
+        }
     }
 }

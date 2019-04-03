@@ -43,6 +43,12 @@ namespace Words
             return new Str((ch | this.data) + 1);
         }
 
+        public Str Chop()
+        {
+            ulong mask = ~(0x1FUL << (4 + ((this.Length - 1) * 5)));
+            return new Str((this.data & mask) - 1);
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(this.Length);
