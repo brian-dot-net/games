@@ -64,5 +64,21 @@ namespace Words.Test
 
             trie.Find(default(Str).Append(Ch.X)).Should().Be(StrTrie.NodeKind.None);
         }
+
+        [Fact]
+        public void AddNodesMultipleTimes()
+        {
+            StrTrie trie = new StrTrie();
+
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B));
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B));
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
+            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
+
+            trie.Count.Should().Be(2);
+            trie.Find(default(Str).Append(Ch.A)).Should().Be(StrTrie.NodeKind.Prefix);
+            trie.Find(default(Str).Append(Ch.A).Append(Ch.B)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+        }
     }
 }

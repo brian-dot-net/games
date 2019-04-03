@@ -27,12 +27,20 @@ namespace Words
 
         public void Add(Str value)
         {
+            if (this.nodes.ContainsKey(value))
+            {
+                return;
+            }
+
             ++this.Count;
             this.nodes[value] = true;
             for (byte i = 1; i < value.Length; ++i)
             {
                 value = value.Chop();
-                this.nodes[value] = false;
+                if (!this.nodes.ContainsKey(value))
+                {
+                    this.nodes.Add(value, false);
+                }
             }
         }
 
