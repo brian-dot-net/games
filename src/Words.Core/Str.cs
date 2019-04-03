@@ -4,12 +4,56 @@
 
 namespace Words
 {
+    using System.Text;
+
     public struct Str
     {
-        public byte Length => 0;
+        private readonly Ch c0;
 
-        public Ch this[int index] => Ch.None;
+        private Str(Ch c0)
+        {
+            this.c0 = c0;
+        }
 
-        public override string ToString() => string.Empty;
+        public byte Length
+        {
+            get
+            {
+                if (this.c0 == Ch.None)
+                {
+                    return 0;
+                }
+
+                return 1;
+            }
+        }
+
+        public Ch this[int index]
+        {
+            get
+            {
+                if (index == 0)
+                {
+                    return this.c0;
+                }
+
+                return Ch.None;
+            }
+        }
+
+        public Str Append(Ch c) => new Str(c);
+
+        public override string ToString()
+        {
+            if (this.c0 == Ch.None)
+            {
+                return string.Empty;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            char c = (char)('A' - 1 + (char)this.c0);
+            sb.Append(c);
+            return sb.ToString();
+        }
     }
 }
