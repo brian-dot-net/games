@@ -21,7 +21,7 @@ namespace Words
         {
             get
             {
-                byte b = (byte)(this.data >> (4 + (5 * index)) & 0xF);
+                byte b = (byte)(this.data >> (4 + (5 * index)) & 0x1F);
                 return (Ch)b;
             }
         }

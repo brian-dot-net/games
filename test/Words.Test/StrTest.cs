@@ -84,5 +84,34 @@ namespace Words.Test
                 Ch.None,
                 Ch.None);
         }
+
+        [Theory]
+        [InlineData(Ch.J, Ch.K, Ch.L, Ch.M, "JKLM")]
+        [InlineData(Ch.N, Ch.O, Ch.P, Ch.Q, "NOPQ")]
+        [InlineData(Ch.R, Ch.S, Ch.T, Ch.U, "RSTU")]
+        public void FourChars(Ch c0, Ch c1, Ch c2, Ch c3, string expected)
+        {
+            Str s = default(Str)
+                .Append(c0)
+                .Append(c1)
+                .Append(c2)
+                .Append(c3);
+
+            s.Length.Should().Be(4);
+            s.ToString().Should().Be(expected);
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+                c0,
+                c1,
+                c2,
+                c3,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None,
+                Ch.None);
+        }
     }
 }
