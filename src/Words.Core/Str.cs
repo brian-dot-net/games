@@ -45,6 +45,11 @@ namespace Words
 
         public Str Chop()
         {
+            if (this.Length == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
             ulong mask = ~(0x1FUL << (4 + ((this.Length - 1) * 5)));
             return new Str((this.data & mask) - 1);
         }

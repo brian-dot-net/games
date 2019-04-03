@@ -234,6 +234,16 @@ namespace Words.Test
         }
 
         [Fact]
+        public void ChopEmpty()
+        {
+            Str s = default(Str);
+
+            Action act = () => s.Chop();
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
         public void ChopChars()
         {
             Str s = default(Str)
