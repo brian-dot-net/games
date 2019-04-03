@@ -31,17 +31,22 @@ namespace Words
             using (StreamReader reader = new StreamReader(stream))
             {
                 StrTrie trie = new StrTrie();
-                string line = reader.ReadLine();
-                if (line != null)
+                string line;
+                do
                 {
-                    Str value = default(Str);
-                    foreach (char c in line)
+                    line = reader.ReadLine();
+                    if (line != null)
                     {
-                        value = value.Append((Ch)(c - 'A' + 1));
-                    }
+                        Str value = default(Str);
+                        foreach (char c in line)
+                        {
+                            value = value.Append((Ch)(c - 'A' + 1));
+                        }
 
-                    trie.Add(value);
+                        trie.Add(value);
+                    }
                 }
+                while (line != null);
 
                 return trie;
             }

@@ -111,6 +111,17 @@ namespace Words.Test
             trie.Find(default(Str).Append(Ch.O).Append(Ch.N).Append(Ch.E)).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
+        [Fact]
+        public void LoadFromStreamThreeWords()
+        {
+            StrTrie trie = Load("ONE", "TWO", "THREE");
+
+            trie.Count.Should().Be(3);
+            trie.Find(default(Str).Append(Ch.O).Append(Ch.N).Append(Ch.E)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.T).Append(Ch.W).Append(Ch.O)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(default(Str).Append(Ch.T).Append(Ch.H).Append(Ch.R).Append(Ch.E).Append(Ch.E)).Should().Be(StrTrie.NodeKind.Terminal);
+        }
+
         private static StrTrie Load(params string[] lines)
         {
             WrappedMemoryStream stream = new WrappedMemoryStream(lines.SelectMany(l => Encoding.ASCII.GetBytes(l + Environment.NewLine)).ToArray());
