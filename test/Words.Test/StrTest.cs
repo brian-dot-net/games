@@ -146,5 +146,42 @@ namespace Words.Test
                 Ch.None,
                 Ch.None);
         }
+
+        [Theory]
+        [InlineData(Ch.Q, Ch.R, Ch.S, Ch.T, Ch.U, Ch.V, Ch.W, Ch.X, Ch.Y, Ch.Z, Ch.A, Ch.B, "QRSTUVWXYZAB")]
+        [InlineData(Ch.C, Ch.D, Ch.E, Ch.F, Ch.G, Ch.H, Ch.I, Ch.J, Ch.K, Ch.L, Ch.M, Ch.N, "CDEFGHIJKLMN")]
+        [InlineData(Ch.O, Ch.P, Ch.Q, Ch.R, Ch.S, Ch.T, Ch.U, Ch.V, Ch.W, Ch.X, Ch.Y, Ch.Z, "OPQRSTUVWXYZ")]
+        public void TwelveChars(Ch c0, Ch c1, Ch c2, Ch c3, Ch c4, Ch c5, Ch c6, Ch c7, Ch c8, Ch c9, Ch c10, Ch c11, string expected)
+        {
+            Str s = default(Str)
+                .Append(c0)
+                .Append(c1)
+                .Append(c2)
+                .Append(c3)
+                .Append(c4)
+                .Append(c5)
+                .Append(c6)
+                .Append(c7)
+                .Append(c8)
+                .Append(c9)
+                .Append(c10)
+                .Append(c11);
+
+            s.Length.Should().Be(12);
+            s.ToString().Should().Be(expected);
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+                c0,
+                c1,
+                c2,
+                c3,
+                c4,
+                c5,
+                c6,
+                c7,
+                c8,
+                c9,
+                c10,
+                c11);
+        }
     }
 }
