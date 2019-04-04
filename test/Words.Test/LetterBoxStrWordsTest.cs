@@ -27,6 +27,16 @@ namespace Words.Test
             FindSolutions(words).Should().BeEmpty();
         }
 
+        [Fact]
+        public void TwoWordsInvalidSolutionFindsNothing()
+        {
+            LetterBoxStrWords words = new LetterBoxStrWords();
+            words.Add(default(Str).Append(Ch.A).Append(Ch.L).Append(Ch.E), new LetterBoxStr.Vertices(0b100000010001));
+            words.Add(default(Str).Append(Ch.E).Append(Ch.L).Append(Ch.F), new LetterBoxStr.Vertices(0b100000110000));
+
+            FindSolutions(words).Should().BeEmpty();
+        }
+
         private static IList<string> FindSolutions(LetterBoxStrWords words)
         {
             List<string> found = new List<string>();
