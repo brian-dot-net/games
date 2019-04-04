@@ -103,6 +103,14 @@ namespace Words.Test
             box.ToString().Should().Be("ABCDEFGHIJKL");
         }
 
+        [Fact]
+        public void InputTooShort()
+        {
+            Action act = () => new LetterBoxStr(default(Str).Append(Ch.A));
+
+            act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("box");
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)
