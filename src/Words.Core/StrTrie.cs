@@ -28,19 +28,19 @@ namespace Words
 
         public static StrTrie Load(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream))
+            using (stream)
             {
                 StrTrie trie = new StrTrie();
-                char[] buffer = new char[1024];
+                byte[] buffer = new byte[1024];
                 Str value = default(Str);
                 bool skip = false;
                 int length;
                 do
                 {
-                    length = reader.ReadBlock(buffer, 0, buffer.Length);
+                    length = stream.Read(buffer, 0, buffer.Length);
                     for (int i = 0; i < length; ++i)
                     {
-                        char c = buffer[i];
+                        char c = (char)buffer[i];
                         switch (c)
                         {
                             case '\r':
