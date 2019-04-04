@@ -55,6 +55,20 @@ namespace Words.Test
             verts.ToString().Should().Be(expected);
         }
 
+        [Theory]
+        [InlineData(12)]
+        [InlineData(100)]
+        [InlineData(255)]
+        public void FailsNextVerticesOutOfRange(byte start)
+        {
+            LetterBoxStr box = New();
+
+            LetterBoxStr.Vertices verts;
+            Action act = () => verts = box.Next(start);
+
+            act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("start");
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)

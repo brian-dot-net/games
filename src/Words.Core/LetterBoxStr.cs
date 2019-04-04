@@ -18,7 +18,7 @@ namespace Words
 
         public Ch this[byte vertex] => this.box[vertex];
 
-        public Vertices Next(int start)
+        public Vertices Next(byte start)
         {
             switch (start)
             {
@@ -34,8 +34,12 @@ namespace Words
                 case 7:
                 case 8:
                     return new Vertices(0b111000111111);
-                default:
+                case 9:
+                case 10:
+                case 11:
                     return new Vertices(0b000111111111);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(start));
             }
         }
 
