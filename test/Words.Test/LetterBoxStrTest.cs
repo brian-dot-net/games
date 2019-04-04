@@ -81,6 +81,20 @@ namespace Words.Test
             string.Join(string.Empty, Enumerable.Range(0, 12).Select(v => verts[v] ? "T" : "F")).Should().Be(expected);
         }
 
+        [Theory]
+        [InlineData(0x135, 0x642, "111011101110")]
+        [InlineData(0x531, 0x246, "111011101110")]
+        [InlineData(0xEFF, 0x1FE, "111111111111")]
+        [InlineData(0x000, 0x000, "000000000000")]
+        [InlineData(0x7FF, 0x7EE, "111111111110")]
+        [InlineData(0x001, 0x020, "100001000000")]
+        public void AllowsVertexUnion(ushort x, ushort y, string expected)
+        {
+            LetterBoxStr.Vertices z = new LetterBoxStr.Vertices(x) + new LetterBoxStr.Vertices(y);
+
+            z.ToString().Should().Be(expected);
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)
