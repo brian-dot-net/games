@@ -8,6 +8,10 @@ namespace Words
 
     public sealed class LetterBoxStrWords
     {
+        public void Add(Str str, LetterBoxStr.Vertices verts)
+        {
+        }
+
         public void Find(Action<Str, Str> found)
         {
         }

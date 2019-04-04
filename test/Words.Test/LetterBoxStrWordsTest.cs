@@ -18,6 +18,15 @@ namespace Words.Test
             FindSolutions(words).Should().BeEmpty();
         }
 
+        [Fact]
+        public void OneWordFindsNothing()
+        {
+            LetterBoxStrWords words = new LetterBoxStrWords();
+            words.Add(default(Str).Append(Ch.A).Append(Ch.L).Append(Ch.E), new LetterBoxStr.Vertices(0b100000010001));
+
+            FindSolutions(words).Should().BeEmpty();
+        }
+
         private static IList<string> FindSolutions(LetterBoxStrWords words)
         {
             List<string> found = new List<string>();
