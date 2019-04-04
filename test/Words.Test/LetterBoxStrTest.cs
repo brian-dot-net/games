@@ -33,6 +33,28 @@ namespace Words.Test
             act.Should().Throw<IndexOutOfRangeException>();
         }
 
+        [Theory]
+        [InlineData(0, "000111111111")]
+        [InlineData(1, "000111111111")]
+        [InlineData(2, "000111111111")]
+        [InlineData(3, "111000111111")]
+        [InlineData(4, "111000111111")]
+        [InlineData(5, "111000111111")]
+        [InlineData(6, "111111000111")]
+        [InlineData(7, "111111000111")]
+        [InlineData(8, "111111000111")]
+        [InlineData(9, "111111111000")]
+        [InlineData(10, "111111111000")]
+        [InlineData(11, "111111111000")]
+        public void ReturnsNextVertices(byte start, string expected)
+        {
+            LetterBoxStr box = New();
+
+            LetterBoxStr.Vertices verts = box.Next(start);
+
+            verts.ToString().Should().Be(expected);
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)
