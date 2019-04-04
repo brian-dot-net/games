@@ -95,6 +95,14 @@ namespace Words.Test
             z.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void StringValue()
+        {
+            LetterBoxStr box = New();
+
+            box.ToString().Should().Be("ABCDEFGHIJKL");
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)
