@@ -69,6 +69,18 @@ namespace Words.Test
             act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("start");
         }
 
+        [Theory]
+        [InlineData(0xFC5, "TFTFFFTTTTTT")]
+        [InlineData(0xFA5, "TFTFFTFTTTTT")]
+        [InlineData(0x000, "FFFFFFFFFFFF")]
+        [InlineData(0x0FF, "TTTTTTTTFFFF")]
+        public void AllowsVertexLookup(ushort bits, string expected)
+        {
+            LetterBoxStr.Vertices verts = new LetterBoxStr.Vertices(bits);
+
+            string.Join(string.Empty, Enumerable.Range(0, 12).Select(v => verts[v] ? "T" : "F")).Should().Be(expected);
+        }
+
         private static LetterBoxStr New()
         {
             Str box = default(Str)
