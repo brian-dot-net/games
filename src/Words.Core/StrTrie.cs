@@ -31,22 +31,46 @@ namespace Words
             using (StreamReader reader = new StreamReader(stream))
             {
                 StrTrie trie = new StrTrie();
-                string line;
+                char[] buffer = new char[1024];
+                Str value = default(Str);
+                bool skip = false;
+                int length;
                 do
                 {
-                    line = reader.ReadLine();
-                    if ((line != null) && (line.Length > 2) && (line.Length < 13))
+                    length = reader.ReadBlock(buffer, 0, buffer.Length);
+                    for (int i = 0; i < length; ++i)
                     {
-                        Str value = default(Str);
-                        foreach (char c in line)
+                        char c = buffer[i];
+                        switch (c)
                         {
-                            value = value.Append((Ch)(c - 'A' + 1));
-                        }
+                            case '\r':
+                            case '\n':
+                                if (!skip && (value.Length > 2))
+                                {
+                                    trie.Add(value);
+                                }
 
-                        trie.Add(value);
+                                value = default(Str);
+                                skip = false;
+                                break;
+                            default:
+                                if (!skip)
+                                {
+                                    if (value.Length == 12)
+                                    {
+                                        skip = true;
+                                    }
+                                    else
+                                    {
+                                        value = value.Append((Ch)(c - 'A' + 1));
+                                    }
+                                }
+
+                                break;
+                        }
                     }
                 }
-                while (line != null);
+                while (length > 0);
 
                 return trie;
             }
