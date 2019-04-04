@@ -19,9 +19,15 @@ namespace Words
 
         public void Add(Str word, LetterBoxStr.Vertices verts)
         {
-            HashSet<Word> keyedWords = new HashSet<Word>();
+            HashSet<Word> keyedWords;
+            Ch key = word[0];
+            if (!this.words.TryGetValue(key, out keyedWords))
+            {
+                keyedWords = new HashSet<Word>();
+                this.words.Add(key, keyedWords);
+            }
+
             keyedWords.Add(new Word(word, verts));
-            this.words[word[0]] = keyedWords;
         }
 
         public void Find(Action<Str, Str> found)
