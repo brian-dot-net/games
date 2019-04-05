@@ -80,6 +80,28 @@ namespace Words.Test
             FindWords(search).Should().BeEquivalentTo("ALA:100000000001");
         }
 
+        [Fact]
+        public void SearchDoesNotAttemptToBuildTooLongWords()
+        {
+            StrTrie trie = new StrTrie();
+            trie.Add(Str.Parse("LA"));
+            trie.Add(Str.Parse("LALA"));
+            trie.Add(Str.Parse("LALALA"));
+            trie.Add(Str.Parse("LALALALA"));
+            trie.Add(Str.Parse("LALALALALA"));
+            trie.Add(Str.Parse("LALALALALALA"));
+            LetterBoxStrSearch search = New(trie);
+            List<string> found = new List<string>();
+
+            FindWords(search).Should().BeEquivalentTo(
+                "LA:100000000001",
+                "LALA:100000000001",
+                "LALALA:100000000001",
+                "LALALALA:100000000001",
+                "LALALALALA:100000000001",
+                "LALALALALALA:100000000001");
+        }
+
         private static LetterBoxStrSearch New(StrTrie trie)
         {
             return new LetterBoxStrSearch(trie, new LetterBoxStr(Str.Parse("ABCDEFGHIJKL")));

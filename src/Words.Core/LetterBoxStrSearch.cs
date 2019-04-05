@@ -40,6 +40,11 @@ namespace Words
                 found(str, verts);
             }
 
+            if (str.Length == 12)
+            {
+                return;
+            }
+
             LetterBoxStr.Vertices next = this.box.Next(v1);
             for (byte v2 = 0; v2 < 12; ++v2)
             {
