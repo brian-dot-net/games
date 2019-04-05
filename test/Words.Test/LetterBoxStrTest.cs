@@ -113,20 +113,7 @@ namespace Words.Test
 
         private static LetterBoxStr New()
         {
-            Str box = default(Str)
-                .Append(Ch.A)
-                .Append(Ch.B)
-                .Append(Ch.C)
-                .Append(Ch.D)
-                .Append(Ch.E)
-                .Append(Ch.F)
-                .Append(Ch.G)
-                .Append(Ch.H)
-                .Append(Ch.I)
-                .Append(Ch.J)
-                .Append(Ch.K)
-                .Append(Ch.L);
-            return new LetterBoxStr(box);
+            return new LetterBoxStr(Str.Parse("ABCDEFGHIJKL"));
         }
     }
 }
