@@ -21,14 +21,14 @@ namespace LetterBoxedSolver
                 return;
             }
 
-            LetterBox box = new LetterBox(args[0]);
+            LetterBoxStr box = new LetterBoxStr(Str.Parse(args[0]));
 
             Log("Loading trie...");
-            StringTrie trie = StringTrie.Load(File.OpenRead(args[1]));
+            StrTrie trie = StrTrie.Load(File.OpenRead(args[1]));
             Log($"Loaded {trie.Count} words.");
 
-            LetterBoxSearch search = new LetterBoxSearch(trie, box);
-            LetterBoxWords words = new LetterBoxWords();
+            LetterBoxStrSearch search = new LetterBoxStrSearch(trie, box);
+            LetterBoxStrWords words = new LetterBoxStrWords();
 
             Log("Finding valid words...");
             search.Run((w, v) => words.Add(w, v));
