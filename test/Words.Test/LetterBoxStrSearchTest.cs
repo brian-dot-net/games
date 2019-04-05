@@ -19,6 +19,17 @@ namespace Words.Test
             FindWords(search).Should().BeEmpty();
         }
 
+        [Fact]
+        public void OneValueTrieFindsOneWord()
+        {
+            StrTrie trie = new StrTrie();
+            trie.Add(Str.Parse("ALE"));
+            LetterBoxStrSearch search = New(trie);
+            List<string> found = new List<string>();
+
+            FindWords(search).Should().BeEquivalentTo("ALE:100010000001");
+        }
+
         private static LetterBoxStrSearch New(StrTrie trie)
         {
             return new LetterBoxStrSearch(trie, new LetterBoxStr(Str.Parse("ABCDEFGHIJKL")));
