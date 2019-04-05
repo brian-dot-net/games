@@ -64,6 +64,22 @@ namespace Words.Test
                 "LIE:000010001001");
         }
 
+        [Fact]
+        public void SearchDoesNotReturnInvalidMoves()
+        {
+            StrTrie trie = new StrTrie();
+            trie.Add(Str.Parse("ABC"));
+            trie.Add(Str.Parse("DEF"));
+            trie.Add(Str.Parse("GHI"));
+            trie.Add(Str.Parse("JKL"));
+            trie.Add(Str.Parse("MOW"));
+            trie.Add(Str.Parse("ALA"));
+            LetterBoxStrSearch search = New(trie);
+            List<string> found = new List<string>();
+
+            FindWords(search).Should().BeEquivalentTo("ALA:100000000001");
+        }
+
         private static LetterBoxStrSearch New(StrTrie trie)
         {
             return new LetterBoxStrSearch(trie, new LetterBoxStr(Str.Parse("ABCDEFGHIJKL")));
