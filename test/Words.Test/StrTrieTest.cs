@@ -25,7 +25,7 @@ namespace Words.Test
         {
             StrTrie trie = new StrTrie();
 
-            trie.Add(default(Str).Append(Ch.X));
+            trie.Add(Str.Parse("X"));
 
             trie.Count.Should().Be(1);
         }
@@ -35,13 +35,13 @@ namespace Words.Test
         {
             StrTrie trie = new StrTrie();
 
-            trie.Add(default(Str).Append(Ch.H).Append(Ch.I));
-            trie.Add(default(Str).Append(Ch.H).Append(Ch.A));
+            trie.Add(Str.Parse("HI"));
+            trie.Add(Str.Parse("HA"));
 
             trie.Count.Should().Be(2);
-            trie.Find(default(Str).Append(Ch.H)).Should().Be(StrTrie.NodeKind.Prefix);
-            trie.Find(default(Str).Append(Ch.H).Append(Ch.A)).Should().Be(StrTrie.NodeKind.Terminal);
-            trie.Find(default(Str).Append(Ch.H).Append(Ch.I)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("H")).Should().Be(StrTrie.NodeKind.Prefix);
+            trie.Find(Str.Parse("HA")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("HI")).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
         [Fact]
@@ -49,14 +49,14 @@ namespace Words.Test
         {
             StrTrie trie = new StrTrie();
 
-            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
-            trie.Add(default(Str).Append(Ch.D).Append(Ch.E).Append(Ch.F));
-            trie.Add(default(Str).Append(Ch.G).Append(Ch.H).Append(Ch.I));
+            trie.Add(Str.Parse("ABC"));
+            trie.Add(Str.Parse("DEF"));
+            trie.Add(Str.Parse("GHI"));
 
             trie.Count.Should().Be(3);
-            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
-            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
-            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("ABC")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("DEF")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("GHI")).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
         [Fact]
@@ -73,15 +73,15 @@ namespace Words.Test
         {
             StrTrie trie = new StrTrie();
 
-            trie.Add(default(Str).Append(Ch.A).Append(Ch.B));
-            trie.Add(default(Str).Append(Ch.A).Append(Ch.B));
-            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
-            trie.Add(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C));
+            trie.Add(Str.Parse("AB"));
+            trie.Add(Str.Parse("AB"));
+            trie.Add(Str.Parse("ABC"));
+            trie.Add(Str.Parse("ABC"));
 
             trie.Count.Should().Be(2);
-            trie.Find(default(Str).Append(Ch.A)).Should().Be(StrTrie.NodeKind.Prefix);
-            trie.Find(default(Str).Append(Ch.A).Append(Ch.B)).Should().Be(StrTrie.NodeKind.Terminal);
-            trie.Find(default(Str).Append(Ch.A).Append(Ch.B).Append(Ch.C)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("A")).Should().Be(StrTrie.NodeKind.Prefix);
+            trie.Find(Str.Parse("AB")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("ABC")).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
         [Fact]
@@ -137,8 +137,8 @@ namespace Words.Test
             StrTrie trie = Load("OK", "OKAY", "THISISTOOLONG", "YES");
 
             trie.Count.Should().Be(2);
-            trie.Find(default(Str).Append(Ch.O).Append(Ch.K).Append(Ch.A).Append(Ch.Y)).Should().Be(StrTrie.NodeKind.Terminal);
-            trie.Find(default(Str).Append(Ch.Y).Append(Ch.E).Append(Ch.S)).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("OKAY")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("YES")).Should().Be(StrTrie.NodeKind.Terminal);
         }
 
         private static StrTrie Load(params string[] lines)
