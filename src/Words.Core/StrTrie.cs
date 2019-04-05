@@ -93,10 +93,12 @@ namespace Words
             while (value.Length > 1)
             {
                 value = value.Chop();
-                if (!this.nodes.ContainsKey(value))
+                if (this.nodes.ContainsKey(value))
                 {
-                    this.nodes.Add(value, false);
+                    return;
                 }
+
+                this.nodes.Add(value, false);
             }
         }
 
