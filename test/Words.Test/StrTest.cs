@@ -345,6 +345,25 @@ namespace Words.Test
             codes.Should().HaveCount(6);
         }
 
+        [Theory]
+        [InlineData("")]
+        [InlineData("A")]
+        [InlineData("BC")]
+        [InlineData("DEF")]
+        [InlineData("GHIJ")]
+        [InlineData("KLMNO")]
+        [InlineData("PQRSTU")]
+        [InlineData("VWXYZAB")]
+        [InlineData("CDEFGHIJ")]
+        [InlineData("KLMNOPQRS")]
+        [InlineData("TUVWXYZABC")]
+        [InlineData("DEFGHIJKLMN")]
+        [InlineData("OPQRSTUVWXYZ")]
+        public void ParseFromString(string expected)
+        {
+            Str.Parse(expected).ToString().Should().Be(expected);
+        }
+
         private static void TestEquals(Str x, Str y, bool expected)
         {
             x.Equals(y).Should().Be(expected);

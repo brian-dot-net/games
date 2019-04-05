@@ -32,6 +32,17 @@ namespace Words
             }
         }
 
+        public static Str Parse(string s)
+        {
+            Str value = default(Str);
+            foreach (char c in s)
+            {
+                value = value.Append((Ch)(c - 'A' + 1));
+            }
+
+            return value;
+        }
+
         public bool Equals(Str other) => this.data == other.data;
 
         public override int GetHashCode() => this.data.GetHashCode();
