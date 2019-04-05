@@ -19,10 +19,12 @@ namespace Words
 
         public void Run(Action<Str, LetterBoxStr.Vertices> found)
         {
-            byte v1 = 0;
-            Ch c = this.box[v1];
-            LetterBoxStr.Vertices verts = new LetterBoxStr.Vertices((ushort)(1 << v1));
-            this.Next(default(Str).Append(c), v1, verts, found);
+            for (byte v1 = 0; v1 < 12; ++v1)
+            {
+                Ch c = this.box[v1];
+                LetterBoxStr.Vertices verts = new LetterBoxStr.Vertices((ushort)(1 << v1));
+                this.Next(default(Str).Append(c), v1, verts, found);
+            }
         }
 
         private void Next(Str str, byte v1, LetterBoxStr.Vertices verts, Action<Str, LetterBoxStr.Vertices> found)
