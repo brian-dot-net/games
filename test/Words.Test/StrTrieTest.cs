@@ -54,6 +54,8 @@ namespace Words.Test
             trie.Add(Str.Parse("GHI"));
 
             trie.Count.Should().Be(3);
+            trie.Find(Str.Parse("A")).Should().Be(StrTrie.NodeKind.Prefix);
+            trie.Find(Str.Parse("AB")).Should().Be(StrTrie.NodeKind.Prefix);
             trie.Find(Str.Parse("ABC")).Should().Be(StrTrie.NodeKind.Terminal);
             trie.Find(Str.Parse("DEF")).Should().Be(StrTrie.NodeKind.Terminal);
             trie.Find(Str.Parse("GHI")).Should().Be(StrTrie.NodeKind.Terminal);

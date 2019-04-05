@@ -90,7 +90,7 @@ namespace Words
 
             ++this.Count;
             this.nodes[value] = true;
-            for (byte i = 1; i < value.Length; ++i)
+            while (value.Length > 1)
             {
                 value = value.Chop();
                 if (!this.nodes.ContainsKey(value))
