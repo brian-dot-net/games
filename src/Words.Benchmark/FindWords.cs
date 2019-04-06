@@ -6,9 +6,10 @@ namespace Words.Benchmark
 {
     using System.IO;
     using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Diagnosers;
 
     [CoreJob]
-    [MemoryDiagnoser]
+    [HardwareCounters(HardwareCounter.CacheMisses)]
     public class FindWords
     {
         private LetterBoxSearch stringSearch;
