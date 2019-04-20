@@ -153,6 +153,18 @@ x x x x
             ShouldBeString(Nmbr.Three1, Expected);
         }
 
+        [Fact]
+        public void Three2()
+        {
+            const string Expected = @"
+x x x . 
+x x . . 
+x . . . 
+x x x . 
+";
+            ShouldBeString(Nmbr.Three2, Expected);
+        }
+
         private static void ShouldBeString(Nmbr n, string expected)
         {
             n.ToString().Should().Be(expected.TrimStart());
