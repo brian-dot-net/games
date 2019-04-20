@@ -285,6 +285,18 @@ x x x .
             ShouldBeString(Nmbr.Six0, Expected);
         }
 
+        [Fact]
+        public void Six1()
+        {
+            const string Expected = @"
+x x x x 
+x x . x 
+x x . . 
+. . . . 
+";
+            ShouldBeString(Nmbr.Six1, Expected);
+        }
+
         private static void ShouldBeString(Nmbr n, string expected)
         {
             n.ToString().Should().Be(expected.TrimStart());
