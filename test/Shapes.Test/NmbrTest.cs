@@ -57,6 +57,18 @@ xxxx
             ShouldBeString(Nmbr.One1, Expected);
         }
 
+        [Fact]
+        public void One2()
+        {
+            const string Expected = @"
+x...
+x...
+x...
+xx..
+";
+            ShouldBeString(Nmbr.One2, Expected);
+        }
+
         private static void ShouldBeString(Nmbr n, string expected)
         {
             n.ToString().Should().Be(expected.TrimStart());
