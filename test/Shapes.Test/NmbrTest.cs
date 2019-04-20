@@ -321,6 +321,18 @@ x x x x
             ShouldBeString(Nmbr.Six3, Expected);
         }
 
+        [Fact]
+        public void Seven0()
+        {
+            const string Expected = @"
+x x x . 
+. x . . 
+x x . . 
+x . . . 
+";
+            ShouldBeString(Nmbr.Seven0, Expected);
+        }
+
         private static void ShouldBeString(Nmbr n, string expected)
         {
             n.ToString().Should().Be(expected.TrimStart());
