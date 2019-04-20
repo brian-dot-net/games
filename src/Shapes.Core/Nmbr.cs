@@ -10,6 +10,7 @@ namespace Shapes
     public struct Nmbr
     {
         public static readonly Nmbr Zero0 = new Nmbr(0x7557);
+        public static readonly Nmbr Zero1 = new Nmbr(0x0F9F);
 
         private readonly ushort value;
 
