@@ -16,6 +16,7 @@ namespace Shapes
         public static readonly Nmbr One2 = new Nmbr(0x3111);
         public static readonly Nmbr One3 = new Nmbr(0x001F);
         public static readonly Nmbr Two0 = new Nmbr(0x7366);
+        public static readonly Nmbr Two1 = new Nmbr(0x0DF7);
 
         private readonly ushort value;
 
@@ -26,7 +27,7 @@ namespace Shapes
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(24);
+            StringBuilder sb = new StringBuilder(40);
             ushort v = this.value;
             for (int j = 0; j < 4; ++j)
             {
@@ -34,6 +35,7 @@ namespace Shapes
                 {
                     char c = (v & 1) == 1 ? 'x' : '.';
                     sb.Append(c);
+                    sb.Append(' ');
                     v >>= 1;
                 }
 

@@ -13,10 +13,10 @@ namespace Shapes.Test
         public void Zero0()
         {
             const string Expected = @"
-xxx.
-x.x.
-x.x.
-xxx.
+x x x . 
+x . x . 
+x . x . 
+x x x . 
 ";
             ShouldBeString(Nmbr.Zero0, Expected);
         }
@@ -25,10 +25,10 @@ xxx.
         public void Zero1()
         {
             const string Expected = @"
-xxxx
-x..x
-xxxx
-....
+x x x x 
+x . . x 
+x x x x 
+. . . . 
 ";
             ShouldBeString(Nmbr.Zero1, Expected);
         }
@@ -37,10 +37,10 @@ xxxx
         public void One0()
         {
             const string Expected = @"
-xx..
-.x..
-.x..
-.x..
+x x . . 
+. x . . 
+. x . . 
+. x . . 
 ";
             ShouldBeString(Nmbr.One0, Expected);
         }
@@ -49,10 +49,10 @@ xx..
         public void One1()
         {
             const string Expected = @"
-...x
-xxxx
-....
-....
+. . . x 
+x x x x 
+. . . . 
+. . . . 
 ";
             ShouldBeString(Nmbr.One1, Expected);
         }
@@ -61,10 +61,10 @@ xxxx
         public void One2()
         {
             const string Expected = @"
-x...
-x...
-x...
-xx..
+x . . . 
+x . . . 
+x . . . 
+x x . . 
 ";
             ShouldBeString(Nmbr.One2, Expected);
         }
@@ -73,10 +73,10 @@ xx..
         public void One3()
         {
             const string Expected = @"
-xxxx
-x...
-....
-....
+x x x x 
+x . . . 
+. . . . 
+. . . . 
 ";
             ShouldBeString(Nmbr.One3, Expected);
         }
@@ -85,12 +85,24 @@ x...
         public void Two0()
         {
             const string Expected = @"
-.xx.
-.xx.
-xx..
-xxx.
+. x x . 
+. x x . 
+x x . . 
+x x x . 
 ";
             ShouldBeString(Nmbr.Two0, Expected);
+        }
+
+        [Fact]
+        public void Two1()
+        {
+            const string Expected = @"
+x x x . 
+x x x x 
+x . x x 
+. . . . 
+";
+            ShouldBeString(Nmbr.Two1, Expected);
         }
 
         private static void ShouldBeString(Nmbr n, string expected)
