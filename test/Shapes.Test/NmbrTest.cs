@@ -189,6 +189,18 @@ x x x .
             ShouldBeString(Nmbr.Four0, Expected);
         }
 
+        [Fact]
+        public void Four1()
+        {
+            const string Expected = @"
+. x . . 
+x x x x 
+x x . x 
+. . . . 
+";
+            ShouldBeString(Nmbr.Four1, Expected);
+        }
+
         private static void ShouldBeString(Nmbr n, string expected)
         {
             n.ToString().Should().Be(expected.TrimStart());

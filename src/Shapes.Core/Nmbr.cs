@@ -24,6 +24,7 @@ namespace Shapes
         public static readonly Nmbr Three2 = new Nmbr(0x7137);
         public static readonly Nmbr Three3 = new Nmbr(0x09DF);
         public static readonly Nmbr Four0 = new Nmbr(0x6726);
+        public static readonly Nmbr Four1 = new Nmbr(0x0BF2);
 
         private readonly ushort value;
 
