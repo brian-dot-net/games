@@ -29,7 +29,13 @@ namespace Shapes
                 {
                     if (piece[x, y])
                     {
-                        this.board[Index(x0 + x, y0 + y)] = this.count;
+                        int i = Index(x0 + x, y0 + y);
+                        if (this.board[i] != 0)
+                        {
+                            return false;
+                        }
+
+                        this.board[i] = this.count;
                     }
                 }
             }
