@@ -22,7 +22,6 @@ namespace Shapes
 
         public bool Place(Nmbr piece, byte x0, byte y0)
         {
-            ++this.count;
             for (byte y = 0; y < Nmbr.Side; ++y)
             {
                 for (byte x = 0; x < Nmbr.Side; ++x)
@@ -36,11 +35,12 @@ namespace Shapes
                             return false;
                         }
 
-                        this.board[i] = this.count;
+                        this.board[i] = (byte)(this.count + 1);
                     }
                 }
             }
 
+            ++this.count;
             return true;
         }
 
