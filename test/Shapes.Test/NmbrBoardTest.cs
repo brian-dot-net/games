@@ -31,6 +31,17 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceFirstPieceTwiceThrows()
+        {
+            NmbrBoard board = new NmbrBoard();
+            board.PlaceFirst(Nmbr.Zero0);
+
+            Action act = () => board.PlaceFirst(Nmbr.Zero1);
+
+            act.Should().Throw<InvalidOperationException>().WithMessage("First piece is already placed.");
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();

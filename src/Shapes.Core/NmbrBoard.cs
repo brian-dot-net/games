@@ -13,6 +13,8 @@ namespace Shapes
 
         private readonly byte[] board;
 
+        private int count;
+
         public NmbrBoard()
         {
             this.board = new byte[Side * Side];
@@ -20,6 +22,11 @@ namespace Shapes
 
         public void PlaceFirst(Nmbr piece)
         {
+            if (this.count > 0)
+            {
+                throw new InvalidOperationException("First piece is already placed.");
+            }
+
             for (int y = 0; y < Nmbr.Side; ++y)
             {
                 for (int x = 0; x < Nmbr.Side; ++x)
@@ -30,6 +37,8 @@ namespace Shapes
                     }
                 }
             }
+
+            ++this.count;
         }
 
         public override string ToString()
