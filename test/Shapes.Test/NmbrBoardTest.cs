@@ -23,23 +23,29 @@ namespace Shapes.Test
                 BlankSquares(40) + "0 . 0 . " + BlankSquares(36) + NL +
                 BlankSquares(40) + "0 0 0 . " + BlankSquares(36) + NL +
                 BlankLines(36);
-
             NmbrBoard board = new NmbrBoard();
 
-            board.PlaceFirst(Nmbr.Zero0);
+            board.Place(Nmbr.Zero0, 40, 40).Should().BeTrue();
 
             board.ToString().Should().Be(expected);
         }
 
         [Fact]
-        public void PlaceFirstPieceTwiceThrows()
+        public void PlaceSecondPieceAdjacent()
         {
+            string expected =
+                BlankLines(40) +
+                BlankSquares(40) + "0 0 0 1 1 1 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 1 . . 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 1 1 1 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 0 0 . . . . " + BlankSquares(33) + NL +
+                BlankLines(36);
             NmbrBoard board = new NmbrBoard();
-            board.PlaceFirst(Nmbr.Zero0);
+            board.Place(Nmbr.Zero0, 40, 40);
 
-            Action act = () => board.PlaceFirst(Nmbr.Zero1);
+            board.Place(Nmbr.Zero1, 43, 40).Should().BeTrue();
 
-            act.Should().Throw<InvalidOperationException>().WithMessage("First piece is already placed.");
+            board.ToString().Should().Be(expected);
         }
 
         private static string BlankLines(int count)

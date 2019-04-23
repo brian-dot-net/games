@@ -13,32 +13,28 @@ namespace Shapes
 
         private readonly byte[] board;
 
-        private int count;
+        private byte count;
 
         public NmbrBoard()
         {
             this.board = new byte[Side * Side];
         }
 
-        public void PlaceFirst(Nmbr piece)
+        public bool Place(Nmbr piece, byte x0, byte y0)
         {
-            if (this.count > 0)
-            {
-                throw new InvalidOperationException("First piece is already placed.");
-            }
-
+            ++this.count;
             for (int y = 0; y < Nmbr.Side; ++y)
             {
                 for (int x = 0; x < Nmbr.Side; ++x)
                 {
                     if (piece[x, y])
                     {
-                        this.board[Index(40 + x, 40 + y)] = 1;
+                        this.board[Index(x0 + x, y0 + y)] = this.count;
                     }
                 }
             }
 
-            ++this.count;
+            return true;
         }
 
         public override string ToString()
@@ -49,7 +45,12 @@ namespace Shapes
                 for (int x = 0; x < Side; ++x)
                 {
                     byte b = this.board[Index(x, y)];
-                    char c = (b == 0) ? '.' : '0';
+                    char c = '.';
+                    if (b > 0)
+                    {
+                        c = (char)(b + '0' - 1);
+                    }
+
                     sb.Append(c);
                     sb.Append(' ');
                 }
