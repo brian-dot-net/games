@@ -66,6 +66,24 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceSecondPiecePartiallyOverlappingFails()
+        {
+            string expected =
+                BlankLines(40) +
+                BlankSquares(40) + "0 0 0 . . . . " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 . . . . " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 . . . . " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 0 0 . . . . " + BlankSquares(33) + NL +
+                BlankLines(36);
+            NmbrBoard board = new NmbrBoard();
+            board.Place(Nmbr.Zero0, 40, 40);
+
+            board.Place(Nmbr.Zero1, 41, 41).Should().BeFalse();
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();

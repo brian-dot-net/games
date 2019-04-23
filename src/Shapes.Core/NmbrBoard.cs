@@ -23,15 +23,16 @@ namespace Shapes
         public bool Place(Nmbr piece, byte x0, byte y0)
         {
             ++this.count;
-            for (int y = 0; y < Nmbr.Side; ++y)
+            for (byte y = 0; y < Nmbr.Side; ++y)
             {
-                for (int x = 0; x < Nmbr.Side; ++x)
+                for (byte x = 0; x < Nmbr.Side; ++x)
                 {
                     if (piece[x, y])
                     {
-                        int i = Index(x0 + x, y0 + y);
+                        int i = Index(x + x0, y + y0);
                         if (this.board[i] != 0)
                         {
+                            this.UndoPlace(x0, y0, i);
                             return false;
                         }
 
@@ -46,9 +47,9 @@ namespace Shapes
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(2 * Side * (Side + 1));
-            for (int y = 0; y < Side; ++y)
+            for (byte y = 0; y < Side; ++y)
             {
-                for (int x = 0; x < Side; ++x)
+                for (byte x = 0; x < Side; ++x)
                 {
                     byte b = this.board[Index(x, y)];
                     char c = '.';
@@ -68,5 +69,22 @@ namespace Shapes
         }
 
         private static int Index(int x, int y) => (y * Side) + x;
+
+        private void UndoPlace(byte x0, byte y0, int max)
+        {
+            for (byte y = 0; y < Nmbr.Side; ++y)
+            {
+                for (byte x = 0; x < Nmbr.Side; ++x)
+                {
+                    int i = Index(x0 + x, y0 + y);
+                    if (i >= max)
+                    {
+                        return;
+                    }
+
+                    this.board[i] = 0;
+                }
+            }
+        }
     }
 }
