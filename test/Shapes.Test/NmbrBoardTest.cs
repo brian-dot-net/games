@@ -103,6 +103,36 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceTenPieces()
+        {
+            string expected =
+                BlankLines(40) +
+                "0 0 0 1 1 . 2 2 3 3 3 . 4 4 . " + BlankSquares(65) + NL +
+                "0 . 0 . 1 . 2 2 . . 3 . 4 . . " + BlankSquares(65) + NL +
+                "0 . 0 . 1 2 2 . . 3 3 4 4 4 . " + BlankSquares(65) + NL +
+                "0 0 0 . 1 2 2 2 3 3 3 . 4 4 . " + BlankSquares(65) + NL +
+                "5 5 5 6 6 . 7 7 7 8 8 9 9 9 . " + BlankSquares(65) + NL +
+                "5 5 5 6 . . . 7 . 8 8 9 9 9 . " + BlankSquares(65) + NL +
+                ". . 5 6 6 6 7 7 8 8 . 9 9 . . " + BlankSquares(65) + NL +
+                "5 5 5 6 6 6 7 . 8 8 . 9 9 . . " + BlankSquares(65) + NL +
+                BlankLines(32);
+            NmbrBoard board = new NmbrBoard();
+
+            board.Place(Nmbr.Zero0, 0, 40).Should().BeTrue();
+            board.Place(Nmbr.One0, 3, 40).Should().BeTrue();
+            board.Place(Nmbr.Two0, 5, 40).Should().BeTrue();
+            board.Place(Nmbr.Three0, 8, 40).Should().BeTrue();
+            board.Place(Nmbr.Four0, 11, 40).Should().BeTrue();
+            board.Place(Nmbr.Five0, 0, 44).Should().BeTrue();
+            board.Place(Nmbr.Six0, 3, 44).Should().BeTrue();
+            board.Place(Nmbr.Seven0, 6, 44).Should().BeTrue();
+            board.Place(Nmbr.Eight0, 8, 44).Should().BeTrue();
+            board.Place(Nmbr.Nine0, 11, 44).Should().BeTrue();
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
