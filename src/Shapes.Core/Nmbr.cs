@@ -9,6 +9,8 @@ namespace Shapes
 
     public struct Nmbr
     {
+        public const byte Side = 4;
+
         public static readonly Nmbr Zero0 = new Nmbr(0x7557);
         public static readonly Nmbr Zero1 = new Nmbr(0x0F9F);
         public static readonly Nmbr One0 = new Nmbr(0x2223);
@@ -52,6 +54,8 @@ namespace Shapes
         {
             this.value = value;
         }
+
+        public bool this[int x, int y] => ((this.value >> ((y * Side) + x)) & 1) == 1;
 
         public override string ToString()
         {
