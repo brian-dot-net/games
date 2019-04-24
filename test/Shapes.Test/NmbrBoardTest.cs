@@ -221,6 +221,22 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceFirstPieceExtremeBottomRightCorner()
+        {
+            string expected =
+                BlankLines(76) +
+                BlankSquares(76) + ". . . . " + NL +
+                BlankSquares(76) + ". . . . " + NL +
+                BlankSquares(76) + "0 0 0 0 " + NL +
+                BlankSquares(76) + "0 . . . " + NL;
+            NmbrBoard board = new NmbrBoard();
+
+            board.Place(Nmbr.One3, 76, 78).Should().BeTrue();
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
