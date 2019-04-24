@@ -151,6 +151,24 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceSecondPieceAdjacentLeftEdge()
+        {
+            string expected =
+                BlankLines(40) +
+                "1 1 1 1 0 0 0 " + BlankSquares(73) + NL +
+                "1 . . 1 0 . 0 " + BlankSquares(73) + NL +
+                "1 1 1 1 0 . 0 " + BlankSquares(73) + NL +
+                ". . . . 0 0 0 " + BlankSquares(73) + NL +
+                BlankLines(36);
+            NmbrBoard board = new NmbrBoard();
+            board.Place(Nmbr.Zero0, 4, 40);
+
+            board.Place(Nmbr.Zero1, 0, 40).Should().BeTrue();
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
