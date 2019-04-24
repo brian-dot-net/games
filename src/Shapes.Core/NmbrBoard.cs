@@ -93,9 +93,13 @@ namespace Shapes
                     return true;
                 }
             }
-            else if ((x == (Nmbr.Side - 1)) && (this.board[Index(x + x0 + 1, y + y0)] != 0))
+            else if (x == (Nmbr.Side - 1))
             {
-                return true;
+                int xa = x + x0 + 1;
+                if ((xa < Side) && (this.board[Index(xa, y + y0)] != 0))
+                {
+                    return true;
+                }
             }
 
             if (y == 0)
@@ -106,9 +110,13 @@ namespace Shapes
                     return true;
                 }
             }
-            else if ((y == (Nmbr.Side - 1)) && (this.board[Index(x + x0, y + y0 + 1)] != 0))
+            else if (y == (Nmbr.Side - 1))
             {
-                return true;
+                int ya = y + y0 + 1;
+                if ((ya < Side) && (this.board[Index(x + x0, ya)] != 0))
+                {
+                    return true;
+                }
             }
 
             return false;
