@@ -35,21 +35,22 @@ namespace Shapes
                             anyAdjacent = true;
                         }
 
-                        maxIndex = Index(x + x0, y + y0);
-                        if (this.board[maxIndex] != 0)
+                        int i = Index(x + x0, y + y0);
+                        if ((i < 0) || (this.board[i] != 0))
                         {
                             this.UndoPlace(x0, y0, maxIndex);
                             return false;
                         }
 
-                        this.board[maxIndex] = (byte)(this.count + 1);
+                        this.board[i] = (byte)(this.count + 1);
+                        maxIndex = i;
                     }
                 }
             }
 
             if ((this.count > 0) && !anyAdjacent)
             {
-                this.UndoPlace(x0, y0, maxIndex + 1);
+                this.UndoPlace(x0, y0, maxIndex);
                 return false;
             }
 
@@ -81,45 +82,54 @@ namespace Shapes
             return sb.ToString();
         }
 
-        private static int Index(int x, int y) => (y * Side) + x;
+        private static int Index(int x, int y)
+        {
+            if ((x < 0) || (x >= Side) || (y < 0) || (y >= Side))
+            {
+                return -1;
+            }
+
+            return (y * Side) + x;
+        }
 
         private bool CheckAdjacent(byte x, byte y, byte x0, byte y0)
         {
+            if (this.CheckAdjacentX(x, x0, y + y0))
+            {
+                return true;
+            }
+
+            return this.CheckAdjacentY(y, y0, x + x0);
+        }
+
+        private bool CheckAdjacentX(byte x, byte x0, int y1)
+        {
+            int i = -1;
             if (x == 0)
             {
-                int xa = x + x0 - 1;
-                if ((xa >= 0) && (this.board[Index(xa, y + y0)] != 0))
-                {
-                    return true;
-                }
+                i = Index(x + x0 - 1, y1);
             }
             else if (x == (Nmbr.Side - 1))
             {
-                int xa = x + x0 + 1;
-                if ((xa < Side) && (this.board[Index(xa, y + y0)] != 0))
-                {
-                    return true;
-                }
+                i = Index(x + x0 + 1, y1);
             }
 
+            return (i >= 0) && (this.board[i] != 0);
+        }
+
+        private bool CheckAdjacentY(byte y, byte y0, int x1)
+        {
+            int i = -1;
             if (y == 0)
             {
-                int ya = y + y0 - 1;
-                if ((ya >= 0) && (this.board[Index(x + x0, ya)] != 0))
-                {
-                    return true;
-                }
+                i = Index(x1, y + y0 - 1);
             }
             else if (y == (Nmbr.Side - 1))
             {
-                int ya = y + y0 + 1;
-                if ((ya < Side) && (this.board[Index(x + x0, ya)] != 0))
-                {
-                    return true;
-                }
+                i = Index(x1, y + y0 + 1);
             }
 
-            return false;
+            return (i >= 0) && (this.board[i] != 0);
         }
 
         private void UndoPlace(byte x0, byte y0, int max)
@@ -129,7 +139,7 @@ namespace Shapes
                 for (byte x = 0; x < Nmbr.Side; ++x)
                 {
                     int i = Index(x0 + x, y0 + y);
-                    if (i >= max)
+                    if ((i < 0) || (i > max))
                     {
                         return;
                     }
