@@ -20,7 +20,7 @@ namespace Shapes
             this.board = new byte[Side * Side];
         }
 
-        public bool Place(Nmbr piece, byte x0, byte y0)
+        public bool Place(Nmbr piece, Point p)
         {
             bool anyAdjacent = false;
             int maxIndex = 0;
@@ -30,15 +30,15 @@ namespace Shapes
                 {
                     if (piece[x, y])
                     {
-                        if (!anyAdjacent && this.CheckAdjacent(x, y, x0, y0))
+                        if (!anyAdjacent && this.CheckAdjacent(x, y, p))
                         {
                             anyAdjacent = true;
                         }
 
-                        int i = Index(x + x0, y + y0);
+                        int i = Index(x + p.X, y + p.Y);
                         if ((i < 0) || (this.board[i] != 0))
                         {
-                            this.UndoPlace(x0, y0, maxIndex);
+                            this.UndoPlace(p, maxIndex);
                             return false;
                         }
 
@@ -50,7 +50,7 @@ namespace Shapes
 
             if ((this.count > 0) && !anyAdjacent)
             {
-                this.UndoPlace(x0, y0, maxIndex);
+                this.UndoPlace(p, maxIndex);
                 return false;
             }
 
@@ -92,14 +92,14 @@ namespace Shapes
             return (y * Side) + x;
         }
 
-        private bool CheckAdjacent(byte x, byte y, byte x0, byte y0)
+        private bool CheckAdjacent(byte x, byte y, Point p)
         {
-            if (this.CheckAdjacentX(x, x0, y + y0))
+            if (this.CheckAdjacentX(x, p.X, y + p.Y))
             {
                 return true;
             }
 
-            return this.CheckAdjacentY(y, y0, x + x0);
+            return this.CheckAdjacentY(y, p.Y, x + p.X);
         }
 
         private bool CheckAdjacentX(byte x, byte x0, int y1)
@@ -132,13 +132,13 @@ namespace Shapes
             return (i >= 0) && (this.board[i] != 0);
         }
 
-        private void UndoPlace(byte x0, byte y0, int max)
+        private void UndoPlace(Point p, int max)
         {
             for (byte y = 0; y < Nmbr.Side; ++y)
             {
                 for (byte x = 0; x < Nmbr.Side; ++x)
                 {
-                    int i = Index(x0 + x, y0 + y);
+                    int i = Index(p.X + x, p.Y + y);
                     if ((i < 0) || (i > max))
                     {
                         return;

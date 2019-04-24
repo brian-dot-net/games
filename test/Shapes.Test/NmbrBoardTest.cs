@@ -285,12 +285,12 @@ namespace Shapes.Test
 
         private static void PlaceValid(NmbrBoard board, Nmbr piece, byte x0, byte y0)
         {
-            board.Place(piece, x0, y0).Should().BeTrue();
+            board.Place(piece, new Point(x0, y0)).Should().BeTrue();
         }
 
         private static void PlaceInvalid(NmbrBoard board, Nmbr piece, byte x0, byte y0)
         {
-            board.Place(piece, x0, y0).Should().BeFalse();
+            board.Place(piece, new Point(x0, y0)).Should().BeFalse();
         }
     }
 }
