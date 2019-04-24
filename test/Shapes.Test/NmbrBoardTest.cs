@@ -248,6 +248,17 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceFirstPieceTooFarBottomLeftCornerFails()
+        {
+            string expected = BlankLines(80);
+            NmbrBoard board = new NmbrBoard();
+
+            board.Place(Nmbr.One2, 0, 79).Should().BeFalse();
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
