@@ -85,18 +85,26 @@ namespace Shapes
 
         private bool CheckAdjacent(byte x, byte y, byte x0, byte y0)
         {
-            if ((x == 0) && (this.board[Index(x + x0 - 1, y + y0)] != 0))
+            if (x == 0)
             {
-                return true;
+                int xa = x + x0 - 1;
+                if ((xa >= 0) && (this.board[Index(xa, y + y0)] != 0))
+                {
+                    return true;
+                }
             }
             else if ((x == (Nmbr.Side - 1)) && (this.board[Index(x + x0 + 1, y + y0)] != 0))
             {
                 return true;
             }
 
-            if ((y == 0) && (this.board[Index(x + x0, y + y0 - 1)] != 0))
+            if (y == 0)
             {
-                return true;
+                int ya = y + y0 - 1;
+                if ((ya >= 0) && (this.board[Index(x + x0, ya)] != 0))
+                {
+                    return true;
+                }
             }
             else if ((y == (Nmbr.Side - 1)) && (this.board[Index(x + x0, y + y0 + 1)] != 0))
             {
