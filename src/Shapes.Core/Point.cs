@@ -21,6 +21,8 @@ namespace Shapes
 
         public Enumerator GetEnumerator() => new Enumerator(this);
 
+        public override string ToString() => $"({this.X}, {this.Y})";
+
         public struct Enumerator : IEnumerator<Point>
         {
             private static readonly Point Max = new Point(byte.MaxValue, byte.MaxValue);
@@ -46,7 +48,11 @@ namespace Shapes
             {
                 byte nextX = (byte)(this.Current.X + 1);
                 byte nextY = this.Current.Y;
-                if (nextX == this.upperBound.X)
+                if (nextX == 0)
+                {
+                    ++nextY;
+                }
+                else if (nextX == this.upperBound.X)
                 {
                     nextX = 0;
                     ++nextY;

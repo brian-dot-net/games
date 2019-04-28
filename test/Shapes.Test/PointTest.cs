@@ -5,7 +5,6 @@
 namespace Shapes.Test
 {
     using System.Collections.Generic;
-    using System.Linq;
     using FluentAssertions;
     using Xunit;
 
@@ -15,6 +14,12 @@ namespace Shapes.Test
         public void EnumerateZeroZero()
         {
             TestEnumerate(new Point(0, 0));
+        }
+
+        [Fact]
+        public void EnumerateOneOne()
+        {
+            TestEnumerate(new Point(1, 1), "(0, 0)");
         }
 
         private static void TestEnumerate(Point pt, params string[] expected)
