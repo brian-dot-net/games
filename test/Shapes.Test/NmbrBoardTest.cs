@@ -353,6 +353,15 @@ namespace Shapes.Test
             board.Score().Should().Be(0);
         }
 
+        [Fact]
+        public void ScoreNineOnLayerZero()
+        {
+            NmbrBoard board = new NmbrBoard();
+            PlaceValid(board, Nmbr.Nine0, 40, 40);
+
+            board.Score().Should().Be(0);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
