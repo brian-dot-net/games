@@ -22,6 +22,12 @@ namespace Shapes.Test
             TestEnumerate(new Point(1, 1), "(0, 0)");
         }
 
+        [Fact]
+        public void EnumerateTwoTwo()
+        {
+            TestEnumerate(new Point(2, 2), "(0, 0)", "(1, 0)", "(0, 1)", "(1, 1)");
+        }
+
         private static void TestEnumerate(Point pt, params string[] expected)
         {
             List<string> points = new List<string>();
