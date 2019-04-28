@@ -362,6 +362,17 @@ namespace Shapes.Test
             board.Score().Should().Be(0);
         }
 
+        [Fact]
+        public void ScoreNineOnLayerOne()
+        {
+            NmbrBoard board = new NmbrBoard();
+            PlaceValid(board, Nmbr.Eight0, 40, 40);
+            PlaceValid(board, Nmbr.Eight0, 42, 40);
+            PlaceValid(board, Nmbr.Nine2, 40, 40, 1);
+
+            board.Score().Should().Be(9);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();

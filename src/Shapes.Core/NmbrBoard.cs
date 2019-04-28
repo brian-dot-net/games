@@ -24,7 +24,16 @@ namespace Shapes
             }
         }
 
-        public int Score() => 0;
+        public int Score()
+        {
+            int score = 0;
+            for (byte i = 0; i < this.board.Length; ++i)
+            {
+                score += this.Score(i);
+            }
+
+            return score;
+        }
 
         public bool Place(Nmbr piece, Point p, byte level)
         {
@@ -54,10 +63,10 @@ namespace Shapes
 
                         if (level > 0)
                         {
-                            underlying.Add(this.board[level - 1][i]);
+                            underlying.Add((byte)(this.board[level - 1][i] / 10));
                         }
 
-                        this.board[level][i] = (byte)(this.count + 1);
+                        this.board[level][i] = (byte)((10 * (this.count + 1)) + piece.Value);
                         maxIndex = i;
                     }
                 }
@@ -104,6 +113,25 @@ namespace Shapes
             return (y * Side) + x;
         }
 
+        private int Score(byte level)
+        {
+            int score = 0;
+            HashSet<byte> distinct = new HashSet<byte>();
+            for (byte y = 0; y < Side; ++y)
+            {
+                for (byte x = 0; x < Side; ++x)
+                {
+                    byte v = this.board[level][Index(x, y)];
+                    if (distinct.Add((byte)(v / 10)))
+                    {
+                        score += level * (v % 10);
+                    }
+                }
+            }
+
+            return score;
+        }
+
         private void WriteBoard(char[] buffer, byte level)
         {
             int i = 0;
@@ -111,7 +139,7 @@ namespace Shapes
             {
                 for (byte x = 0; x < Side; ++x)
                 {
-                    byte b = this.board[level][Index(x, y)];
+                    byte b = (byte)(this.board[level][Index(x, y)] / 10);
                     char c;
                     if (b > 0)
                     {
