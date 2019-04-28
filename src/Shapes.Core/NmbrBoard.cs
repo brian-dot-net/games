@@ -203,18 +203,15 @@ namespace Shapes
         private void UndoPlace(byte level, Point p, int max)
         {
             byte[] topBoard = this.board[level];
-            for (byte y = 0; y < Nmbr.Side; ++y)
+            foreach (Point pi in new Point(Nmbr.Side, Nmbr.Side))
             {
-                for (byte x = 0; x < Nmbr.Side; ++x)
+                int i = Index(p.X + pi.X, p.Y + pi.Y);
+                if ((i < 0) || (i > max))
                 {
-                    int i = Index(p.X + x, p.Y + y);
-                    if ((i < 0) || (i > max))
-                    {
-                        return;
-                    }
-
-                    topBoard[i] = 0;
+                    return;
                 }
+
+                topBoard[i] = 0;
             }
         }
     }
