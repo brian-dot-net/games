@@ -5,29 +5,29 @@
 namespace Shapes
 {
     using System;
-    using System.Text;
+    using System.Collections.Generic;
 
     public sealed class NmbrBoard
     {
         private const int Side = 80;
 
-        private readonly byte[] board;
+        private readonly byte[][] board;
 
         private byte count;
 
         public NmbrBoard()
         {
-            this.board = new byte[Side * Side];
+            this.board = new byte[10][];
+            for (int i = 0; i < this.board.Length; ++i)
+            {
+                this.board[i] = new byte[Side * Side];
+            }
         }
 
         public bool Place(Nmbr piece, Point p, byte level)
         {
-            if (level != 0)
-            {
-                return false;
-            }
-
-            bool anyAdjacent = false;
+            bool validPlacement = false;
+            HashSet<byte> underlying = new HashSet<byte>();
             int maxIndex = 0;
             for (byte y = 0; y < Nmbr.Side; ++y)
             {
@@ -35,27 +35,45 @@ namespace Shapes
                 {
                     if (piece[x, y])
                     {
-                        if (!anyAdjacent && this.CheckAdjacent(x, y, p))
+                        if (level == 0)
                         {
-                            anyAdjacent = true;
+                            if (!validPlacement && this.CheckAdjacent(x, y, p, level))
+                            {
+                                validPlacement = true;
+                            }
                         }
 
                         int i = Index(x + p.X, y + p.Y);
-                        if ((i < 0) || (this.board[i] != 0))
+                        if ((i < 0) || (this.board[level][i] != 0))
                         {
-                            this.UndoPlace(p, maxIndex);
+                            this.UndoPlace(level, p, maxIndex);
                             return false;
                         }
 
-                        this.board[i] = (byte)(this.count + 1);
+                        if (level > 0)
+                        {
+                            underlying.Add(this.board[level - 1][i]);
+                        }
+
+                        this.board[level][i] = (byte)(this.count + 1);
                         maxIndex = i;
                     }
                 }
             }
 
-            if ((this.count > 0) && !anyAdjacent)
+            if (this.count == 0)
             {
-                this.UndoPlace(p, maxIndex);
+                validPlacement = true;
+            }
+
+            if (level > 0)
+            {
+                validPlacement = (underlying.Count > 1) && !underlying.Contains(0);
+            }
+
+            if (!validPlacement)
+            {
+                this.UndoPlace(level, p, maxIndex);
                 return false;
             }
 
@@ -65,26 +83,13 @@ namespace Shapes
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(2 * Side * (Side + 1));
-            for (byte y = 0; y < Side; ++y)
+            char[] buffer = new char[2 * Side * (Side + 1)];
+            for (byte i = 0; i < this.board.Length; ++i)
             {
-                for (byte x = 0; x < Side; ++x)
-                {
-                    byte b = this.board[Index(x, y)];
-                    char c = '.';
-                    if (b > 0)
-                    {
-                        c = (char)(b + '0' - 1);
-                    }
-
-                    sb.Append(c);
-                    sb.Append(' ');
-                }
-
-                sb.Append(Environment.NewLine);
+                this.WriteBoard(buffer, i);
             }
 
-            return sb.ToString();
+            return new string(buffer);
         }
 
         private static int Index(int x, int y)
@@ -97,17 +102,48 @@ namespace Shapes
             return (y * Side) + x;
         }
 
-        private bool CheckAdjacent(byte x, byte y, Point p)
+        private void WriteBoard(char[] buffer, byte level)
         {
-            if (this.CheckAdjacentX(x, p.X, y + p.Y))
+            int i = 0;
+            for (byte y = 0; y < Side; ++y)
+            {
+                for (byte x = 0; x < Side; ++x)
+                {
+                    byte b = this.board[level][Index(x, y)];
+                    char c;
+                    if (b > 0)
+                    {
+                        c = (char)(b + '0' - 1);
+                    }
+                    else if (level == 0)
+                    {
+                        c = '.';
+                    }
+                    else
+                    {
+                        c = buffer[i];
+                    }
+
+                    buffer[i++] = c;
+                    buffer[i++] = ' ';
+                }
+
+                buffer[i++] = Environment.NewLine[0];
+                buffer[i++] = Environment.NewLine[1];
+            }
+        }
+
+        private bool CheckAdjacent(byte x, byte y, Point p, byte level)
+        {
+            if (this.CheckAdjacentX(x, p.X, y + p.Y, level))
             {
                 return true;
             }
 
-            return this.CheckAdjacentY(y, p.Y, x + p.X);
+            return this.CheckAdjacentY(y, p.Y, x + p.X, level);
         }
 
-        private bool CheckAdjacentX(byte x, byte x0, int y1)
+        private bool CheckAdjacentX(byte x, byte x0, int y1, byte level)
         {
             int i = -1;
             if (x == 0)
@@ -119,10 +155,10 @@ namespace Shapes
                 i = Index(x + x0 + 1, y1);
             }
 
-            return (i >= 0) && (this.board[i] != 0);
+            return (i >= 0) && (this.board[level][i] != 0);
         }
 
-        private bool CheckAdjacentY(byte y, byte y0, int x1)
+        private bool CheckAdjacentY(byte y, byte y0, int x1, byte level)
         {
             int i = -1;
             if (y == 0)
@@ -134,11 +170,12 @@ namespace Shapes
                 i = Index(x1, y + y0 + 1);
             }
 
-            return (i >= 0) && (this.board[i] != 0);
+            return (i >= 0) && (this.board[level][i] != 0);
         }
 
-        private void UndoPlace(Point p, int max)
+        private void UndoPlace(byte level, Point p, int max)
         {
+            byte[] topBoard = this.board[level];
             for (byte y = 0; y < Nmbr.Side; ++y)
             {
                 for (byte x = 0; x < Nmbr.Side; ++x)
@@ -149,7 +186,7 @@ namespace Shapes
                         return;
                     }
 
-                    this.board[i] = 0;
+                    topBoard[i] = 0;
                 }
             }
         }

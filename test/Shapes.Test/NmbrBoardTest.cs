@@ -326,6 +326,25 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceThirdPieceOnLayerOneWithNoOverhangAboveTwoPieces()
+        {
+            string expected =
+                BlankLines(40) +
+                BlankSquares(40) + "0 0 2 2 2 2 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 2 1 . . 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 1 1 1 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 0 0 . . . . " + BlankSquares(33) + NL +
+                BlankLines(36);
+            NmbrBoard board = new NmbrBoard();
+            PlaceValid(board, Nmbr.Zero0, 40, 40);
+            PlaceValid(board, Nmbr.Zero1, 43, 40);
+
+            PlaceValid(board, Nmbr.One3, 42, 40, 1);
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
@@ -350,9 +369,9 @@ namespace Shapes.Test
             return sb.ToString();
         }
 
-        private static void PlaceValid(NmbrBoard board, Nmbr piece, byte x0, byte y0)
+        private static void PlaceValid(NmbrBoard board, Nmbr piece, byte x0, byte y0, byte level = 0)
         {
-            board.Place(piece, new Point(x0, y0), 0).Should().BeTrue();
+            board.Place(piece, new Point(x0, y0), level).Should().BeTrue();
         }
 
         private static void PlaceInvalid(NmbrBoard board, Nmbr piece, byte x0, byte y0, byte level = 0)
