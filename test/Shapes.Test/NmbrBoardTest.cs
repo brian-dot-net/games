@@ -307,6 +307,25 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceThirdPieceOnLayerOneDirectlyAboveOnePieceFails()
+        {
+            string expected =
+                BlankLines(40) +
+                BlankSquares(40) + "0 0 0 1 1 1 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 1 . . 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 . 0 1 1 1 1 " + BlankSquares(33) + NL +
+                BlankSquares(40) + "0 0 0 . . . . " + BlankSquares(33) + NL +
+                BlankLines(36);
+            NmbrBoard board = new NmbrBoard();
+            PlaceValid(board, Nmbr.Zero0, 40, 40);
+            PlaceValid(board, Nmbr.Zero1, 43, 40);
+
+            PlaceInvalid(board, Nmbr.One0, 41, 40, 1);
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
