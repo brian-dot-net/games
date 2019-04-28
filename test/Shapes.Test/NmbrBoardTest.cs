@@ -270,6 +270,24 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceSecondPieceOnLayerOneFails()
+        {
+            string expected =
+                BlankLines(40) +
+                BlankSquares(40) + "0 0 0 . " + BlankSquares(36) + NL +
+                BlankSquares(40) + "0 . 0 . " + BlankSquares(36) + NL +
+                BlankSquares(40) + "0 . 0 . " + BlankSquares(36) + NL +
+                BlankSquares(40) + "0 0 0 . " + BlankSquares(36) + NL +
+                BlankLines(36);
+            NmbrBoard board = new NmbrBoard();
+            PlaceValid(board, Nmbr.Zero0, 40, 40);
+
+            PlaceInvalid(board, Nmbr.One2, 40, 40, 1);
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
