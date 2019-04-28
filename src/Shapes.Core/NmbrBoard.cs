@@ -20,8 +20,13 @@ namespace Shapes
             this.board = new byte[Side * Side];
         }
 
-        public bool Place(Nmbr piece, Point p)
+        public bool Place(Nmbr piece, Point p, byte level)
         {
+            if (level != 0)
+            {
+                return false;
+            }
+
             bool anyAdjacent = false;
             int maxIndex = 0;
             for (byte y = 0; y < Nmbr.Side; ++y)

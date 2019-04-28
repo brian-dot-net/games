@@ -259,6 +259,17 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void PlaceFirstPieceOnLayerOneFails()
+        {
+            string expected = BlankLines(80);
+            NmbrBoard board = new NmbrBoard();
+
+            PlaceInvalid(board, Nmbr.One2, 40, 40, 1);
+
+            board.ToString().Should().Be(expected);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();
@@ -285,12 +296,12 @@ namespace Shapes.Test
 
         private static void PlaceValid(NmbrBoard board, Nmbr piece, byte x0, byte y0)
         {
-            board.Place(piece, new Point(x0, y0)).Should().BeTrue();
+            board.Place(piece, new Point(x0, y0), 0).Should().BeTrue();
         }
 
-        private static void PlaceInvalid(NmbrBoard board, Nmbr piece, byte x0, byte y0)
+        private static void PlaceInvalid(NmbrBoard board, Nmbr piece, byte x0, byte y0, byte level = 0)
         {
-            board.Place(piece, new Point(x0, y0)).Should().BeFalse();
+            board.Place(piece, new Point(x0, y0), level).Should().BeFalse();
         }
     }
 }
