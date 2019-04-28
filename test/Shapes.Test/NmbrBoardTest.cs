@@ -345,6 +345,14 @@ namespace Shapes.Test
             board.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void ScoreZeroPieces()
+        {
+            NmbrBoard board = new NmbrBoard();
+
+            board.Score().Should().Be(0);
+        }
+
         private static string BlankLines(int count)
         {
             StringBuilder sb = new StringBuilder();

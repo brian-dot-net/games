@@ -24,6 +24,8 @@ namespace Shapes
             }
         }
 
+        public int Score() => 0;
+
         public bool Place(Nmbr piece, Point p, byte level)
         {
             bool validPlacement = false;
