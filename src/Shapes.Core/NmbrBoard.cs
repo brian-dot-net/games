@@ -40,35 +40,32 @@ namespace Shapes
             bool validPlacement = false;
             HashSet<byte> underlying = new HashSet<byte>();
             int maxIndex = 0;
-            for (byte y = 0; y < Nmbr.Side; ++y)
+            foreach (Point pi in new Point(Nmbr.Side, Nmbr.Side))
             {
-                for (byte x = 0; x < Nmbr.Side; ++x)
+                if (piece[pi])
                 {
-                    if (piece[x, y])
+                    if (level == 0)
                     {
-                        if (level == 0)
+                        if (!validPlacement && this.CheckAdjacent(pi, p, level))
                         {
-                            if (!validPlacement && this.CheckAdjacent(x, y, p, level))
-                            {
-                                validPlacement = true;
-                            }
+                            validPlacement = true;
                         }
-
-                        int i = Index(x + p.X, y + p.Y);
-                        if ((i < 0) || (this.board[level][i] != 0))
-                        {
-                            this.UndoPlace(level, p, maxIndex);
-                            return false;
-                        }
-
-                        if (level > 0)
-                        {
-                            underlying.Add((byte)(this.board[level - 1][i] / 10));
-                        }
-
-                        this.board[level][i] = (byte)((10 * (this.count + 1)) + piece.Value);
-                        maxIndex = i;
                     }
+
+                    int i = Index(pi.X + p.X, pi.Y + p.Y);
+                    if ((i < 0) || (this.board[level][i] != 0))
+                    {
+                        this.UndoPlace(level, p, maxIndex);
+                        return false;
+                    }
+
+                    if (level > 0)
+                    {
+                        underlying.Add((byte)(this.board[level - 1][i] / 10));
+                    }
+
+                    this.board[level][i] = (byte)((10 * (this.count + 1)) + piece.Value);
+                    maxIndex = i;
                 }
             }
 
@@ -163,14 +160,14 @@ namespace Shapes
             }
         }
 
-        private bool CheckAdjacent(byte x, byte y, Point p, byte level)
+        private bool CheckAdjacent(Point rel, Point p, byte level)
         {
-            if (this.CheckAdjacentX(x, p.X, y + p.Y, level))
+            if (this.CheckAdjacentX(rel.X, p.X, rel.Y + p.Y, level))
             {
                 return true;
             }
 
-            return this.CheckAdjacentY(y, p.Y, x + p.X, level);
+            return this.CheckAdjacentY(rel.Y, p.Y, rel.X + p.X, level);
         }
 
         private bool CheckAdjacentX(byte x, byte x0, int y1, byte level)

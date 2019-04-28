@@ -58,7 +58,7 @@ namespace Shapes
 
         public byte Value { get; }
 
-        public bool this[int x, int y] => ((this.bits >> ((y * Side) + x)) & 1) == 1;
+        public bool this[Point p] => ((this.bits >> ((p.Y * Side) + p.X)) & 1) == 1;
 
         public override string ToString()
         {
