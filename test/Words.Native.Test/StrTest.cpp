@@ -32,17 +32,33 @@ namespace Words
             Assert::AreEqual('\0'_c, s[11]);
         }
 
-        TEST_METHOD(OneChar)
+        TEST_METHOD(OneCharA)
+        {
+            OneCharImpl('A'_c, "A");
+        }
+
+        TEST_METHOD(OneCharB)
+        {
+            OneCharImpl('B'_c, "B");
+        }
+
+        TEST_METHOD(OneCharC)
+        {
+            OneCharImpl('C'_c, "C");
+        }
+
+    private:
+        void OneCharImpl(Ch c, const char* str)
         {
             Str s;
-            s = s + 'A'_c;
+            s = s + c;
 
             stringstream ss;
             ss << s;
 
             Assert::AreEqual(uint8_t(1), s.length());
-            Assert::AreEqual("A", ss.str().c_str());
-            Assert::AreEqual('A'_c, s[0]);
+            Assert::AreEqual(str, ss.str().c_str());
+            Assert::AreEqual(c, s[0]);
             Assert::AreEqual('\0'_c, s[1]);
             Assert::AreEqual('\0'_c, s[2]);
             Assert::AreEqual('\0'_c, s[3]);

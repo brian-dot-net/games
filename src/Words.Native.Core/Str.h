@@ -30,11 +30,11 @@ namespace Words
 
     constexpr Ch operator "" _c(char c)
     {
-        if (c == 'A')
+        if (c == 0)
         {
-            return 1;
+            return 0;
         }
 
-        return 0;
+        return c - 'A' + 1;
     }
 }
