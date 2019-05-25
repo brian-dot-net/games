@@ -136,6 +136,23 @@ namespace Words
             IndexTooBigImpl(255);
         }
 
+        TEST_METHOD(ChopEmpty)
+        {
+            Str s;
+
+            bool didThrow = false;
+            try
+            {
+                s.chop();
+            }
+            catch (range_error& e)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {

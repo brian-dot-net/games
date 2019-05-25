@@ -20,6 +20,8 @@ namespace Words
 
         Str& operator=(const Str& rhs);
 
+        Str chop() const;
+
     private:
         uint64_t data_;
 

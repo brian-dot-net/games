@@ -46,6 +46,11 @@ Str& Str::operator=(const Str& rhs)
     return *this;
 }
 
+Str Str::chop() const
+{
+    throw range_error("String empty.");
+}
+
 ostream& Words::operator<<(ostream& os, const Str& s)
 {
     for (uint8_t i = 0; i < s.length(); ++i)
