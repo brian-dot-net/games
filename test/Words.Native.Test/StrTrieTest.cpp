@@ -106,5 +106,26 @@ namespace Words
 
             Assert::AreEqual(size_t(0), trie.size());
         }
+
+        TEST_METHOD(LoadFromStreamEmpty)
+        {
+            stringstream stream;
+            StrTrie trie(Load(stream, {}));
+
+            Assert::AreEqual(size_t(0), trie.size());
+        }
+
+    private:
+
+        istream& Load(stringstream& stream, initializer_list<const char*> lines)
+        {
+            for (const char* line : lines)
+            {
+                stream << line << "\r\n";
+            }
+
+            stream.seekg(0);
+            return stream;
+        }
     };
 }

@@ -8,6 +8,11 @@ StrTrie::StrTrie()
 {
 }
 
+StrTrie::StrTrie(istream& stream)
+    : StrTrie()
+{
+}
+
 size_t StrTrie::size() const
 {
     return size_;
