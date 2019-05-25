@@ -6,6 +6,10 @@ using namespace Words;
 LetterBoxStr::LetterBoxStr(const Str& box)
     : box_(box)
 {
+    if (box_.length() != 12)
+    {
+        throw range_error("Input must be length 12.");
+    }
 }
 
 Ch LetterBoxStr::operator[](uint8_t index) const

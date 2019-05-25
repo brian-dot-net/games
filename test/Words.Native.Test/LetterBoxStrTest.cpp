@@ -122,6 +122,24 @@ namespace Words
             Assert::AreEqual("ABCDEFGHIJKL", ss.str().c_str());
         }
 
+        TEST_METHOD(InputTooShort)
+        {
+            Str s;
+            s = s + 'A'_c;
+
+            bool didThrow = false;
+            try
+            {
+                LetterBoxStr box(s);
+            }
+            catch (range_error&)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
+        }
+
     private:
         void FailsCharLookupOutOfRangeImpl(uint8_t index)
         {
