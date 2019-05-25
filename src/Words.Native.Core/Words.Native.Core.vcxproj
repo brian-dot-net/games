@@ -73,11 +73,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LetterBoxStr.cpp" />
+    <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Str.cpp" />
     <ClCompile Include="StrTrie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LetterBoxStr.h" />
+    <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Str.h" />
     <ClInclude Include="StrTrie.h" />
   </ItemGroup>

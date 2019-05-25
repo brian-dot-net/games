@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LetterBoxStrTest.cpp" />
+    <ClCompile Include="StopwatchTest.cpp" />
     <ClCompile Include="StrTest.cpp" />
     <ClCompile Include="StrTrieTest.cpp" />
   </ItemGroup>
