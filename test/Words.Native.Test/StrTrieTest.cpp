@@ -115,9 +115,18 @@ namespace Words
             Assert::AreEqual(size_t(0), trie.size());
         }
 
+        TEST_METHOD(LoadFromStreamOneWord)
+        {
+            stringstream stream;
+            StrTrie trie(Load(stream, { "ONE" }));
+
+            Assert::AreEqual(size_t(1), trie.size());
+            Assert::AreEqual(StrTrie::Terminal, trie.find("ONE"));
+        }
+
     private:
 
-        istream& Load(stringstream& stream, initializer_list<const char*> lines)
+        istream& Load(stringstream & stream, initializer_list<const char*> lines)
         {
             for (const char* line : lines)
             {

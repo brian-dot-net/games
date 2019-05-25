@@ -11,6 +11,46 @@ StrTrie::StrTrie()
 StrTrie::StrTrie(istream& stream)
     : StrTrie()
 {
+    char buffer[1024];
+    Str value;
+    bool skip = false;
+    size_t length;
+    do
+    {
+        stream.read(buffer, sizeof(buffer));
+        length = stream.gcount();
+        for (size_t i = 0; i < length; ++i)
+        {
+            char c = buffer[i];
+            switch (c)
+            {
+            case '\r':
+            case '\n':
+                if (!skip && (value.length() > 2))
+                {
+                    insert(value);
+                }
+
+                value = Str();
+                skip = false;
+                break;
+            default:
+                if (!skip)
+                {
+                    if (value.length() == 12)
+                    {
+                        skip = true;
+                    }
+                    else
+                    {
+                        value = value + operator "" _c(c);
+                    }
+                }
+
+                break;
+            }
+        }
+    } while (length > 0);
 }
 
 size_t StrTrie::size() const
