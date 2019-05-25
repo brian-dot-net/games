@@ -77,6 +77,21 @@ namespace Words
             EightCharsImpl('I'_c, 'J'_c, 'K'_c, 'L'_c, 'M'_c, 'N'_c, 'O'_c, 'P'_c, "IJKLMNOP");
         }
 
+        TEST_METHOD(TwelveCharsQRSTUVWXYZAB)
+        {
+            TwelveCharsImpl('Q'_c, 'R'_c, 'S'_c, 'T'_c, 'U'_c, 'V'_c, 'W'_c, 'X'_c, 'Y'_c, 'Z'_c, 'A'_c, 'B'_c, "QRSTUVWXYZAB");
+        }
+
+        TEST_METHOD(TwelveCharsCDEFGHIJKLMN)
+        {
+            TwelveCharsImpl('C'_c, 'D'_c, 'E'_c, 'F'_c, 'G'_c, 'H'_c, 'I'_c, 'J'_c, 'K'_c, 'L'_c, 'M'_c, 'N'_c, "CDEFGHIJKLMN");
+        }
+
+        TEST_METHOD(TwelveCharsOPQRSTUVWXYZ)
+        {
+            TwelveCharsImpl('O'_c, 'P'_c, 'Q'_c, 'R'_c, 'S'_c, 'T'_c, 'U'_c, 'V'_c, 'W'_c, 'X'_c, 'Y'_c, 'Z'_c, "OPQRSTUVWXYZ");
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
@@ -123,6 +138,26 @@ namespace Words
 
             StrValue(s, str);
             CharValues(s, c0, c1, c2, c3, c4, c5, c6, c7);
+        }
+
+        void TwelveCharsImpl(Ch c0, Ch c1, Ch c2, Ch c3, Ch c4, Ch c5, Ch c6, Ch c7, Ch c8, Ch c9, Ch c10, Ch c11, const char* str)
+        {
+            Str s;
+            s = s + c0;
+            s = s + c1;
+            s = s + c2;
+            s = s + c3;
+            s = s + c4;
+            s = s + c5;
+            s = s + c6;
+            s = s + c7;
+            s = s + c8;
+            s = s + c9;
+            s = s + c10;
+            s = s + c11;
+
+            StrValue(s, str);
+            CharValues(s, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11);
         }
 
         void StrValue(const Str& s, const char* str)

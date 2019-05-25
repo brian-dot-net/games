@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Str.h"
 
 using namespace std;
@@ -15,6 +14,10 @@ int main()
     s = s + 'F'_c;
     s = s + 'G'_c;
     s = s + 'H'_c;
+    s = s + 'I'_c;
+    s = s + 'J'_c;
+    s = s + 'K'_c;
+    s = s + 'L'_c;
 
     size_t length = s.length();
     cout << "(" << length << ") [" << s << "]\r\n";
