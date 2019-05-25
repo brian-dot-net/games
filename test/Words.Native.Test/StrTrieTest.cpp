@@ -74,5 +74,13 @@ namespace Words
             Assert::AreEqual(StrTrie::Terminal, trie.find("DEF"));
             Assert::AreEqual(StrTrie::Terminal, trie.find("GHI"));
         }
+
+        TEST_METHOD(GetNonExistentNode)
+        {
+            StrTrie trie;
+            trie.insert("ABC");
+
+            Assert::AreEqual(StrTrie::None, trie.find("X"));
+        }
     };
 }
