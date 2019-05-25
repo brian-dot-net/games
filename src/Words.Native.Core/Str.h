@@ -40,12 +40,12 @@ namespace Words
 
     constexpr Ch operator "" _c(char c)
     {
-        if (c == 0)
+        if ((c >= 'A') && (c <= 'Z'))
         {
-            return 0;
+            return c - 'A' + 1;
         }
 
-        return c - 'A' + 1;
+        return 0;
     }
 }
 
