@@ -24,6 +24,8 @@ namespace Words
 
         Str chop() const;
 
+        size_t hash_code() const;
+
     private:
         uint64_t data_;
 

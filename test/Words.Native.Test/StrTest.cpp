@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "Str.h"
+#include <unordered_set>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -223,6 +224,26 @@ namespace Words
             TestEquals(ba, ba, true);
             TestEquals(cdefgh, ba, false);
             TestEquals(cdefgh, cdefgh, true);
+        }
+
+        TEST_METHOD(HashCode)
+        {
+            Str empty;
+            Str a = empty + 'A'_c;
+            Str b = empty + 'B'_c;
+            Str ab = empty + 'A'_c + 'B'_c;
+            Str ba = empty + 'B'_c + 'A'_c;
+            Str cdefgh = empty + 'C'_c + 'D'_c + 'E'_c + 'F'_c + 'G'_c + 'H'_c;
+
+            unordered_set<size_t> codes;
+            codes.insert(empty.hash_code());
+            codes.insert(a.hash_code());
+            codes.insert(b.hash_code());
+            codes.insert(ab.hash_code());
+            codes.insert(ba.hash_code());
+            codes.insert(cdefgh.hash_code());
+
+            Assert::AreEqual(size_t(6), codes.size());
         }
 
     private:

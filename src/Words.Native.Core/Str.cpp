@@ -62,6 +62,11 @@ Str Str::chop() const
     return Str((data_ & mask) - 1);
 }
 
+size_t Str::hash_code() const
+{
+    return data_;
+}
+
 ostream& Words::operator<<(ostream& os, const Str& s)
 {
     for (uint8_t i = 0; i < s.length(); ++i)
