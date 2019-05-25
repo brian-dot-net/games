@@ -135,6 +135,15 @@ namespace Words
             Assert::AreEqual(StrTrie::Terminal, trie.find("THREE"));
         }
 
+        TEST_METHOD(LoadFromStreamSomeWordsTooShort)
+        {
+            stringstream stream;
+            StrTrie trie(Load(stream, { "S", "SH", "LONG" }));
+
+            Assert::AreEqual(size_t(1), trie.size());
+            Assert::AreEqual(StrTrie::Terminal, trie.find("LONG"));
+        }
+
     private:
 
         istream& Load(stringstream & stream, initializer_list<const char*> lines)
