@@ -20,6 +20,8 @@ namespace Words
 
         Str& operator=(const Str& rhs);
 
+        bool operator==(const Str& rhs) const;
+
         Str chop() const;
 
     private:

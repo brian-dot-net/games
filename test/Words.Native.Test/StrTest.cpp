@@ -113,7 +113,7 @@ namespace Words
             {
                 s + 'K'_c;
             }
-            catch (range_error& e)
+            catch (range_error&)
             {
                 didThrow = true;
             }
@@ -145,7 +145,7 @@ namespace Words
             {
                 s.chop();
             }
-            catch (range_error& e)
+            catch (range_error&)
             {
                 didThrow = true;
             }
@@ -204,6 +204,25 @@ namespace Words
 
             t = t.chop();
             StrValue(t, "");
+        }
+
+        TEST_METHOD(Equality)
+        {
+            Str empty;
+            Str a = empty + 'A'_c;
+            Str b = empty + 'B'_c;
+            Str ab = empty + 'A'_c + 'B'_c;
+            Str ba = empty + 'B'_c + 'A'_c;
+            Str cdefgh = empty + 'C'_c + 'D'_c + 'E'_c + 'F'_c + 'G'_c + 'H'_c;
+
+            TestEquals(empty, a, false);
+            TestEquals(empty, empty, true);
+            TestEquals(a, a, true);
+            TestEquals(a, b, false);
+            TestEquals(ab, ba, false);
+            TestEquals(ba, ba, true);
+            TestEquals(cdefgh, ba, false);
+            TestEquals(cdefgh, cdefgh, true);
         }
 
     private:
@@ -295,7 +314,7 @@ namespace Words
             {
                 s[index];
             }
-            catch (range_error& e)
+            catch (range_error&)
             {
                 didThrow = true;
             }
@@ -338,6 +357,12 @@ namespace Words
             Assert::AreEqual(c9, s[9]);
             Assert::AreEqual(c10, s[10]);
             Assert::AreEqual(c11, s[11]);
+        }
+
+        void TestEquals(const Str& x, const Str& y, bool expected)
+        {
+            Assert::AreEqual(expected, x == y);
+            Assert::AreEqual(expected, y == x);
         }
     };
 }

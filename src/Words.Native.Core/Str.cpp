@@ -46,6 +46,11 @@ Str& Str::operator=(const Str& rhs)
     return *this;
 }
 
+bool Str::operator==(const Str& rhs) const
+{
+    return data_ == rhs.data_;
+}
+
 Str Str::chop() const
 {
     if (length() == 0)
