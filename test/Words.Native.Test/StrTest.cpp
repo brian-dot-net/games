@@ -47,6 +47,21 @@ namespace Words
             TwoCharsImpl('H'_c, 'I'_c, "HI");
         }
 
+        TEST_METHOD(FourCharsJKLM)
+        {
+            FourCharsImpl('J'_c, 'K'_c, 'L'_c, 'M'_c, "JKLM");
+        }
+
+        TEST_METHOD(FourCharsNOPQ)
+        {
+            FourCharsImpl('N'_c, 'O'_c, 'P'_c, 'Q'_c, "NOPQ");
+        }
+
+        TEST_METHOD(FourCharsRSTU)
+        {
+            FourCharsImpl('R'_c, 'S'_c, 'T'_c, 'U'_c, "RSTU");
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
@@ -65,6 +80,18 @@ namespace Words
 
             StrValue(s, str);
             CharValues(s, c0, c1);
+        }
+
+        void FourCharsImpl(Ch c0, Ch c1, Ch c2, Ch c3, const char* str)
+        {
+            Str s;
+            s = s + c0;
+            s = s + c1;
+            s = s + c2;
+            s = s + c3;
+
+            StrValue(s, str);
+            CharValues(s, c0, c1, c2, c3);
         }
 
         void StrValue(const Str& s, const char* str)
