@@ -13,20 +13,8 @@ namespace Words
         {
             Str s;
 
-            Assert::AreEqual(uint8_t(0), s.length());
-            StrValue("", s);
-            Assert::AreEqual('\0'_c, s[0]);
-            Assert::AreEqual('\0'_c, s[1]);
-            Assert::AreEqual('\0'_c, s[2]);
-            Assert::AreEqual('\0'_c, s[3]);
-            Assert::AreEqual('\0'_c, s[4]);
-            Assert::AreEqual('\0'_c, s[5]);
-            Assert::AreEqual('\0'_c, s[6]);
-            Assert::AreEqual('\0'_c, s[7]);
-            Assert::AreEqual('\0'_c, s[8]);
-            Assert::AreEqual('\0'_c, s[9]);
-            Assert::AreEqual('\0'_c, s[10]);
-            Assert::AreEqual('\0'_c, s[11]);
+            StrValue(s, "");
+            CharValues(s);
         }
 
         TEST_METHOD(OneCharA)
@@ -50,27 +38,45 @@ namespace Words
             Str s;
             s = s + c;
 
-            Assert::AreEqual(uint8_t(1), s.length());
-            StrValue(str, s);
-            Assert::AreEqual(c, s[0]);
-            Assert::AreEqual('\0'_c, s[1]);
-            Assert::AreEqual('\0'_c, s[2]);
-            Assert::AreEqual('\0'_c, s[3]);
-            Assert::AreEqual('\0'_c, s[4]);
-            Assert::AreEqual('\0'_c, s[5]);
-            Assert::AreEqual('\0'_c, s[6]);
-            Assert::AreEqual('\0'_c, s[7]);
-            Assert::AreEqual('\0'_c, s[8]);
-            Assert::AreEqual('\0'_c, s[9]);
-            Assert::AreEqual('\0'_c, s[10]);
-            Assert::AreEqual('\0'_c, s[11]);
+            StrValue(s, str);
+            CharValues(s, c);
         }
 
-        void StrValue(const char* str, const Str& s)
+        void StrValue(const Str& s, const char* str)
         {
             stringstream ss;
             ss << s;
             Assert::AreEqual(str, ss.str().c_str());
+            Assert::AreEqual(uint8_t(strnlen_s(str, 12)), s.length());
+        }
+
+        void CharValues(
+            Str s,
+            Ch c0 = '\0'_c,
+            Ch c1 = '\0'_c,
+            Ch c2 = '\0'_c,
+            Ch c3 = '\0'_c,
+            Ch c4 = '\0'_c,
+            Ch c5 = '\0'_c,
+            Ch c6 = '\0'_c,
+            Ch c7 = '\0'_c,
+            Ch c8 = '\0'_c,
+            Ch c9 = '\0'_c,
+            Ch c10 = '\0'_c,
+            Ch c11 = '\0'_c)
+        {
+            Assert::AreEqual(c0, s[0]);
+            Assert::AreEqual(c1, s[1]);
+            Assert::AreEqual(c2, s[2]);
+            Assert::AreEqual(c3, s[3]);
+            Assert::AreEqual(c4, s[4]);
+            Assert::AreEqual(c5, s[5]);
+            Assert::AreEqual(c6, s[6]);
+            Assert::AreEqual(c7, s[7]);
+            Assert::AreEqual(c8, s[8]);
+            Assert::AreEqual(c9, s[9]);
+            Assert::AreEqual(c10, s[10]);
+            Assert::AreEqual(c11, s[11]);
         }
     };
 }
