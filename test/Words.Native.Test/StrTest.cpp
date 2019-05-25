@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 #include "Str.h"
 #include <unordered_set>
+#include <unordered_map>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -244,6 +245,31 @@ namespace Words
             codes.insert(cdefgh.hash_code());
 
             Assert::AreEqual(size_t(6), codes.size());
+        }
+
+        TEST_METHOD(MapKey)
+        {
+            Str empty;
+            Str a = empty + 'A'_c;
+            Str b = empty + 'B'_c;
+            Str ab = empty + 'A'_c + 'B'_c;
+            Str ba = empty + 'B'_c + 'A'_c;
+            Str cdefgh = empty + 'C'_c + 'D'_c + 'E'_c + 'F'_c + 'G'_c + 'H'_c;
+            unordered_map<Str, const char*> map;
+
+            map.insert(make_pair(empty, ""));
+            map.insert(make_pair(a, "a"));
+            map.insert(make_pair(b, "b"));
+            map.insert(make_pair(ab, "ab"));
+            map.insert(make_pair(ba, "ba"));
+            map.insert(make_pair(cdefgh, "cdefgh"));
+
+            Assert::AreEqual(size_t(6), map.size());
+            Assert::AreEqual("a", map[a]);
+            Assert::AreEqual("b", map[b]);
+            Assert::AreEqual("ab", map[ab]);
+            Assert::AreEqual("ba", map[ba]);
+            Assert::AreEqual("cdefgh", map[cdefgh]);
         }
 
     private:

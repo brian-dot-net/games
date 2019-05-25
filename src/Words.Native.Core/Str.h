@@ -44,3 +44,14 @@ namespace Words
         return c - 'A' + 1;
     }
 }
+
+namespace std
+{
+    template<> struct hash<Words::Str>
+    {
+        size_t operator()(const Words::Str& s) const noexcept
+        {
+            return s.hash_code();
+        }
+    };
+}
