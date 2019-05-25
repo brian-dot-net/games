@@ -1,14 +1,14 @@
 #include <iostream>
-#include "Sample.h"
+#include "Str.h"
 
 using namespace std;
 using namespace Words;
 
 int main()
 {
-    Sample sample(L"world");
+    Str s;
 
-    wcout << L"Hello, " << sample.get_Name() << L"!\r\n";
+    cout << s;
 
     return 0;
 }

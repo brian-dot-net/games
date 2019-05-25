@@ -80,7 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SampleTest.cpp" />
+    <ClCompile Include="StrTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Words.Native.Core\Words.Native.Core.vcxproj">
