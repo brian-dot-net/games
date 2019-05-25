@@ -97,5 +97,14 @@ namespace Words
             Assert::AreEqual(StrTrie::Terminal, trie.find("AB"));
             Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
         }
+
+        TEST_METHOD(AddEmptyNode)
+        {
+            StrTrie trie;
+
+            trie.insert("");
+
+            Assert::AreEqual(size_t(0), trie.size());
+        }
     };
 }
