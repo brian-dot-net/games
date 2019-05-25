@@ -25,7 +25,8 @@ Ch Str::operator[](uint8_t index) const
 
 Str Str::operator+(Ch c) const
 {
-    uint64_t ch = c << (4 + (5 * length()));
+    uint64_t ch = c;
+    ch <<= (4 + (5 * length()));
     return Str((ch | data_) + 1);
 }
 

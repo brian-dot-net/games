@@ -62,6 +62,21 @@ namespace Words
             FourCharsImpl('R'_c, 'S'_c, 'T'_c, 'U'_c, "RSTU");
         }
 
+        TEST_METHOD(EightCharsVWXYZABC)
+        {
+            EightCharsImpl('V'_c, 'W'_c, 'X'_c, 'Y'_c, 'Z'_c, 'A'_c, 'B'_c, 'C'_c, "VWXYZABC");
+        }
+
+        TEST_METHOD(EightCharsABCDEFGH)
+        {
+            EightCharsImpl('A'_c, 'B'_c, 'C'_c, 'D'_c, 'E'_c, 'F'_c, 'G'_c, 'H'_c, "ABCDEFGH");
+        }
+
+        TEST_METHOD(EightCharsIJKLMNOP)
+        {
+            EightCharsImpl('I'_c, 'J'_c, 'K'_c, 'L'_c, 'M'_c, 'N'_c, 'O'_c, 'P'_c, "IJKLMNOP");
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
@@ -92,6 +107,22 @@ namespace Words
 
             StrValue(s, str);
             CharValues(s, c0, c1, c2, c3);
+        }
+
+        void EightCharsImpl(Ch c0, Ch c1, Ch c2, Ch c3, Ch c4, Ch c5, Ch c6, Ch c7, const char* str)
+        {
+            Str s;
+            s = s + c0;
+            s = s + c1;
+            s = s + c2;
+            s = s + c3;
+            s = s + c4;
+            s = s + c5;
+            s = s + c6;
+            s = s + c7;
+
+            StrValue(s, str);
+            CharValues(s, c0, c1, c2, c3, c4, c5, c6, c7);
         }
 
         void StrValue(const Str& s, const char* str)
