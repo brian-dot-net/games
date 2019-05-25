@@ -97,6 +97,21 @@ namespace Words
             ReturnsNextVerticesImpl(11, "000111111111");
         }
 
+        TEST_METHOD(FailsNextVerticesOutOfRange12)
+        {
+            FailsNextVerticesOutOfRangeImpl(12);
+        }
+
+        TEST_METHOD(FailsNextVerticesOutOfRange100)
+        {
+            FailsNextVerticesOutOfRangeImpl(100);
+        }
+
+        TEST_METHOD(FailsNextVerticesOutOfRange255)
+        {
+            FailsNextVerticesOutOfRangeImpl(255);
+        }
+
     private:
         void FailsCharLookupOutOfRangeImpl(uint8_t index)
         {
@@ -124,6 +139,23 @@ namespace Words
             stringstream ss;
             ss << verts;
             Assert::AreEqual(expected, ss.str().c_str());
+        }
+
+        void FailsNextVerticesOutOfRangeImpl(uint8_t start)
+        {
+            LetterBoxStr box(Init());
+
+            bool didThrow = false;
+            try
+            {
+                box.next(start);
+            }
+            catch (range_error&)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
         }
 
         LetterBoxStr Init()

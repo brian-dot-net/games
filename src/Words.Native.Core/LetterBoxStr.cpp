@@ -1,5 +1,6 @@
 #include "LetterBoxStr.h"
 
+using namespace std;
 using namespace Words;
 
 LetterBoxStr::LetterBoxStr(const Str& box)
@@ -28,7 +29,11 @@ Vertices LetterBoxStr::next(uint8_t start) const
     case 7:
     case 8:
         return Vertices(0b111000111111);
-    default:
+    case 9:
+    case 10:
+    case 11:
         return Vertices(0b000111111111);
+    default:
+        throw range_error("Index out of range.");
     }
 }
