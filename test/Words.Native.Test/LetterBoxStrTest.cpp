@@ -37,6 +37,66 @@ namespace Words
             FailsCharLookupOutOfRangeImpl(255);
         }
 
+        TEST_METHOD(ReturnsNextVertices0)
+        {
+            ReturnsNextVerticesImpl(0, "111111111000");
+        }
+
+        TEST_METHOD(ReturnsNextVertices1)
+        {
+            ReturnsNextVerticesImpl(1, "111111111000");
+        }
+
+        TEST_METHOD(ReturnsNextVertices2)
+        {
+            ReturnsNextVerticesImpl(2, "111111111000");
+        }
+
+        TEST_METHOD(ReturnsNextVertices3)
+        {
+            ReturnsNextVerticesImpl(3, "111111000111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices4)
+        {
+            ReturnsNextVerticesImpl(4, "111111000111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices5)
+        {
+            ReturnsNextVerticesImpl(5, "111111000111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices6)
+        {
+            ReturnsNextVerticesImpl(6, "111000111111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices7)
+        {
+            ReturnsNextVerticesImpl(7, "111000111111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices8)
+        {
+            ReturnsNextVerticesImpl(8, "111000111111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices9)
+        {
+            ReturnsNextVerticesImpl(9, "000111111111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices10)
+        {
+            ReturnsNextVerticesImpl(10, "000111111111");
+        }
+
+        TEST_METHOD(ReturnsNextVertices11)
+        {
+            ReturnsNextVerticesImpl(11, "000111111111");
+        }
+
     private:
         void FailsCharLookupOutOfRangeImpl(uint8_t index)
         {
@@ -53,6 +113,17 @@ namespace Words
             }
 
             Assert::IsTrue(didThrow);
+        }
+
+        void ReturnsNextVerticesImpl(uint8_t start, const char* expected)
+        {
+            LetterBoxStr box(Init());
+
+            Vertices verts = box.next(start);
+
+            stringstream ss;
+            ss << verts;
+            Assert::AreEqual(expected, ss.str().c_str());
         }
 
         LetterBoxStr Init()
