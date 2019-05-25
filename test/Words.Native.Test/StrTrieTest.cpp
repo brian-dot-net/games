@@ -82,5 +82,20 @@ namespace Words
 
             Assert::AreEqual(StrTrie::None, trie.find("X"));
         }
+
+        TEST_METHOD(AddNodesMultipleTimes)
+        {
+            StrTrie trie;
+
+            trie.insert("AB");
+            trie.insert("AB");
+            trie.insert("ABC");
+            trie.insert("ABC");
+
+            Assert::AreEqual(size_t(2), trie.size());
+            Assert::AreEqual(StrTrie::Prefix, trie.find("A"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("AB"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
+        }
     };
 }
