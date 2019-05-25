@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="LetterBoxStrTest.cpp" />
     <ClCompile Include="StrTest.cpp" />
+    <ClCompile Include="StrTrieTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Words.Native.Core\Words.Native.Core.vcxproj">
