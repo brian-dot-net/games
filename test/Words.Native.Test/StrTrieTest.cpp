@@ -124,6 +124,17 @@ namespace Words
             Assert::AreEqual(StrTrie::Terminal, trie.find("ONE"));
         }
 
+        TEST_METHOD(LoadFromStreamThreeWords)
+        {
+            stringstream stream;
+            StrTrie trie(Load(stream, { "ONE", "TWO", "THREE" }));
+
+            Assert::AreEqual(size_t(3), trie.size());
+            Assert::AreEqual(StrTrie::Terminal, trie.find("ONE"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("TWO"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("THREE"));
+        }
+
     private:
 
         istream& Load(stringstream & stream, initializer_list<const char*> lines)
