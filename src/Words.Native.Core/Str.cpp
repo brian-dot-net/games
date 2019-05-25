@@ -25,6 +25,11 @@ Ch Str::operator[](uint8_t index) const
 
 Str Str::operator+(Ch c) const
 {
+    if (length() == 12)
+    {
+        throw range_error("String too long.");
+    }
+
     uint64_t ch = c;
     ch <<= (4 + (5 * length()));
     return Str((ch | data_) + 1);

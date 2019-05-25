@@ -92,6 +92,35 @@ namespace Words
             TwelveCharsImpl('O'_c, 'P'_c, 'Q'_c, 'R'_c, 'S'_c, 'T'_c, 'U'_c, 'V'_c, 'W'_c, 'X'_c, 'Y'_c, 'Z'_c, "OPQRSTUVWXYZ");
         }
 
+        TEST_METHOD(AppendTooMany)
+        {
+            Str s;
+            s = s + 'A'_c;
+            s = s + 'B'_c;
+            s = s + 'C'_c;
+            s = s + 'D'_c;
+            s = s + 'E'_c;
+            s = s + 'F'_c;
+            s = s + 'G'_c;
+            s = s + 'H'_c;
+            s = s + 'I'_c;
+            s = s + 'J'_c;
+            s = s + 'K'_c;
+            s = s + 'L'_c;
+
+            bool didThrow = false;
+            try
+            {
+                s + 'K'_c;
+            }
+            catch (range_error& e)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
