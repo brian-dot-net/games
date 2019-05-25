@@ -27,7 +27,34 @@ namespace Words
             Assert::AreEqual('L'_c, box[11]);
         }
 
+        TEST_METHOD(FailsCharLookupOutOfRange12)
+        {
+            FailsCharLookupOutOfRangeImpl(12);
+        }
+
+        TEST_METHOD(FailsCharLookupOutOfRange255)
+        {
+            FailsCharLookupOutOfRangeImpl(255);
+        }
+
     private:
+        void FailsCharLookupOutOfRangeImpl(uint8_t index)
+        {
+            LetterBoxStr box(Init());
+
+            bool didThrow = false;
+            try
+            {
+                box[index];
+            }
+            catch (range_error&)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
+        }
+
         LetterBoxStr Init()
         {
             return LetterBoxStr("ABCDEFGHIJKL");
