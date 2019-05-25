@@ -32,14 +32,39 @@ namespace Words
             OneCharImpl('C'_c, "C");
         }
 
+        TEST_METHOD(TwoCharsDE)
+        {
+            TwoCharsImpl('D'_c, 'E'_c, "DE");
+        }
+
+        TEST_METHOD(TwoCharsFG)
+        {
+            TwoCharsImpl('F'_c, 'G'_c, "FG");
+        }
+
+        TEST_METHOD(TwoCharsHI)
+        {
+            TwoCharsImpl('H'_c, 'I'_c, "HI");
+        }
+
     private:
-        void OneCharImpl(Ch c, const char* str)
+        void OneCharImpl(Ch c0, const char* str)
         {
             Str s;
-            s = s + c;
+            s = s + c0;
 
             StrValue(s, str);
-            CharValues(s, c);
+            CharValues(s, c0);
+        }
+
+        void TwoCharsImpl(Ch c0, Ch c1, const char* str)
+        {
+            Str s;
+            s = s + c0;
+            s = s + c1;
+
+            StrValue(s, str);
+            CharValues(s, c0, c1);
         }
 
         void StrValue(const Str& s, const char* str)
