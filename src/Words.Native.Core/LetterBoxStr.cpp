@@ -37,3 +37,9 @@ Vertices LetterBoxStr::next(uint8_t start) const
         throw range_error("Index out of range.");
     }
 }
+
+ostream& Words::operator<<(ostream& os, const LetterBoxStr& s)
+{
+    os << s.box_;
+    return os;
+}

@@ -112,6 +112,16 @@ namespace Words
             FailsNextVerticesOutOfRangeImpl(255);
         }
 
+        TEST_METHOD(StringValue)
+        {
+            LetterBoxStr box(Init());
+
+            stringstream ss;
+            ss << box;
+
+            Assert::AreEqual("ABCDEFGHIJKL", ss.str().c_str());
+        }
+
     private:
         void FailsCharLookupOutOfRangeImpl(uint8_t index)
         {
