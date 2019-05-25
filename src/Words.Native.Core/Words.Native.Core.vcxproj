@@ -72,9 +72,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LetterBoxStr.cpp" />
     <ClCompile Include="Str.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LetterBoxStr.h" />
     <ClInclude Include="Str.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
