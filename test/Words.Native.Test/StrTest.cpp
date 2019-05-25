@@ -153,6 +153,59 @@ namespace Words
             Assert::IsTrue(didThrow);
         }
 
+        TEST_METHOD(ChopChars)
+        {
+            Str s;
+            s = s + 'A'_c;
+            s = s + 'B'_c;
+            s = s + 'C'_c;
+            s = s + 'D'_c;
+            s = s + 'E'_c;
+            s = s + 'F'_c;
+            s = s + 'G'_c;
+            s = s + 'H'_c;
+            s = s + 'I'_c;
+            s = s + 'J'_c;
+            s = s + 'K'_c;
+            s = s + 'L'_c;
+
+            Str t = s.chop();
+            StrValue(t, "ABCDEFGHIJK");
+
+            t = t.chop();
+            StrValue(t, "ABCDEFGHIJ");
+
+            t = t.chop();
+            StrValue(t, "ABCDEFGHI");
+
+            t = t.chop();
+            StrValue(t, "ABCDEFGH");
+
+            t = t.chop();
+            StrValue(t, "ABCDEFG");
+
+            t = t.chop();
+            StrValue(t, "ABCDEF");
+
+            t = t.chop();
+            StrValue(t, "ABCDE");
+
+            t = t.chop();
+            StrValue(t, "ABCD");
+
+            t = t.chop();
+            StrValue(t, "ABC");
+
+            t = t.chop();
+            StrValue(t, "AB");
+
+            t = t.chop();
+            StrValue(t, "A");
+
+            t = t.chop();
+            StrValue(t, "");
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {

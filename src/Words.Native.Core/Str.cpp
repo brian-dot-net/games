@@ -48,7 +48,13 @@ Str& Str::operator=(const Str& rhs)
 
 Str Str::chop() const
 {
-    throw range_error("String empty.");
+    if (length() == 0)
+    {
+        throw range_error("String empty.");
+    }
+
+    uint64_t mask = ~(0x1FULL << (4 + ((length() - 1) * 5)));
+    return Str((data_ & mask) - 1);
 }
 
 ostream& Words::operator<<(ostream& os, const Str& s)
