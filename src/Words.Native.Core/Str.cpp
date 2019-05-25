@@ -3,8 +3,24 @@
 using namespace std;
 using namespace Words;
 
+Str Parse(const char* s)
+{
+    Str value;
+    for (const char* p = s; *p; ++p)
+    {
+        value = value + *p;
+    }
+
+    return value;
+}
+
 Str::Str()
     : data_(0)
+{
+}
+
+Str::Str(const char* s)
+    : Str(Parse(s))
 {
 }
 
@@ -26,6 +42,11 @@ Ch Str::operator[](uint8_t index) const
     }
 
     return (data_ >> (4 + (5 * index))) & 0x1F;
+}
+
+Str Str::operator+(char c) const
+{
+    return operator+(operator "" _c(c));
 }
 
 Str Str::operator+(Ch c) const

@@ -12,11 +12,15 @@ namespace Words
     public:
         Str();
 
+        Str(const char* s);
+
         uint8_t length() const;
 
         Ch operator[](uint8_t index) const;
 
         Str operator+(Ch c) const;
+
+        Str operator+(char c) const;
 
         Str& operator=(const Str& rhs);
 

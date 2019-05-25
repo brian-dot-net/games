@@ -3,6 +3,12 @@
 using namespace std;
 using namespace Words;
 
+void Print(const Str& s)
+{
+    size_t length = s.length();
+    cout << "(" << length << ") [" << s << "]\r\n";
+}
+
 int main()
 {
     Str s;
@@ -19,8 +25,10 @@ int main()
     s = s + 'K'_c;
     s = s + 'L'_c;
 
-    size_t length = s.length();
-    cout << "(" << length << ") [" << s << "]\r\n";
+    Print(s);
+
+    Str t = "ZYXWVUTSRQPO";
+    Print(t);
 
     return 0;
 }

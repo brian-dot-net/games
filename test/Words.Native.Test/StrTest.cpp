@@ -272,6 +272,71 @@ namespace Words
             Assert::AreEqual("cdefgh", map[cdefgh]);
         }
 
+        TEST_METHOD(ParseFromStringEmpty)
+        {
+            ParseFromStringImpl("");
+        }
+
+        TEST_METHOD(ParseFromStringA)
+        {
+            ParseFromStringImpl("A");
+        }
+
+        TEST_METHOD(ParseFromStringBC)
+        {
+            ParseFromStringImpl("BC");
+        }
+
+        TEST_METHOD(ParseFromStringDEF)
+        {
+            ParseFromStringImpl("DEF");
+        }
+
+        TEST_METHOD(ParseFromStringGHIJ)
+        {
+            ParseFromStringImpl("GHIJ");
+        }
+
+        TEST_METHOD(ParseFromStringKLMNO)
+        {
+            ParseFromStringImpl("KLMNO");
+        }
+
+        TEST_METHOD(ParseFromStringPQRSTU)
+        {
+            ParseFromStringImpl("PQRSTU");
+        }
+
+        TEST_METHOD(ParseFromStringVWXYZAB)
+        {
+            ParseFromStringImpl("VWXYZAB");
+        }
+
+        TEST_METHOD(ParseFromStringCDEFGHIJ)
+        {
+            ParseFromStringImpl("CDEFGHIJ");
+        }
+
+        TEST_METHOD(ParseFromStringKLMNOPQRS)
+        {
+            ParseFromStringImpl("KLMNOPQRS");
+        }
+
+        TEST_METHOD(ParseFromStringTUVWXYZABC)
+        {
+            ParseFromStringImpl("TUVWXYZABC");
+        }
+
+        TEST_METHOD(ParseFromStringDEFGHIJKLMN)
+        {
+            ParseFromStringImpl("DEFGHIJKLMN");
+        }
+
+        TEST_METHOD(ParseFromStringOPQRSTUVWXYZ)
+        {
+            ParseFromStringImpl("OPQRSTUVWXYZ");
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
@@ -369,7 +434,7 @@ namespace Words
             Assert::IsTrue(didThrow);
         }
 
-        void StrValue(const Str& s, const char* str)
+        void StrValue(const Str & s, const char* str)
         {
             stringstream ss;
             ss << s;
@@ -406,10 +471,17 @@ namespace Words
             Assert::AreEqual(c11, s[11]);
         }
 
-        void TestEquals(const Str& x, const Str& y, bool expected)
+        void TestEquals(const Str & x, const Str & y, bool expected)
         {
             Assert::AreEqual(expected, x == y);
             Assert::AreEqual(expected, y == x);
+        }
+
+        void ParseFromStringImpl(const char* expected)
+        {
+            Str s = expected;
+
+            StrValue(s, expected);
         }
     };
 }
