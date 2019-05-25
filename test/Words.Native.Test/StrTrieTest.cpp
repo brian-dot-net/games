@@ -4,6 +4,27 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
 
+using namespace Words;
+
+namespace Microsoft
+{
+    namespace VisualStudio
+    {
+        namespace CppUnitTestFramework
+        {
+            template<> static std::wstring ToString<StrTrie::NodeKind>(const StrTrie::NodeKind& t)
+            {
+                switch (t)
+                {
+                case StrTrie::Prefix: return L"Prefix";
+                case StrTrie::Terminal: return L"Terminal";
+                default: return L"None";
+                }
+            }
+        }
+    }
+}
+
 namespace Words
 {
     TEST_CLASS(StrTrieTest)
@@ -23,6 +44,19 @@ namespace Words
             trie.insert("X");
 
             Assert::AreEqual(size_t(1), trie.size());
+        }
+
+        TEST_METHOD(TwoItemsLength2SharedPrefix)
+        {
+            StrTrie trie;
+
+            trie.insert("HI");
+            trie.insert("HA");
+
+            Assert::AreEqual(size_t(2), trie.size());
+            Assert::AreEqual(StrTrie::Prefix, trie.find("H"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("HA"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("HI"));
         }
     };
 }
