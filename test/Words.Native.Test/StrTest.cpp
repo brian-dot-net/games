@@ -121,6 +121,21 @@ namespace Words
             Assert::IsTrue(didThrow);
         }
 
+        TEST_METHOD(IndexTooBig12)
+        {
+            IndexTooBigImpl(12);
+        }
+
+        TEST_METHOD(IndexTooBig100)
+        {
+            IndexTooBigImpl(100);
+        }
+
+        TEST_METHOD(IndexTooBig255)
+        {
+            IndexTooBigImpl(255);
+        }
+
     private:
         void OneCharImpl(Ch c0, const char* str)
         {
@@ -187,6 +202,35 @@ namespace Words
 
             StrValue(s, str);
             CharValues(s, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11);
+        }
+
+        void IndexTooBigImpl(uint8_t index)
+        {
+            Str s;
+            s = s + 'A'_c;
+            s = s + 'B'_c;
+            s = s + 'C'_c;
+            s = s + 'D'_c;
+            s = s + 'E'_c;
+            s = s + 'F'_c;
+            s = s + 'G'_c;
+            s = s + 'H'_c;
+            s = s + 'I'_c;
+            s = s + 'J'_c;
+            s = s + 'K'_c;
+            s = s + 'L'_c;
+
+            bool didThrow = false;
+            try
+            {
+                s[index];
+            }
+            catch (range_error& e)
+            {
+                didThrow = true;
+            }
+
+            Assert::IsTrue(didThrow);
         }
 
         void StrValue(const Str& s, const char* str)

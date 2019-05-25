@@ -20,6 +20,11 @@ uint8_t Str::length() const
 
 Ch Str::operator[](uint8_t index) const
 {
+    if (index > 11)
+    {
+        throw range_error("Index out of range.");
+    }
+
     return (data_ >> (4 + (5 * index))) & 0x1F;
 }
 
