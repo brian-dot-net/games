@@ -27,7 +27,8 @@ namespace Words
         NodeKind find(const Str& value) const;
 
     private:
-        std::unordered_map<Str, bool> nodes_;
+        typedef std::unordered_map<Str, bool> Map;
+        Map nodes_;
         size_t size_;
 
         StrTrie(const StrTrie&) = delete;

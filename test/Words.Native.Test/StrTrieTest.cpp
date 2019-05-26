@@ -98,6 +98,21 @@ namespace Words
             Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
         }
 
+        TEST_METHOD(AddNodesMultipleTimesLongerFirst)
+        {
+            StrTrie trie;
+
+            trie.insert("ABC");
+            trie.insert("ABC");
+            trie.insert("AB");
+            trie.insert("AB");
+
+            Assert::AreEqual(size_t(2), trie.size());
+            Assert::AreEqual(StrTrie::Prefix, trie.find("A"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("AB"));
+            Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
+        }
+
         TEST_METHOD(AddEmptyNode)
         {
             StrTrie trie;

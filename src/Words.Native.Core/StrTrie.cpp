@@ -65,13 +65,19 @@ void StrTrie::insert(const Str& value)
         return;
     }
 
-    if (nodes_.find(value) != nodes_.cend())
+    Map::iterator it = nodes_.find(value);
+    if (it != nodes_.end())
     {
-        return;
+        if (it->second)
+        {
+            return;
+        }
+
+        it = nodes_.erase(it);
     }
 
     ++size_;
-    nodes_.insert(make_pair(value, true));
+    nodes_.insert(it, make_pair(value, true));
 
     Str v = value;
     while (v.length() > 1)
