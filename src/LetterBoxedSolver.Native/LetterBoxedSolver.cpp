@@ -1,34 +1,44 @@
-#include "Str.h"
+#include "StrTrie.h"
+#include "LetterBoxStr.h"
+#include "Stopwatch.h"
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 using namespace Words;
 
-void Print(const Str& s)
+void Log(const char* line)
 {
-    size_t length = s.length();
-    cout << "(" << length << ") [" << s << "]\r\n";
+    static Stopwatch watch;
+
+    cout << "[" << watch.elapsed() << "] " << line << "\r\n";
 }
 
-int main()
+int main(int argc, const char** argv)
 {
-    Str s;
-    s = s + 'A'_c;
-    s = s + 'B'_c;
-    s = s + 'C'_c;
-    s = s + 'D'_c;
-    s = s + 'E'_c;
-    s = s + 'F'_c;
-    s = s + 'G'_c;
-    s = s + 'H'_c;
-    s = s + 'I'_c;
-    s = s + 'J'_c;
-    s = s + 'K'_c;
-    s = s + 'L'_c;
+    if (argc != 3)
+    {
+        cout << "Please specify a Letter Boxed puzzle and a word list file.\r\n";
+        return 1;
+    }
 
-    Print(s);
+    cout << setiosflags(ios::fixed) << setprecision(3);
+    LetterBoxStr box(argv[1]);
 
-    Str t = "ZYXWVUTSRQPO";
-    Print(t);
+    Log("Loading trie...");
+    ifstream file(argv[2]);
+    if (file.fail())
+    {
+        cout << "Could not open file '" << argv[2] << "'.\r\n";
+        return 1;
+    }
+
+    StrTrie trie(file);
+
+    stringstream ss;
+    ss << "Loaded " << trie.size() << " words.";
+    Log(ss.str().c_str());
 
     return 0;
 }
