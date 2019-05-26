@@ -92,6 +92,19 @@ namespace Words.Test
         }
 
         [Fact]
+        public void AddNodesMultipleTimesLongerFirst()
+        {
+            StringTrie trie = new StringTrie();
+
+            trie.Add("ABC");
+            trie.Add("ABC");
+            trie.Add("AB");
+            trie.Add("AB");
+
+            trie.Count.Should().Be(2);
+        }
+
+        [Fact]
         public void AddEmptyNode()
         {
             StringTrie trie = new StringTrie();

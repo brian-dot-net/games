@@ -83,7 +83,7 @@ namespace Words
                 return;
             }
 
-            if (this.nodes.ContainsKey(value))
+            if (this.nodes.TryGetValue(value, out bool isTerminal) && isTerminal)
             {
                 return;
             }

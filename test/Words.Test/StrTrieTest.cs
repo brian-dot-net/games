@@ -87,6 +87,22 @@ namespace Words.Test
         }
 
         [Fact]
+        public void AddNodesMultipleTimesLongerFirst()
+        {
+            StrTrie trie = new StrTrie();
+
+            trie.Add(Str.Parse("ABC"));
+            trie.Add(Str.Parse("ABC"));
+            trie.Add(Str.Parse("AB"));
+            trie.Add(Str.Parse("AB"));
+
+            trie.Count.Should().Be(2);
+            trie.Find(Str.Parse("A")).Should().Be(StrTrie.NodeKind.Prefix);
+            trie.Find(Str.Parse("AB")).Should().Be(StrTrie.NodeKind.Terminal);
+            trie.Find(Str.Parse("ABC")).Should().Be(StrTrie.NodeKind.Terminal);
+        }
+
+        [Fact]
         public void AddEmptyNode()
         {
             StrTrie trie = new StrTrie();
