@@ -88,13 +88,20 @@ size_t Str::hash_code() const
     return data_;
 }
 
-ostream& Words::operator<<(ostream& os, const Str& s)
+string Str::str() const
 {
-    for (uint8_t i = 0; i < s.length(); ++i)
+    char chars[13];
+    memset(chars, 0, sizeof(chars));
+    for (uint8_t i = 0; i < length(); ++i)
     {
-        char c = 'A' - 1 + s[i];
-        os << c;
+        chars[i] = 'A' - 1 + operator[](i);
     }
 
+    return string(chars);
+}
+
+ostream& Words::operator<<(ostream& os, const Str& s)
+{
+    os << s.str();
     return os;
 }

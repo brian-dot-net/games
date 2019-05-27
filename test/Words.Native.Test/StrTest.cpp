@@ -438,6 +438,7 @@ namespace Words
         {
             stringstream ss;
             ss << s;
+            Assert::AreEqual(str, s.str().c_str());
             Assert::AreEqual(str, ss.str().c_str());
             Assert::AreEqual(uint8_t(strnlen_s(str, 12)), s.length());
         }

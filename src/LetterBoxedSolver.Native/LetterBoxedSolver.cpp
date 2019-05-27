@@ -1,57 +1,57 @@
 #include "LetterBoxStrSearch.h"
 #include "LetterBoxStrWords.h"
 #include "Stopwatch.h"
-#include <iomanip>
 #include <fstream>
-#include <sstream>
+#include <cstdarg>
 
 using namespace std;
 using namespace Words;
 
-void Log(const char* line)
+void Log(const char* format, ...)
 {
     static Stopwatch watch;
 
-    cout << "[" << watch.elapsed() << "] " << line << "\r\n";
+    printf("[%07.3f] ", watch.elapsed());
+
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+
+    printf("\r\n");
 }
 
 int main(int argc, const char** argv)
 {
     if (argc != 3)
     {
-        cout << "Please specify a Letter Boxed puzzle and a word list file.\r\n";
+        printf("Please specify a Letter Boxed puzzle and a word list file.\r\n");
         return 1;
     }
 
-    cout << setiosflags(ios::fixed) << setprecision(3);
     LetterBoxStr box(argv[1]);
 
     Log("Loading trie...");
     ifstream file(argv[2]);
     if (file.fail())
     {
-        cout << "Could not open file '" << argv[2] << "'.\r\n";
+        printf("Could not open file '%s'.\r\n", argv[2]);
         return 1;
     }
 
     StrTrie trie(file);
 
-    stringstream ss;
-    ss << "Loaded " << trie.size() << " words.";
-    Log(ss.str().c_str());
+    Log("Loaded %d words.", trie.size());
 
     LetterBoxStrSearch search(trie, box);
     LetterBoxStrWords words;
 
     Log("Finding valid words...");
     search.run([&words](Str w, Vertices v) { words.insert(w, v); });
-    ss = stringstream();
-    ss << "Found " << words.size() << " valid words.";
-    Log(ss.str().c_str());
-    ss.clear();
+    Log("Found %d valid words.", words.size());
 
     Log("Finding solutions...");
-    words.find([](Str w1, Str w2) { cout << w1 << "-" << w2 << "\r\n"; });
+    words.find([](Str w1, Str w2) { printf("%s-%s\r\n", w1.str().c_str(), w2.str().c_str()); });
 
     Log("Done.");
 

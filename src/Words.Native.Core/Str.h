@@ -30,6 +30,8 @@ namespace Words
 
         size_t hash_code() const;
 
+        std::string str() const;
+
     private:
         uint64_t data_;
 
