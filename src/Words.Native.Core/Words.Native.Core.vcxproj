@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="LetterBoxStr.cpp" />
     <ClCompile Include="LetterBoxStrSearch.cpp" />
+    <ClCompile Include="LetterBoxStrWords.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Str.cpp" />
     <ClCompile Include="StrTrie.cpp" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="LetterBoxStr.h" />
     <ClInclude Include="LetterBoxStrSearch.h" />
+    <ClInclude Include="LetterBoxStrWords.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Str.h" />
     <ClInclude Include="StrTrie.h" />
