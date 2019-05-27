@@ -78,6 +78,29 @@ namespace Words
             FindWords(search, { "ALA:100000000001" });
         }
 
+        TEST_METHOD(SearchDoesNotAttemptToBuildTooLongWords)
+        {
+            StrTrie trie;
+            trie.insert("LA");
+            trie.insert("LALA");
+            trie.insert("LALALA");
+            trie.insert("LALALALA");
+            trie.insert("LALALALALA");
+            trie.insert("LALALALALALA");
+            LetterBoxStrSearch search(Init(trie));
+
+            FindWords(
+                search,
+                {
+                    "LA:100000000001",
+                    "LALA:100000000001",
+                    "LALALA:100000000001",
+                    "LALALALA:100000000001",
+                    "LALALALALA:100000000001",
+                    "LALALALALALA:100000000001"
+                });
+        }
+
     private:
         LetterBoxStrSearch Init(const StrTrie& trie)
         {
