@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LetterBoxStrSearchTest.cpp" />
     <ClCompile Include="LetterBoxStrTest.cpp" />
     <ClCompile Include="StopwatchTest.cpp" />
     <ClCompile Include="StrTest.cpp" />
