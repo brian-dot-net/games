@@ -36,6 +36,15 @@ namespace Words
             FindSolutions(words, {});
         }
 
+        TEST_METHOD(TwoWordsValidSolutionFindsOne)
+        {
+            LetterBoxStrWords words;
+            words.insert("ADBECF", Vertices(0b000000111111));
+            words.insert("FGJHKIL", Vertices(0b111111100000));
+
+            FindSolutions(words, { "ADBECF-FGJHKIL" });
+        }
+
     private:
         void FindSolutions(const LetterBoxStrWords& words, initializer_list<string> expected)
         {
