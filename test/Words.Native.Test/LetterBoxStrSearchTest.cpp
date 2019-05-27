@@ -20,6 +20,15 @@ namespace Words
             FindWords(search, {});
         }
 
+        TEST_METHOD(OneValueTrieFindsOneWord)
+        {
+            StrTrie trie;
+            trie.insert("ALE");
+            LetterBoxStrSearch search(Init(trie));
+
+            FindWords(search, { "ALE:100000010001" });
+        }
+
     private:
         LetterBoxStrSearch Init(const StrTrie& trie)
         {
