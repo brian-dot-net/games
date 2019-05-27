@@ -64,6 +64,20 @@ namespace Words
                 });
         }
 
+        TEST_METHOD(SearchDoesNotReturnInvalidMoves)
+        {
+            StrTrie trie;
+            trie.insert("ABC");
+            trie.insert("DEF");
+            trie.insert("GHI");
+            trie.insert("JKL");
+            trie.insert("MOW");
+            trie.insert("ALA");
+            LetterBoxStrSearch search(Init(trie));
+
+            FindWords(search, { "ALA:100000000001" });
+        }
+
     private:
         LetterBoxStrSearch Init(const StrTrie& trie)
         {
