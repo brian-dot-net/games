@@ -58,6 +58,29 @@ namespace Words
             FindSolutions(words, { "ADB-BECFHJGKIL", "ADBECF-FAHKILJG", "ADBECF-FGJHKIL" });
         }
 
+        TEST_METHOD(CountsWords)
+        {
+            LetterBoxStrWords words;
+
+            Assert::AreEqual(size_t(0), words.size());
+
+            words.insert("AB",  Vertices());
+
+            Assert::AreEqual(size_t(1), words.size());
+
+            words.insert("AB",  Vertices());
+
+            Assert::AreEqual(size_t(1), words.size());
+
+            words.insert("ABC",  Vertices());
+
+            Assert::AreEqual(size_t(2), words.size());
+
+            words.insert("ABCD",  Vertices());
+
+            Assert::AreEqual(size_t(3), words.size());
+        }
+
     private:
         void FindSolutions(const LetterBoxStrWords& words, initializer_list<string> expected)
         {

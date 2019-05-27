@@ -8,6 +8,12 @@ LetterBoxStrWords::LetterBoxStrWords()
 {
 }
 
+size_t LetterBoxStrWords::size() const
+{
+    return size_;
+}
+
+
 void LetterBoxStrWords::insert(Str word, Vertices verts)
 {
     Ch key = word[0];
@@ -15,11 +21,17 @@ void LetterBoxStrWords::insert(Str word, Vertices verts)
     Map::iterator it = map_.find(key);
     if (it != map_.end())
     {
-        it->second->insert(w);
+        auto pair = it->second->insert(w);
+        if (pair.second)
+        {
+            ++size_;
+        }
+
         return;
     }
 
     unique_ptr<Set> words = make_unique<Set>();
     words->insert(w);
     map_.insert(make_pair(key, move(words)));
+    ++size_;
 }

@@ -35,6 +35,8 @@ namespace Words
 
         LetterBoxStrWords();
 
+        size_t size() const;
+
         void insert(Str word, Vertices verts);
 
         template <typename TFound>
@@ -65,6 +67,7 @@ namespace Words
         typedef std::unordered_map<Ch, PSet> Map;
 
         Map map_;
+        size_t size_;
     };
 }
 
