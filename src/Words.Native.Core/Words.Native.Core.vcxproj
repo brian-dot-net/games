@@ -86,6 +86,7 @@
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Str.h" />
     <ClInclude Include="StrTrie.h" />
+    <ClInclude Include="Vertices.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

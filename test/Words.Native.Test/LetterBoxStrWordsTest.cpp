@@ -19,6 +19,14 @@ namespace Words
             FindSolutions(words, {});
         }
 
+        TEST_METHOD(OneWordFindsNothing)
+        {
+            LetterBoxStrWords words;
+            words.insert("ALE", Vertices(0b100000010001));
+
+            FindSolutions(words, {});
+        }
+
     private:
         void FindSolutions(const LetterBoxStrWords& words, initializer_list<string> expected)
         {

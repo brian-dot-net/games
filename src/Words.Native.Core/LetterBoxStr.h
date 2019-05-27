@@ -1,12 +1,10 @@
 #pragma once
 
 #include "Str.h"
-#include <bitset>
+#include "Vertices.h"
 
 namespace Words
 {
-    typedef std::bitset<12> Vertices;
-
     class LetterBoxStr
     {
     public:

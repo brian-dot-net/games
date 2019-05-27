@@ -112,7 +112,7 @@ namespace Words
             vector<string> found;
             vector<string> expectedFound(expected);
 
-            search.run([&found](Str w, bitset<12> v)
+            search.run([&found](Str w, Vertices v)
                 {
                     stringstream ss;
                     ss << w << ":" << v;
