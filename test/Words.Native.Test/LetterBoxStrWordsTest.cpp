@@ -45,6 +45,19 @@ namespace Words
             FindSolutions(words, { "ADBECF-FGJHKIL" });
         }
 
+        TEST_METHOD(ManyWordsFindsAllSolutions)
+        {
+            LetterBoxStrWords words;
+            words.insert("ADB", Vertices(0b000000001011));
+            words.insert("ADBECF", Vertices(0b000000111111));
+            words.insert("BECFHJGKIL", Vertices(0b111111111110));
+            words.insert("FGJHKIL", Vertices(0b111111100000));
+            words.insert("FAHKILJG", Vertices(0b111111100001));
+            words.insert("FAHKILJ", Vertices(0b111110100001));
+
+            FindSolutions(words, { "ADB-BECFHJGKIL", "ADBECF-FAHKILJG", "ADBECF-FGJHKIL" });
+        }
+
     private:
         void FindSolutions(const LetterBoxStrWords& words, initializer_list<string> expected)
         {
