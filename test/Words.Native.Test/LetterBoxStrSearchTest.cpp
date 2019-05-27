@@ -29,6 +29,41 @@ namespace Words
             FindWords(search, { "ALE:100000010001" });
         }
 
+        TEST_METHOD(TwelveValueTrieFindsAllWords)
+        {
+            StrTrie trie;
+            trie.insert("ALE");
+            trie.insert("BEG");
+            trie.insert("CEL");
+            trie.insert("DAH");
+            trie.insert("ELF");
+            trie.insert("FIB");
+            trie.insert("GAL");
+            trie.insert("HAD");
+            trie.insert("ICE");
+            trie.insert("JIB");
+            trie.insert("KAE");
+            trie.insert("LIE");
+            LetterBoxStrSearch search(Init(trie));
+
+            FindWords(
+                search,
+                {
+                    "ALE:100000010001",
+                    "BEG:000001010010",
+                    "CEL:100000010100",
+                    "DAH:000010001001",
+                    "ELF:100000110000",
+                    "FIB:000100100010",
+                    "GAL:100001000001",
+                    "HAD:000010001001",
+                    "ICE:000100010100",
+                    "JIB:001100000010",
+                    "KAE:010000010001",
+                    "LIE:100100010000"
+                });
+        }
+
     private:
         LetterBoxStrSearch Init(const StrTrie& trie)
         {

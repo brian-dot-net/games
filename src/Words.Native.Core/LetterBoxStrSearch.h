@@ -13,11 +13,13 @@ namespace Words
         template <typename TFound>
         void run(TFound found) const
         {
-            uint8_t v1 = 0;
-            Ch c = box_[v1];
-            Vertices verts(static_cast<uint16_t>(1 << v1));
-            Str str;
-            next(str + c, v1, verts, found);
+            for (uint8_t v1 = 0; v1 < 12; ++v1)
+            {
+                Ch c = box_[v1];
+                Vertices verts(static_cast<uint16_t>(1 << v1));
+                Str str;
+                next(str + c, v1, verts, found);
+            }
         }
 
     private:
