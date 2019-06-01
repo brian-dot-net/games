@@ -80,6 +80,7 @@
     <ClCompile Include="StrTrie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hashtable.h" />
     <ClInclude Include="LetterBoxStr.h" />
     <ClInclude Include="LetterBoxStrSearch.h" />
     <ClInclude Include="LetterBoxStrWords.h" />
