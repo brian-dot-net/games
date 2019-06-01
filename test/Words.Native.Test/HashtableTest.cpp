@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 #include "Hashtable.h"
 #include <string>
+#include <sstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -56,6 +57,52 @@ namespace Words
             Assert::IsFalse(second);
             Assert::IsTrue(found);
             Assert::AreEqual(100, v);
+        }
+
+        TEST_METHOD(InsertManyEntriesResize)
+        {
+            const int Size = 1000;
+            Hashtable<string, int> table;
+
+            for (int i = 1; i <= Size; ++i)
+            {
+                stringstream s;
+                s << "k" << i;
+                string key(s.str());
+                bool inserted = table.insert(key, i);
+                Assert::IsTrue(inserted);
+            }
+
+            for (int i = 1; i <= Size; ++i)
+            {
+                stringstream s;
+                s << "k" << i;
+                string key(s.str());
+                int v = 0;
+                bool found = table.get(key, v);
+                Assert::IsTrue(found);
+                Assert::AreEqual(i, v);
+            }
+
+            for (int i = 1; i <= Size; ++i)
+            {
+                stringstream s;
+                s << "k" << i;
+                string key(s.str());
+                bool inserted = table.insert(key, i * 2);
+                Assert::IsFalse(inserted);
+            }
+
+            for (int i = 1; i <= Size; ++i)
+            {
+                stringstream s;
+                s << "k" << i;
+                string key(s.str());
+                int v = 0;
+                bool found = table.get(key, v);
+                Assert::IsTrue(found);
+                Assert::AreEqual(i * 2, v);
+            }
         }
     };
 }
