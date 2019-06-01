@@ -44,10 +44,15 @@ namespace Words
 
         bool get(const TKey& key, TValue& value) const
         {
-            const Entry& e = find(key);
-            if (e.occupied_)
+            const Entry* e = find(key);
+            if (!e)
             {
-                value = e.value_;
+                return false;
+            }
+
+            if (e->occupied_)
+            {
+                value = e->value_;
                 return true;
             }
 
@@ -82,16 +87,15 @@ namespace Words
             return hashcode % buckets_.size();
         }
 
-        const Entry& find(const TKey& key) const
+        const Entry* find(const TKey& key) const
         {
             size_t index = idx(key);
-            const Entry* e = nullptr;
-            while (true)
+            for (int i = 0; i < size_; ++i)
             {
-                e = &buckets_[index];
-                if (!e->occupied_ || eq_(e->key_, key))
+                const Entry& e = buckets_[index];
+                if (!e.occupied_ || eq_(e.key_, key))
                 {
-                    return *e;
+                    return &e;
                 }
 
                 ++index;
@@ -100,18 +104,19 @@ namespace Words
                     index = 0;
                 }
             }
+
+            return nullptr;
         }
 
         Entry& find(const TKey& key)
         {
             size_t index = idx(key);
-            Entry* e = nullptr;
             while (true)
             {
-                e = &buckets_[index];
-                if (!e->occupied_ || eq_(e->key_, key))
+                Entry& e = buckets_[index];
+                if (!e.occupied_ || eq_(e.key_, key))
                 {
-                    return *e;
+                    return e;
                 }
 
                 if (size_ == buckets_.size())

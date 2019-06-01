@@ -6,6 +6,27 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
 
+struct MyKey
+{
+    int value_;
+
+    bool operator==(const MyKey& other) const
+    {
+        return value_ == other.value_;
+    }
+};
+
+namespace std
+{
+    template<> struct hash<MyKey>
+    {
+        size_t operator()(const MyKey& k) const noexcept
+        {
+            return k.value_;
+        }
+    };
+}
+
 namespace Words
 {
     TEST_CLASS(HashtableTest)
@@ -102,6 +123,21 @@ namespace Words
                 bool found = table.get(key, v);
                 Assert::IsTrue(found);
                 Assert::AreEqual(i * 2, v);
+            }
+        }
+
+        TEST_METHOD(IncreasingTableSizeKeyNotFound)
+        {
+            Hashtable<MyKey, int> table;
+
+            for (int i = 0; i < 1000; ++i)
+            {
+                bool inserted = table.insert({ i }, i + 1);
+                Assert::IsTrue(inserted);
+
+                int v;
+                bool found = table.get({ i + 1 }, v);
+                Assert::IsFalse(found);
             }
         }
     };
