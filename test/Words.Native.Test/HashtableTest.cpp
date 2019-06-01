@@ -80,7 +80,7 @@ namespace Words
             Assert::AreEqual(100, v);
         }
 
-        TEST_METHOD(InsertManyEntriesResize)
+        TEST_METHOD(InsertAndReplaceManyEntriesResize)
         {
             const int Size = 1000;
             Hashtable<string, int> table;
@@ -110,8 +110,10 @@ namespace Words
                 stringstream s;
                 s << "k" << i;
                 string key(s.str());
-                bool inserted = table.insert(key, i * 2);
+                int prev = 0;
+                bool inserted = table.insert(key, i * 2, &prev);
                 Assert::IsFalse(inserted);
+                Assert::AreEqual(i, prev);
             }
 
             for (int i = 1; i <= Size; ++i)

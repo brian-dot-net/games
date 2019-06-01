@@ -59,7 +59,7 @@ namespace Words
             return false;
         }
 
-        bool insert(const TKey& key, const TValue& value)
+        bool insert(const TKey& key, const TValue& value, TValue* previous = nullptr)
         {
             bool inserted = false;
             Entry& e = find(key);
@@ -69,6 +69,11 @@ namespace Words
                 e.key_ = key;
                 inserted = true;
                 ++size_;
+            }
+
+            if (previous)
+            {
+                *previous = e.value_;
             }
 
             e.value_ = value;
