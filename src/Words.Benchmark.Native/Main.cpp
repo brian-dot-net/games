@@ -1,6 +1,7 @@
 #include "Stopwatch.h"
 #include "Hashtable.h"
 #include <string>
+#include <sstream>
 
 using namespace std;
 using namespace Words;
@@ -58,9 +59,9 @@ void MakeKey(char* k, int v)
     }
 }
 
-void Insert(int n)
+void Insert(int n, float loadFactor)
 {
-    Hashtable<string, int> table;
+    Hashtable<string, int> table(loadFactor);
     char raw[5];
     raw[4] = '\0';
     for (int i = 1; i <= n; ++i)
@@ -73,10 +74,16 @@ void Insert(int n)
 
 int main()
 {
-    Measure("Insert_10", []() { Insert(10); });
-    Measure("Insert_100", []() { Insert(100); });
-    Measure("Insert_1000", []() { Insert(1000); });
-    Measure("Insert_10000", []() { Insert(10000); });
-    Measure("Insert_100000", []() { Insert(100000); });
+    for (int i = 1; i <= 4; ++i)
+    {
+        float f = i / 4.0f;
+        for (int n = 10; n <= 100000; n *= 10)
+        {
+            stringstream s;
+            s << "Insert_" << n << "_" << f;
+            Measure(s.str().c_str(), [n, f]() { Insert(n, f); });
+        }
+    }
+
     return 0;
 }

@@ -131,7 +131,18 @@ namespace Words
         TEST_METHOD(IncreasingTableSizeKeyNotFound)
         {
             Hashtable<MyKey, int> table;
+            TestIncreasingTableSizeKeyNotFound(table);
+        }
 
+        TEST_METHOD(IncreasingTableSizeKeyNotFoundLowerLoadFactor)
+        {
+            Hashtable<MyKey, int> table(0.25f);
+            TestIncreasingTableSizeKeyNotFound(table);
+        }
+
+    private:
+        void TestIncreasingTableSizeKeyNotFound(Hashtable<MyKey, int>& table)
+        {
             for (int i = 0; i < 1000; ++i)
             {
                 bool inserted = table.insert({ i }, i + 1);

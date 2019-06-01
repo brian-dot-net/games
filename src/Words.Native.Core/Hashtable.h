@@ -2,15 +2,29 @@
 
 #include <algorithm>
 #include <vector>
+#include <stdexcept>
 
 namespace
 {
-    static const int Sizes[] =
+    static int nextSize(int current, float loadFactor)
     {
-        5, 11, 23, 53, 113, 251, 509, 1019, 2039, 4079, 8179, 16369, 32749, 65521, 131063, 262133, 524269,
+        static const int sizes[] =
+        {
+            3, 5, 11, 23, 53, 113, 251, 509, 1019, 2039, 4079, 8179, 16369, 32749, 65521, 131063, 262133,524269,
             1048571, 2097143, 4194287, 8388587, 16777183, 33554393, 67108837, 134217689, 268435399, 536870879,
             1073741789, 2147483647
-    };
+        };
+
+        for (int next : sizes)
+        {
+            if (static_cast<int>(loadFactor * next) > current)
+            {
+                return next;
+            }
+        }
+
+        throw std::bad_alloc();
+    }
 }
 
 namespace Words
@@ -34,10 +48,11 @@ namespace Words
         };
 
     public:
-        Hashtable()
+        Hashtable(float loadFactor = 1.0f)
             : eq_(),
             hash_(),
-            buckets_(3),
+            buckets_(nextSize(0, loadFactor)),
+            loadFactor_(loadFactor),
             size_(0)
         {
         }
@@ -84,6 +99,7 @@ namespace Words
         TEq eq_;
         THash hash_;
         std::vector<Entry> buckets_;
+        float loadFactor_;
         int size_;
 
         size_t idx(const TKey& key) const
@@ -124,7 +140,8 @@ namespace Words
                     return e;
                 }
 
-                if (size_ == buckets_.size())
+                int maxSize = static_cast<int>(loadFactor_ * buckets_.size());
+                if (size_ >= maxSize)
                 {
                     resize();
                     index = idx(key);
@@ -142,12 +159,7 @@ namespace Words
 
         void resize()
         {
-            int i = -1;
-            while (Sizes[++i] <= buckets_.size())
-            {
-            }
-
-            std::vector<Entry> original(Sizes[i]);
+            std::vector<Entry> original(nextSize(static_cast<int>(buckets_.size()), loadFactor_));
             std::swap(buckets_, original);
             size_ = 0;
             for (const Entry& e : original)
