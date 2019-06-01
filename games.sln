@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Words.Native.Test", "test\W
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LetterBoxedSolver.Native", "src\LetterBoxedSolver.Native\LetterBoxedSolver.Native.vcxproj", "{0052CA0F-27CC-42A1-AC2B-440B6084EED6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Words.Benchmark.Native", "src\Words.Benchmark.Native\Words.Benchmark.Native.vcxproj", "{19857859-7A52-4904-9758-9A52C0E02477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -67,6 +69,10 @@ Global
 		{0052CA0F-27CC-42A1-AC2B-440B6084EED6}.Debug|x64.Build.0 = Debug|x64
 		{0052CA0F-27CC-42A1-AC2B-440B6084EED6}.Release|x64.ActiveCfg = Release|x64
 		{0052CA0F-27CC-42A1-AC2B-440B6084EED6}.Release|x64.Build.0 = Release|x64
+		{19857859-7A52-4904-9758-9A52C0E02477}.Debug|x64.ActiveCfg = Debug|x64
+		{19857859-7A52-4904-9758-9A52C0E02477}.Debug|x64.Build.0 = Debug|x64
+		{19857859-7A52-4904-9758-9A52C0E02477}.Release|x64.ActiveCfg = Release|x64
+		{19857859-7A52-4904-9758-9A52C0E02477}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{2F5D3657-EA9F-459A-886C-918FB741A774} = {673A6282-F2A9-4A15-BBCF-2CD6C83BDD55}
 		{15012C1F-A8AC-46C0-9B94-482C39773651} = {425C642A-B405-4F18-8EF4-3A622E42C75D}
 		{0052CA0F-27CC-42A1-AC2B-440B6084EED6} = {673A6282-F2A9-4A15-BBCF-2CD6C83BDD55}
+		{19857859-7A52-4904-9758-9A52C0E02477} = {673A6282-F2A9-4A15-BBCF-2CD6C83BDD55}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {138A78BE-8C46-49E6-BDFE-9CE64E312772}
