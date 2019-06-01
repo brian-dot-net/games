@@ -30,5 +30,17 @@ namespace Words
 
             Assert::IsFalse(found);
         }
+
+        TEST_METHOD(OneEntryTableKeyFound)
+        {
+            Hashtable<string, int> table;
+
+            table.insert("here", 11);
+            int v = 0;
+            bool found = table.get("here", v);
+
+            Assert::IsTrue(found);
+            Assert::AreEqual(11, v);
+        }
     };
 }
