@@ -14,6 +14,7 @@ namespace Words
             TKey key_;
             TValue value_;
         };
+
     public:
         Hashtable()
             : eq_(),
@@ -35,10 +36,19 @@ namespace Words
             return true;
         }
 
-        void insert(TKey key, TValue value)
+        bool insert(const TKey& key, TValue&& value)
         {
             size_t index = find(key);
-            buckets_[index] = { key, value };
+            Entry& e = buckets_[index];
+            bool inserted = false;
+            if (!eq_(key, e.key_))
+            {
+                e.key_ = key;
+                inserted = true;
+            }
+
+            e.value_ = std::move(value);
+            return inserted;
         }
 
     private:

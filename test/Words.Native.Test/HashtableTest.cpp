@@ -42,5 +42,20 @@ namespace Words
             Assert::IsTrue(found);
             Assert::AreEqual(11, v);
         }
+
+        TEST_METHOD(OneEntryTableKeyReplaced)
+        {
+            Hashtable<string, int> table;
+
+            bool first = table.insert("overwrite", 10);
+            bool second = table.insert("overwrite", 100);
+            int v = 0;
+            bool found = table.get("overwrite", v);
+
+            Assert::IsTrue(first);
+            Assert::IsFalse(second);
+            Assert::IsTrue(found);
+            Assert::AreEqual(100, v);
+        }
     };
 }
