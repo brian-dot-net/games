@@ -19,5 +19,16 @@ namespace Words
 
             Assert::IsFalse(found);
         }
+
+        TEST_METHOD(OneEntryTableKeyNotFound)
+        {
+            Hashtable<string, int> table;
+
+            table.insert("here", 11);
+            int v;
+            bool found = table.get("not-here", v);
+
+            Assert::IsFalse(found);
+        }
     };
 }

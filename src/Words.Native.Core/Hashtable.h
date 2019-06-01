@@ -16,5 +16,9 @@ namespace Words
         {
             return false;
         }
+
+        void insert(TKey key, TValue value)
+        {
+        }
     };
 }
