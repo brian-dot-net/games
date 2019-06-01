@@ -18,14 +18,14 @@ void Log(const char* format, ...)
     vprintf(format, args);
     va_end(args);
 
-    printf("\r\n");
+    printf("\n");
 }
 
 int main(int argc, const char** argv)
 {
     if (argc != 3)
     {
-        printf("Please specify a Letter Boxed puzzle and a word list file.\r\n");
+        printf("Please specify a Letter Boxed puzzle and a word list file.\n");
         return 1;
     }
 
@@ -35,7 +35,7 @@ int main(int argc, const char** argv)
     ifstream file(argv[2]);
     if (file.fail())
     {
-        printf("Could not open file '%s'.\r\n", argv[2]);
+        printf("Could not open file '%s'.\n", argv[2]);
         return 1;
     }
 
@@ -51,7 +51,7 @@ int main(int argc, const char** argv)
     Log("Found %d valid words.", words.size());
 
     Log("Finding solutions...");
-    words.find([](Str w1, Str w2) { printf("%s-%s\r\n", w1.str().c_str(), w2.str().c_str()); });
+    words.find([](Str w1, Str w2) { printf("%s-%s\n", w1.str().c_str(), w2.str().c_str()); });
 
     Log("Done.");
 
