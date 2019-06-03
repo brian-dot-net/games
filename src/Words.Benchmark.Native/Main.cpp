@@ -47,7 +47,7 @@ void Measure(const char* name, TFunc func)
 
     double avgUsecs = totalUsecs / ops;
 
-    printf("%s : %.3f usec per op\n", name, avgUsecs);
+    printf("%s : % 10.3f usec per op\n", name, avgUsecs);
 }
 
 void MakeKey(char* k, int v)
@@ -59,9 +59,8 @@ void MakeKey(char* k, int v)
     }
 }
 
-void Insert(int n, float loadFactor)
+void Fill(Hashtable<string, int>& table, int n)
 {
-    Hashtable<string, int> table(loadFactor);
     char raw[5];
     raw[4] = '\0';
     for (int i = 1; i <= n; ++i)
@@ -72,16 +71,72 @@ void Insert(int n, float loadFactor)
     }
 }
 
+void Insert(int n, float loadFactor)
+{
+    Hashtable<string, int> table(loadFactor);
+    Fill(table, n);
+}
+
+int FindPresent(const Hashtable<string, int>& table, int n)
+{
+    char raw[5];
+    raw[4] = '\0';
+    int sum = 0;
+    for (int i = 1; i <= n; ++i)
+    {
+        MakeKey(raw, i);
+        string key(raw);
+        int v;
+        if (table.get(key, v))
+        {
+            sum += v;
+        }
+    }
+
+    return 0;
+}
+
+int FindMissing(const Hashtable<string, int>& table, int n)
+{
+    char raw[6];
+    raw[4] = '_';
+    raw[5] = '\0';
+    int sum = 0;
+    for (int i = 1; i <= n; ++i)
+    {
+        MakeKey(raw, i);
+        string key(raw);
+        int v;
+        if (table.get(key, v))
+        {
+            sum += v;
+        }
+    }
+
+    return 0;
+}
+
 int main()
 {
     for (int i = 1; i <= 4; ++i)
     {
         float f = i / 4.0f;
-        for (int n = 10; n <= 100000; n *= 10)
+        int n = 1;
+        for (int j = 1; j <= 5; ++j)
         {
+            n *= 10;
             stringstream s;
-            s << "Insert_" << n << "_" << f;
+            s << "     Insert_1e" << j << "_" << i << "/4";
             Measure(s.str().c_str(), [n, f]() { Insert(n, f); });
+
+            Hashtable<string, int> table(f);
+            s = stringstream();
+            s << "FindPresent_1e" << j << "_" << i << "/4";
+            Measure(s.str().c_str(), [&table, n]() { FindPresent(table, n); });
+
+            s = stringstream();
+            s << "FindMissing_1e" << j << "_" << i << "/4";
+            Measure(s.str().c_str(), [&table, n]() { FindMissing(table, n); });
         }
     }
 
