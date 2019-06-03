@@ -4,7 +4,7 @@ using namespace std;
 using namespace Words;
 
 StrTrie::StrTrie()
-    : nodes_(), size_(0)
+    : nodes_(0.5f), size_(0)
 {
 }
 
@@ -65,40 +65,42 @@ void StrTrie::insert(const Str& value)
         return;
     }
 
-    Map::iterator it = nodes_.find(value);
-    if (it != nodes_.end())
+    bool b;
+    if (!nodes_.insert(value, true, &b))
     {
-        if (it->second)
+        if (!b)
         {
-            return;
+            ++size_;
         }
 
-        it = nodes_.erase(it);
+        return;
     }
 
     ++size_;
-    nodes_.insert(it, make_pair(value, true));
-
     Str v = value;
     while (v.length() > 1)
     {
         v = v.chop();
-        if (nodes_.find(v) != nodes_.cend())
+        bool prev;
+        if (!nodes_.insert(v, false, &prev))
         {
+            if (prev)
+            {
+                nodes_.insert(v, true);
+            }
+
             return;
         }
-
-        nodes_.insert(make_pair(v, false));
     }
 }
 
 StrTrie::NodeKind StrTrie::find(const Str& value) const
 {
-    const auto& it = nodes_.find(value);
-    if (it == nodes_.cend())
+    bool b;
+    if (!nodes_.get(value, b))
     {
         return None;
     }
 
-    return it->second ? Terminal : Prefix;
+    return b ? Terminal : Prefix;
 }

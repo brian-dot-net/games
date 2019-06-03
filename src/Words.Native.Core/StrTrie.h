@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Str.h"
+#include "Hashtable.h"
 #include <unordered_map>
 #include <istream>
 
@@ -27,7 +28,7 @@ namespace Words
         NodeKind find(const Str& value) const;
 
     private:
-        typedef std::unordered_map<Str, bool> Map;
+        typedef Hashtable<Str, bool> Map;
         Map nodes_;
         size_t size_;
 
