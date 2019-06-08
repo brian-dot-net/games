@@ -65,7 +65,7 @@ namespace Words
                     return true;
                 }
 
-                next_index(index);
+                next_index(index, i);
             }
 
             return false;
@@ -96,7 +96,7 @@ namespace Words
                     return false;
                 }
 
-                next_index(index);
+                next_index(index, i);
             }
 
             insert_new(index, key, value);
@@ -161,17 +161,17 @@ namespace Words
                     return;
                 }
 
-                next_index(index);
+                next_index(index, i);
             }
         }
 
-        void next_index(int& index) const
+        void next_index(int& index, int c) const
         {
-            ++index;
+            index += 1 + (2 * c);
             int n = static_cast<int>(buckets_.size());
-            if (index == n)
+            if (index >= n)
             {
-                index = 0;
+                index = index % n;
             }
         }
     };
