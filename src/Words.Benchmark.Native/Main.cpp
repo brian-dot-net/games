@@ -71,9 +71,9 @@ void Fill(Hashtable<string, int>& table, int n)
     }
 }
 
-void Insert(int n, float loadFactor)
+void Insert(Hashtable<string, int>& table, int n, float f)
 {
-    Hashtable<string, int> table(loadFactor);
+    table = Hashtable<string, int>(f);
     Fill(table, n);
 }
 
@@ -93,7 +93,7 @@ int FindPresent(const Hashtable<string, int>& table, int n)
         }
     }
 
-    return 0;
+    return sum;
 }
 
 int FindMissing(const Hashtable<string, int>& table, int n)
@@ -113,7 +113,7 @@ int FindMissing(const Hashtable<string, int>& table, int n)
         }
     }
 
-    return 0;
+    return sum;
 }
 
 int main()
@@ -125,11 +125,11 @@ int main()
         for (int j = 1; j <= 5; ++j)
         {
             n *= 10;
+            Hashtable<string, int> table(f);
             stringstream s;
             s << "     Insert_1e" << j << "_" << i << "/4";
-            Measure(s.str().c_str(), [n, f]() { Insert(n, f); });
+            Measure(s.str().c_str(), [&table, n, f]() { Insert(table, n, f); });
 
-            Hashtable<string, int> table(f);
             s = stringstream();
             s << "FindPresent_1e" << j << "_" << i << "/4";
             Measure(s.str().c_str(), [&table, n]() { FindPresent(table, n); });
