@@ -6,7 +6,7 @@
 
 namespace
 {
-    static int nextSize(int current, float loadFactor)
+    static int next_size(int current, float loadFactor)
     {
         static const int sizes[] =
         {
@@ -33,42 +33,39 @@ namespace Words
     class Hashtable
     {
     private:
-        struct Entry
-        {
-            Entry()
-                : key_(),
-                value_(),
-                occupied_(false)
-            {
-            }
-
-            TKey key_;
-            TValue value_;
-            bool occupied_;
-        };
+        typedef std::pair<TKey, TValue> Entry;
 
     public:
         Hashtable(float loadFactor = 1.0f)
             : eq_(),
             hash_(),
-            buckets_(nextSize(0, loadFactor)),
             loadFactor_(loadFactor),
-            size_(0)
+            buckets_(next_size(0, loadFactor)),
+            entries_(1)
         {
         }
 
         bool get(const TKey& key, TValue& value) const
         {
-            const Entry* e = find(key);
-            if (!e)
+            int index = idx(key);
+            int n = static_cast<int>(buckets_.size());
+            for (int i = 0; i < n; ++i)
             {
-                return false;
-            }
+                int b = buckets_[index];
+                if (b == 0)
+                {
+                    break;
+                }
 
-            if (e->occupied_)
-            {
-                value = e->value_;
-                return true;
+                const Entry& e = entries_[b];
+                const TKey& k = e.first;
+                if (eq_(k, key))
+                {
+                    value = e.second;
+                    return true;
+                }
+
+                next_index(index);
             }
 
             return false;
@@ -76,95 +73,105 @@ namespace Words
 
         bool insert(const TKey& key, const TValue& value, TValue* previous = nullptr)
         {
-            bool inserted = false;
-            Entry& e = find(key);
-            if (!e.occupied_)
+            int index = idx(key);
+            int n = static_cast<int>(buckets_.size());
+            for (int i = 0; i < n; ++i)
             {
-                e.occupied_ = true;
-                e.key_ = key;
-                inserted = true;
-                ++size_;
+                int b = buckets_[index];
+                if (b == 0)
+                {
+                    break;
+                }
+
+                Entry& e = entries_[b];
+                const TKey& k = e.first;
+                if (eq_(k, key))
+                {
+                    if (previous)
+                    {
+                        *previous = e.second;
+                    }
+
+                    e.second = value;
+                    return false;
+                }
+
+                next_index(index);
             }
 
-            if (previous)
-            {
-                *previous = e.value_;
-            }
-
-            e.value_ = value;
-            return inserted;
+            insert_new(index, key, value);
+            return true;
         }
 
     private:
         TEq eq_;
         THash hash_;
-        std::vector<Entry> buckets_;
         float loadFactor_;
         int size_;
+        std::vector<int> buckets_;
+        std::vector<Entry> entries_;
 
-        size_t idx(const TKey& key) const
+        int idx(const TKey& key) const
         {
             size_t hashcode = hash_(key);
-            return hashcode % buckets_.size();
-        }
-
-        const Entry* find(const TKey& key) const
-        {
-            size_t index = idx(key);
-            for (int i = 0; i < size_; ++i)
-            {
-                const Entry& e = buckets_[index];
-                if (!e.occupied_ || eq_(e.key_, key))
-                {
-                    return &e;
-                }
-
-                ++index;
-                if (index == buckets_.size())
-                {
-                    index = 0;
-                }
-            }
-
-            return nullptr;
-        }
-
-        Entry& find(const TKey& key)
-        {
-            size_t index = idx(key);
-            while (true)
-            {
-                Entry& e = buckets_[index];
-                if (!e.occupied_ || eq_(e.key_, key))
-                {
-                    return e;
-                }
-
-                int maxSize = static_cast<int>(loadFactor_ * buckets_.size());
-                if (size_ >= maxSize)
-                {
-                    resize();
-                    index = idx(key);
-                }
-                else
-                {
-                    ++index;
-                    if (index == buckets_.size())
-                    {
-                        index = 0;
-                    }
-                }
-            }
+            return static_cast<int>(hashcode % buckets_.size());
         }
 
         void resize()
         {
-            std::vector<Entry> original(nextSize(static_cast<int>(buckets_.size()), loadFactor_));
+            std::vector<int> original(next_size(static_cast<int>(buckets_.size()), loadFactor_));
             std::swap(buckets_, original);
             size_ = 0;
-            for (const Entry& e : original)
+            size_t n = entries_.size();
+            for (int x = 1; x < n; ++x)
             {
-                insert(e.key_, e.value_);
+                const Entry& e = entries_[x];
+                const TKey& k = e.first;
+                put_bucket(-1, k, x);
+            }
+        }
+
+        void insert_new(int index, const TKey& key, const TValue& value)
+        {
+            int maxSize = static_cast<int>(loadFactor_ * buckets_.size());
+            if (entries_.size() > maxSize)
+            {
+                resize();
+                index = -1;
+            }
+
+            put_bucket(index, key, static_cast<int>(entries_.size()));
+            entries_.push_back(std::make_pair(key, value));
+        }
+
+        void put_bucket(int index, const TKey& key, int x)
+        {
+            if (index == -1)
+            {
+                index = idx(key);
+            }
+
+            int n = static_cast<int>(buckets_.size());
+            for (int i = 0; i < n; ++i)
+            {
+                int& b = buckets_[index];
+                if (b == 0)
+                {
+                    b = x;
+                    return;
+                }
+
+                next_index(index);
+            }
+        }
+
+        void next_index(int& index) const
+        {
+            ++index;
+            int n = static_cast<int>(buckets_.size());
+            if (index == n)
+            {
+                index = 0;
             }
         }
     };
