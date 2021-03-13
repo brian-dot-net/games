@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="Shapes.Test\Shapes.Test.csproj" />
+    <ProjectReference Include="Words.Test\Words.Test.csproj" />
+  </ItemGroup>
+</Project>

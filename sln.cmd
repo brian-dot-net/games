@@ -1,0 +1,1 @@
+@slngen.exe -d .vs

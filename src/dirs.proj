@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="LetterBoxedSolver\LetterBoxedSolver.csproj" />
+    <ProjectReference Include="Shapes.Core\Shapes.Core.csproj" />
+    <ProjectReference Include="Words.Benchmark\Words.Benchmark.csproj" />
+    <ProjectReference Include="Words.Core\Words.Core.csproj" />
+  </ItemGroup>
+</Project>
