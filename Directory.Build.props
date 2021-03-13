@@ -4,7 +4,6 @@
     <StyleCopFileName>stylecop.json</StyleCopFileName>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)$(RuleSetFileName)</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <OutputPath>$(MSBuildThisFileDirectory)\bin\$(Configuration)\$(TargetFramework)</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)$(RuleSetFileName)">

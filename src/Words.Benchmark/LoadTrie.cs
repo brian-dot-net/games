@@ -5,8 +5,9 @@
 namespace Words.Benchmark
 {
     using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Jobs;
 
-    [CoreJob]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
     [MemoryDiagnoser]
     public class LoadTrie : LoadTrieBase
     {

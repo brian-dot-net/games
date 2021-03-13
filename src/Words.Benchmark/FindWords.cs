@@ -7,8 +7,9 @@ namespace Words.Benchmark
     using System.IO;
     using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Diagnosers;
+    using BenchmarkDotNet.Jobs;
 
-    [CoreJob]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
     [HardwareCounters(HardwareCounter.CacheMisses)]
     public class FindWords
     {
