@@ -1,185 +1,157 @@
-#include "CppUnitTest.h"
+#include <gtest/gtest.h>
 #include "StrTrie.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
-
-using namespace Words;
-
-namespace Microsoft
-{
-    namespace VisualStudio
-    {
-        namespace CppUnitTestFramework
-        {
-            template<> static std::wstring ToString<StrTrie::NodeKind>(const StrTrie::NodeKind& t)
-            {
-                switch (t)
-                {
-                case StrTrie::Prefix: return L"Prefix";
-                case StrTrie::Terminal: return L"Terminal";
-                default: return L"None";
-                }
-            }
-        }
-    }
-}
 
 namespace Words
 {
-    TEST_CLASS(StrTrieTest)
+    istream& Load(stringstream& stream, initializer_list<const char*> lines)
     {
-    public:
-        TEST_METHOD(Empty)
+        for (const char* line : lines)
         {
-            StrTrie trie;
-
-            Assert::AreEqual(size_t(0), trie.size());
+            stream << line << "\r\n";
         }
 
-        TEST_METHOD(OneItemLength1)
-        {
-            StrTrie trie;
+        stream.seekg(0);
+        return stream;
+    }
 
-            trie.insert("X");
+    TEST(StrTrieTest, Empty)
+    {
+        StrTrie trie;
 
-            Assert::AreEqual(size_t(1), trie.size());
-        }
+        ASSERT_EQ(size_t(0), trie.size());
+    }
 
-        TEST_METHOD(TwoItemsLength2SharedPrefix)
-        {
-            StrTrie trie;
+    TEST(StrTrieTest, OneItemLength1)
+    {
+        StrTrie trie;
 
-            trie.insert("HI");
-            trie.insert("HA");
+        trie.insert("X");
 
-            Assert::AreEqual(size_t(2), trie.size());
-            Assert::AreEqual(StrTrie::Prefix, trie.find("H"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("HA"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("HI"));
-        }
+        ASSERT_EQ(size_t(1), trie.size());
+    }
 
-        TEST_METHOD(ThreeItemsLength3NoSharedPrefix)
-        {
-            StrTrie trie;
+    TEST(StrTrieTest, TwoItemsLength2SharedPrefix)
+    {
+        StrTrie trie;
 
-            trie.insert("ABC");
-            trie.insert("DEF");
-            trie.insert("GHI");
+        trie.insert("HI");
+        trie.insert("HA");
 
-            Assert::AreEqual(size_t(3), trie.size());
-            Assert::AreEqual(StrTrie::Prefix, trie.find("A"));
-            Assert::AreEqual(StrTrie::Prefix, trie.find("AB"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("DEF"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("GHI"));
-        }
+        ASSERT_EQ(size_t(2), trie.size());
+        ASSERT_EQ(StrTrie::Prefix, trie.find("H"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("HA"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("HI"));
+    }
 
-        TEST_METHOD(GetNonExistentNode)
-        {
-            StrTrie trie;
-            trie.insert("ABC");
+    TEST(StrTrieTest, ThreeItemsLength3NoSharedPrefix)
+    {
+        StrTrie trie;
 
-            Assert::AreEqual(StrTrie::None, trie.find("X"));
-        }
+        trie.insert("ABC");
+        trie.insert("DEF");
+        trie.insert("GHI");
 
-        TEST_METHOD(AddNodesMultipleTimes)
-        {
-            StrTrie trie;
+        ASSERT_EQ(size_t(3), trie.size());
+        ASSERT_EQ(StrTrie::Prefix, trie.find("A"));
+        ASSERT_EQ(StrTrie::Prefix, trie.find("AB"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("ABC"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("DEF"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("GHI"));
+    }
 
-            trie.insert("AB");
-            trie.insert("AB");
-            trie.insert("ABC");
-            trie.insert("ABC");
+    TEST(StrTrieTest, GetNonExistentNode)
+    {
+        StrTrie trie;
+        trie.insert("ABC");
 
-            Assert::AreEqual(size_t(2), trie.size());
-            Assert::AreEqual(StrTrie::Prefix, trie.find("A"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("AB"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
-        }
+        ASSERT_EQ(StrTrie::None, trie.find("X"));
+    }
 
-        TEST_METHOD(AddNodesMultipleTimesLongerFirst)
-        {
-            StrTrie trie;
+    TEST(StrTrieTest, AddNodesMultipleTimes)
+    {
+        StrTrie trie;
 
-            trie.insert("ABC");
-            trie.insert("ABC");
-            trie.insert("AB");
-            trie.insert("AB");
+        trie.insert("AB");
+        trie.insert("AB");
+        trie.insert("ABC");
+        trie.insert("ABC");
 
-            Assert::AreEqual(size_t(2), trie.size());
-            Assert::AreEqual(StrTrie::Prefix, trie.find("A"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("AB"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("ABC"));
-        }
+        ASSERT_EQ(size_t(2), trie.size());
+        ASSERT_EQ(StrTrie::Prefix, trie.find("A"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("AB"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("ABC"));
+    }
 
-        TEST_METHOD(AddEmptyNode)
-        {
-            StrTrie trie;
+    TEST(StrTrieTest, AddNodesMultipleTimesLongerFirst)
+    {
+        StrTrie trie;
 
-            trie.insert("");
+        trie.insert("ABC");
+        trie.insert("ABC");
+        trie.insert("AB");
+        trie.insert("AB");
 
-            Assert::AreEqual(size_t(0), trie.size());
-        }
+        ASSERT_EQ(size_t(2), trie.size());
+        ASSERT_EQ(StrTrie::Prefix, trie.find("A"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("AB"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("ABC"));
+    }
 
-        TEST_METHOD(LoadFromStreamEmpty)
-        {
-            stringstream stream;
-            StrTrie trie(Load(stream, {}));
+    TEST(StrTrieTest, AddEmptyNode)
+    {
+        StrTrie trie;
 
-            Assert::AreEqual(size_t(0), trie.size());
-        }
+        trie.insert("");
 
-        TEST_METHOD(LoadFromStreamOneWord)
-        {
-            stringstream stream;
-            StrTrie trie(Load(stream, { "ONE" }));
+        ASSERT_EQ(size_t(0), trie.size());
+    }
 
-            Assert::AreEqual(size_t(1), trie.size());
-            Assert::AreEqual(StrTrie::Terminal, trie.find("ONE"));
-        }
+    TEST(StrTrieTest, LoadFromStreamEmpty)
+    {
+        stringstream stream;
+        StrTrie trie(Load(stream, {}));
 
-        TEST_METHOD(LoadFromStreamThreeWords)
-        {
-            stringstream stream;
-            StrTrie trie(Load(stream, { "ONE", "TWO", "THREE" }));
+        ASSERT_EQ(size_t(0), trie.size());
+    }
 
-            Assert::AreEqual(size_t(3), trie.size());
-            Assert::AreEqual(StrTrie::Terminal, trie.find("ONE"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("TWO"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("THREE"));
-        }
+    TEST(StrTrieTest, LoadFromStreamOneWord)
+    {
+        stringstream stream;
+        StrTrie trie(Load(stream, { "ONE" }));
 
-        TEST_METHOD(LoadFromStreamSomeWordsTooShort)
-        {
-            stringstream stream;
-            StrTrie trie(Load(stream, { "S", "SH", "LONG" }));
+        ASSERT_EQ(size_t(1), trie.size());
+        ASSERT_EQ(StrTrie::Terminal, trie.find("ONE"));
+    }
 
-            Assert::AreEqual(size_t(1), trie.size());
-            Assert::AreEqual(StrTrie::Terminal, trie.find("LONG"));
-        }
+    TEST(StrTrieTest, LoadFromStreamThreeWords)
+    {
+        stringstream stream;
+        StrTrie trie(Load(stream, { "ONE", "TWO", "THREE" }));
 
-        TEST_METHOD(LoadFromStreamSomeWordsTooLong)
-        {
-            stringstream stream;
-            StrTrie trie(Load(stream, { "OK", "OKAY", "THISISTOOLONG", "YES" }));
+        ASSERT_EQ(size_t(3), trie.size());
+        ASSERT_EQ(StrTrie::Terminal, trie.find("ONE"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("TWO"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("THREE"));
+    }
 
-            Assert::AreEqual(size_t(2), trie.size());
-            Assert::AreEqual(StrTrie::Terminal, trie.find("OKAY"));
-            Assert::AreEqual(StrTrie::Terminal, trie.find("YES"));
-        }
+    TEST(StrTrieTest, LoadFromStreamSomeWordsTooShort)
+    {
+        stringstream stream;
+        StrTrie trie(Load(stream, { "S", "SH", "LONG" }));
 
-    private:
+        ASSERT_EQ(size_t(1), trie.size());
+        ASSERT_EQ(StrTrie::Terminal, trie.find("LONG"));
+    }
 
-        istream& Load(stringstream & stream, initializer_list<const char*> lines)
-        {
-            for (const char* line : lines)
-            {
-                stream << line << "\r\n";
-            }
+    TEST(StrTrieTest, LoadFromStreamSomeWordsTooLong)
+    {
+        stringstream stream;
+        StrTrie trie(Load(stream, { "OK", "OKAY", "THISISTOOLONG", "YES" }));
 
-            stream.seekg(0);
-            return stream;
-        }
-    };
+        ASSERT_EQ(size_t(2), trie.size());
+        ASSERT_EQ(StrTrie::Terminal, trie.find("OKAY"));
+        ASSERT_EQ(StrTrie::Terminal, trie.find("YES"));
+    }
 }

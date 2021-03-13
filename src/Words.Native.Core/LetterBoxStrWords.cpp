@@ -4,7 +4,7 @@ using namespace std;
 using namespace Words;
 
 LetterBoxStrWords::LetterBoxStrWords()
-    : map_()
+    : map_(), size_()
 {
 }
 

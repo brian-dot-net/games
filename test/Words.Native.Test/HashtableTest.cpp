@@ -1,9 +1,8 @@
-#include "CppUnitTest.h"
+#include <gtest/gtest.h>
 #include "Hashtable.h"
 #include <string>
 #include <sstream>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
 
 struct MyKey
@@ -29,129 +28,124 @@ namespace std
 
 namespace Words
 {
-    TEST_CLASS(HashtableTest)
+    void TestIncreasingTableSizeKeyNotFound(Hashtable<MyKey, int>& table)
     {
-    public:
-        TEST_METHOD(EmptyTableFindsNothing)
+        for (int i = 0; i < 1000; ++i)
         {
-            Hashtable<string, int> table;
+            bool inserted = table.insert({ i }, i + 1);
+            ASSERT_TRUE(inserted);
 
             int v;
-            bool found = table.get("not-here", v);
+            bool found = table.get({ i + 1 }, v);
+            ASSERT_FALSE(found);
+        }
+    }
 
-            Assert::IsFalse(found);
+    TEST(HashtableTest, EmptyTableFindsNothing)
+    {
+        Hashtable<string, int> table;
+
+        int v;
+        bool found = table.get("not-here", v);
+
+        ASSERT_FALSE(found);
+    }
+
+    TEST(HashtableTest, OneEntryTableKeyNotFound)
+    {
+        Hashtable<string, int> table;
+
+        table.insert("here", 11);
+        int v;
+        bool found = table.get("not-here", v);
+
+        ASSERT_FALSE(found);
+    }
+
+    TEST(HashtableTest, OneEntryTableKeyFound)
+    {
+        Hashtable<string, int> table;
+
+        table.insert("here", 11);
+        int v = 0;
+        bool found = table.get("here", v);
+
+        ASSERT_TRUE(found);
+        ASSERT_EQ(11, v);
+    }
+
+    TEST(HashtableTest, OneEntryTableKeyReplaced)
+    {
+        Hashtable<string, int> table;
+
+        bool first = table.insert("overwrite", 10);
+        bool second = table.insert("overwrite", 100);
+        int v = 0;
+        bool found = table.get("overwrite", v);
+
+        ASSERT_TRUE(first);
+        ASSERT_FALSE(second);
+        ASSERT_TRUE(found);
+        ASSERT_EQ(100, v);
+    }
+
+    TEST(HashtableTest, InsertAndReplaceManyEntriesResize)
+    {
+        const int Size = 1000;
+        Hashtable<string, int> table;
+
+        for (int i = 1; i <= Size; ++i)
+        {
+            stringstream s;
+            s << "k" << i;
+            string key(s.str());
+            bool inserted = table.insert(key, i);
+            ASSERT_TRUE(inserted);
         }
 
-        TEST_METHOD(OneEntryTableKeyNotFound)
+        for (int i = 1; i <= Size; ++i)
         {
-            Hashtable<string, int> table;
-
-            table.insert("here", 11);
-            int v;
-            bool found = table.get("not-here", v);
-
-            Assert::IsFalse(found);
-        }
-
-        TEST_METHOD(OneEntryTableKeyFound)
-        {
-            Hashtable<string, int> table;
-
-            table.insert("here", 11);
+            stringstream s;
+            s << "k" << i;
+            string key(s.str());
             int v = 0;
-            bool found = table.get("here", v);
-
-            Assert::IsTrue(found);
-            Assert::AreEqual(11, v);
+            bool found = table.get(key, v);
+            ASSERT_TRUE(found);
+            ASSERT_EQ(i, v);
         }
 
-        TEST_METHOD(OneEntryTableKeyReplaced)
+        for (int i = 1; i <= Size; ++i)
         {
-            Hashtable<string, int> table;
+            stringstream s;
+            s << "k" << i;
+            string key(s.str());
+            int prev = 0;
+            bool inserted = table.insert(key, i * 2, &prev);
+            ASSERT_FALSE(inserted);
+            ASSERT_EQ(i, prev);
+        }
 
-            bool first = table.insert("overwrite", 10);
-            bool second = table.insert("overwrite", 100);
+        for (int i = 1; i <= Size; ++i)
+        {
+            stringstream s;
+            s << "k" << i;
+            string key(s.str());
             int v = 0;
-            bool found = table.get("overwrite", v);
-
-            Assert::IsTrue(first);
-            Assert::IsFalse(second);
-            Assert::IsTrue(found);
-            Assert::AreEqual(100, v);
+            bool found = table.get(key, v);
+            ASSERT_TRUE(found);
+            ASSERT_EQ(i * 2, v);
         }
+    }
 
-        TEST_METHOD(InsertAndReplaceManyEntriesResize)
-        {
-            const int Size = 1000;
-            Hashtable<string, int> table;
+    TEST(HashtableTest, IncreasingTableSizeKeyNotFound)
+    {
+        Hashtable<MyKey, int> table;
+        TestIncreasingTableSizeKeyNotFound(table);
+    }
 
-            for (int i = 1; i <= Size; ++i)
-            {
-                stringstream s;
-                s << "k" << i;
-                string key(s.str());
-                bool inserted = table.insert(key, i);
-                Assert::IsTrue(inserted);
-            }
-
-            for (int i = 1; i <= Size; ++i)
-            {
-                stringstream s;
-                s << "k" << i;
-                string key(s.str());
-                int v = 0;
-                bool found = table.get(key, v);
-                Assert::IsTrue(found);
-                Assert::AreEqual(i, v);
-            }
-
-            for (int i = 1; i <= Size; ++i)
-            {
-                stringstream s;
-                s << "k" << i;
-                string key(s.str());
-                int prev = 0;
-                bool inserted = table.insert(key, i * 2, &prev);
-                Assert::IsFalse(inserted);
-                Assert::AreEqual(i, prev);
-            }
-
-            for (int i = 1; i <= Size; ++i)
-            {
-                stringstream s;
-                s << "k" << i;
-                string key(s.str());
-                int v = 0;
-                bool found = table.get(key, v);
-                Assert::IsTrue(found);
-                Assert::AreEqual(i * 2, v);
-            }
-        }
-
-        TEST_METHOD(IncreasingTableSizeKeyNotFound)
-        {
-            Hashtable<MyKey, int> table;
-            TestIncreasingTableSizeKeyNotFound(table);
-        }
-
-        TEST_METHOD(IncreasingTableSizeKeyNotFoundLowerLoadFactor)
-        {
-            Hashtable<MyKey, int> table(0.25f);
-            TestIncreasingTableSizeKeyNotFound(table);
-        }
-
-    private:
-        void TestIncreasingTableSizeKeyNotFound(Hashtable<MyKey, int>& table)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                bool inserted = table.insert({ i }, i + 1);
-                Assert::IsTrue(inserted);
-
-                int v;
-                bool found = table.get({ i + 1 }, v);
-                Assert::IsFalse(found);
-            }
-        }
-    };
+    TEST(HashtableTest, IncreasingTableSizeKeyNotFoundLowerLoadFactor)
+    {
+        Hashtable<MyKey, int> table(0.25f);
+        TestIncreasingTableSizeKeyNotFound(table);
+    }
 }
