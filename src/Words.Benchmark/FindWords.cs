@@ -7,10 +7,9 @@ namespace Words.Benchmark
     using System.IO;
     using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Diagnosers;
-    using BenchmarkDotNet.Jobs;
 
-    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
-    [HardwareCounters(HardwareCounter.CacheMisses)]
+    [InProcess]
+    [MemoryDiagnoser]
     public class FindWords
     {
         private LetterBoxSearch stringSearch;

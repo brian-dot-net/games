@@ -6,9 +6,8 @@ namespace Words.Benchmark
 {
     using System;
     using BenchmarkDotNet.Attributes;
-    using BenchmarkDotNet.Jobs;
 
-    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
+    [InProcess]
     public class FindTrie : LoadTrieBase
     {
         private const string WordStringMissing = "ZOATECHNICAL";

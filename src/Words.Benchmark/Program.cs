@@ -10,9 +10,9 @@ namespace Words.Benchmark
     {
         private static void Main()
         {
-            // BenchmarkRunner.Run<LoadTrie>();
             // BenchmarkRunner.Run<FindWords>();
-            BenchmarkRunner.Run<FindTrie>();
+            // BenchmarkRunner.Run<FindTrie>();
+            BenchmarkRunner.Run<LoadTrie>();
         }
     }
 }
