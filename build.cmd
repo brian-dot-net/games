@@ -14,10 +14,11 @@ set /p VCPKG_PATH=<%VCPKG_FILE%
 set CLEAN=0
 set NO_CPP=0
 set NO_CS=0
+set NO_RS=0
 set NO_TEST=0
 set VERBOSE=0
 set BUILD_TYPE=Debug
-set ERR_MSG=Usage: %0 [--clean] [--no-cpp] [--no-cs] [--no-test] [--verbose] [build_type]
+set ERR_MSG=Usage: %0 [--clean] [--no-cpp] [--no-cs] [--no-rs] [--no-test] [--verbose] [build_type]
 
 :NextArg
 set NEXT_ARG=%~1
@@ -26,6 +27,7 @@ if NOT DEFINED NEXT_ARG goto :EndArg
 if /i "%NEXT_ARG%" == "--clean" set CLEAN=1& goto :NextArg
 if /i "%NEXT_ARG%" == "--no-cpp" set NO_CPP=1& goto :NextArg
 if /i "%NEXT_ARG%" == "--no-cs" set NO_CS=1& goto :NextArg
+if /i "%NEXT_ARG%" == "--no-rs" set NO_RS=1& goto :NextArg
 if /i "%NEXT_ARG%" == "--no-test" set NO_TEST=1& goto :NextArg
 if /i "%NEXT_ARG%" == "--verbose" set VERBOSE=1& goto :NextArg
 if "%NEXT_ARG:~0,1%" == "-" goto :Quit
@@ -94,7 +96,7 @@ set ERR_MSG=ctest.exe failed.
 if NOT "%EXIT_CODE%" == "0" goto :Quit
 
 :MakeCS
-if "%NO_CS%" == "1" goto :Quit
+if "%NO_CS%" == "1" goto :MakeRS
 
 cd "%ROOT_PATH%"
 
@@ -108,7 +110,7 @@ set EXIT_CODE=%ERRORLEVEL%
 set ERR_MSG=dotnet build failed.
 if NOT "%EXIT_CODE%" == "0" goto :Quit
 
-if "%NO_TEST%" == "1" goto :Quit
+if "%NO_TEST%" == "1" goto :MakeRS
 
 set DOTNET_TEST_ARGS=test -c %BUILD_TYPE%
 
@@ -118,6 +120,35 @@ echo == dotnet.exe %DOTNET_TEST_ARGS%
 dotnet.exe %DOTNET_TEST_ARGS%
 set EXIT_CODE=%ERRORLEVEL%
 set ERR_MSG=dotnet test failed.
+
+:MakeRS
+if "%NO_RS%" == "1" goto :Quit
+
+cd "%ROOT_PATH%"
+
+set BUILD_TYPE_RS=
+if /i "%BUILD_TYPE%" == "Release" set BUILD_TYPE_RS=--release
+
+set CARGO_BUILD_ARGS=build %BUILD_TYPE_RS%
+
+if "%VERBOSE%" == "1" set CARGO_BUILD_ARGS=%CARGO_BUILD_ARGS% -v
+
+echo == cargo.exe %CARGO_BUILD_ARGS%
+cargo.exe %CARGO_BUILD_ARGS%
+set EXIT_CODE=%ERRORLEVEL%
+set ERR_MSG=cargo build failed.
+if NOT "%EXIT_CODE%" == "0" goto :Quit
+
+if "%NO_TEST%" == "1" goto :Quit
+
+set CARGO_TEST_ARGS=test %BUILD_TYPE_RS%
+
+if "%VERBOSE%" == "1" set CARGO_TEST_ARGS=%CARGO_TEST_ARGS% -v
+
+echo == cargo.exe %CARGO_TEST_ARGS%
+cargo.exe %CARGO_TEST_ARGS%
+set EXIT_CODE=%ERRORLEVEL%
+set ERR_MSG=cargo test failed.
 
 :Quit
 popd
