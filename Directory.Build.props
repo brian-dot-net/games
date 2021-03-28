@@ -13,11 +13,9 @@
     <BaseIntermediateOutputPath>$(_RootDir)obj\$(_RelativeDir)_$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
     <BaseOutputPath>$(_RootDir)build\</BaseOutputPath>
-    <_OutPrefix>Linux-Clang</_OutPrefix>
-    <_OutPrefix Condition="'$(OS)' == 'Windows_NT'">x64</_OutPrefix>
-    <_OutSuffix>$(Configuration)</_OutSuffix>
-    <_OutSuffix Condition="'$(_OutSuffix)' == ''">Debug</_OutSuffix>
-    <OutDir>$(BaseOutputPath)$(_OutPrefix)-$(_OutSuffix)\</OutDir>
+    <_OutSuffix>$(Configuration.ToLower())</_OutSuffix>
+    <_OutSuffix Condition="'$(_OutSuffix)' == ''">debug</_OutSuffix>
+    <OutDir>$(BaseOutputPath)$(_OutSuffix)\</OutDir>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)$(RuleSetFileName)">

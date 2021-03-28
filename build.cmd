@@ -17,7 +17,8 @@ set NO_CS=0
 set NO_RS=0
 set NO_TEST=0
 set VERBOSE=0
-set BUILD_TYPE=Debug
+set BUILD_TYPE=debug
+set BUILD_TYPE_CPP=Debug
 set ERR_MSG=Usage: %0 [--clean] [--no-cpp] [--no-cs] [--no-rs] [--no-test] [--verbose] [build_type]
 
 :NextArg
@@ -32,19 +33,15 @@ if /i "%NEXT_ARG%" == "--no-test" set NO_TEST=1& goto :NextArg
 if /i "%NEXT_ARG%" == "--verbose" set VERBOSE=1& goto :NextArg
 if "%NEXT_ARG:~0,1%" == "-" goto :Quit
 set BUILD_TYPE=%NEXT_ARG%
-if /i "%BUILD_TYPE%" == "Debug" goto :NextArg
-if /i "%BUILD_TYPE%" == "Release" goto :NextArg
+if /i "%BUILD_TYPE%" == "debug" goto :NextArg
+if /i "%BUILD_TYPE%" == "release" set BUILD_TYPE_CPP=RelWithDebInfo& goto :NextArg
 goto :Quit
 :EndArg
 
-set BUILD_CONFIG=%VSCMD_ARG_HOST_ARCH%-%BUILD_TYPE%
-echo == Build config '%BUILD_CONFIG%'
-
-set BUILD_TYPE_CPP=%BUILD_TYPE%
-if /i "%BUILD_TYPE_CPP%" == "Release" set BUILD_TYPE_CPP=RelWithDebInfo
+echo == Build type '%BUILD_TYPE%'
 
 set OUTPUT_PATH=%ROOT_PATH%\out
-set BUILD_PATH=%OUTPUT_PATH%\build\%BUILD_CONFIG%
+set BUILD_PATH=%OUTPUT_PATH%\build\%BUILD_TYPE%
 
 if "%CLEAN%" == "0" goto :MakeCpp
 echo == Remove %BUILD_PATH%
@@ -60,7 +57,7 @@ set CMAKE_ARGS=^
   -G Ninja ^
   -DCMAKE_BUILD_TYPE=%BUILD_TYPE_CPP% ^
   -DCMAKE_CXX_COMPILER:FILEPATH=cl.exe ^
-  -DCMAKE_INSTALL_PREFIX:PATH="%OUTPUT_PATH%\install\%BUILD_CONFIG%" ^
+  -DCMAKE_INSTALL_PREFIX:PATH="%OUTPUT_PATH%\install\%BUILD_TYPE%" ^
   -DCMAKE_MAKE_PROGRAM=ninja.exe ^
   -DCMAKE_TOOLCHAIN_FILE="%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake" ^
   "%ROOT_PATH%"
