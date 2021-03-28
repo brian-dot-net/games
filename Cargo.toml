@@ -1,0 +1,2 @@
+[workspace]
+members = ["letter_boxed_solver"]
