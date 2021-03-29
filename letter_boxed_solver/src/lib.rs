@@ -21,6 +21,17 @@ pub enum Ch {
     M,
     N,
     O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
 }
 
 impl Display for Ch {
@@ -42,6 +53,17 @@ impl Display for Ch {
             Ch::M => "M",
             Ch::N => "N",
             Ch::O => "O",
+            Ch::P => "P",
+            Ch::Q => "Q",
+            Ch::R => "R",
+            Ch::S => "S",
+            Ch::T => "T",
+            Ch::U => "U",
+            Ch::V => "V",
+            Ch::W => "W",
+            Ch::X => "X",
+            Ch::Y => "Y",
+            Ch::Z => "Z",
         };
         write!(f, "{}", s)
     }
@@ -93,6 +115,17 @@ impl Index<u8> for St {
             13 => &Ch::M,
             14 => &Ch::N,
             15 => &Ch::O,
+            16 => &Ch::P,
+            17 => &Ch::Q,
+            18 => &Ch::R,
+            19 => &Ch::S,
+            20 => &Ch::T,
+            21 => &Ch::U,
+            22 => &Ch::V,
+            23 => &Ch::W,
+            24 => &Ch::X,
+            25 => &Ch::Y,
+            26 => &Ch::Z,
             _ => &Ch::None,
         }
     }
@@ -119,6 +152,17 @@ impl Add<Ch> for St {
             Ch::M => 13,
             Ch::N => 14,
             Ch::O => 15,
+            Ch::P => 16,
+            Ch::Q => 17,
+            Ch::R => 18,
+            Ch::S => 19,
+            Ch::T => 20,
+            Ch::U => 21,
+            Ch::V => 22,
+            Ch::W => 23,
+            Ch::X => 24,
+            Ch::Y => 25,
+            Ch::Z => 26,
         };
         St((self.0 + 1) | (c << (4 + 5 * self.len())))
     }
@@ -243,6 +287,42 @@ mod tests {
             Ch::None,
             Ch::None,
             Ch::None,
+        ];
+        let actual: Vec<Ch> = (0..12).map(|i| s[i]).collect();
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn twelve_chars() {
+        let s = St::empty()
+            + Ch::P
+            + Ch::Q
+            + Ch::R
+            + Ch::S
+            + Ch::T
+            + Ch::U
+            + Ch::V
+            + Ch::W
+            + Ch::X
+            + Ch::Y
+            + Ch::Z
+            + Ch::A;
+
+        assert_eq!(12, s.len());
+        assert_eq!("PQRSTUVWXYZA", s.to_string());
+        let expected = vec![
+            Ch::P,
+            Ch::Q,
+            Ch::R,
+            Ch::S,
+            Ch::T,
+            Ch::U,
+            Ch::V,
+            Ch::W,
+            Ch::X,
+            Ch::Y,
+            Ch::Z,
+            Ch::A,
         ];
         let actual: Vec<Ch> = (0..12).map(|i| s[i]).collect();
         assert_eq!(expected, actual);
