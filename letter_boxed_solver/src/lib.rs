@@ -9,6 +9,10 @@ pub enum Ch {
     A,
     B,
     C,
+    D,
+    E,
+    F,
+    G,
 }
 
 impl Display for Ch {
@@ -18,6 +22,10 @@ impl Display for Ch {
             Ch::A => "A",
             Ch::B => "B",
             Ch::C => "C",
+            Ch::D => "D",
+            Ch::E => "E",
+            Ch::F => "F",
+            Ch::G => "G",
         };
         write!(f, "{}", s)
     }
@@ -40,7 +48,7 @@ impl Display for St {
         for i in 0..self.len() {
             let r = write!(f, "{}", self[i]);
             if r.is_err() {
-                return r
+                return r;
             }
         }
 
@@ -57,6 +65,10 @@ impl Index<u8> for St {
             1 => &Ch::A,
             2 => &Ch::B,
             3 => &Ch::C,
+            4 => &Ch::D,
+            5 => &Ch::E,
+            6 => &Ch::F,
+            7 => &Ch::G,
             _ => &Ch::None,
         }
     }
@@ -71,6 +83,10 @@ impl Add<Ch> for St {
             Ch::A => 1,
             Ch::B => 2,
             Ch::C => 3,
+            Ch::D => 4,
+            Ch::E => 5,
+            Ch::F => 6,
+            Ch::G => 7,
         };
         St((self.0 + 1) | (c << (4 + 5 * self.len())))
     }
@@ -139,6 +155,30 @@ mod tests {
             Ch::C,
             Ch::None,
             Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+        ];
+        let actual: Vec<Ch> = (0..12).map(|i| s[i]).collect();
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn four_chars() {
+        let s = St::empty() + Ch::D + Ch::E + Ch::F + Ch::G;
+
+        assert_eq!(4, s.len());
+        assert_eq!("DEFG", s.to_string());
+        let expected = vec![
+            Ch::D,
+            Ch::E,
+            Ch::F,
+            Ch::G,
             Ch::None,
             Ch::None,
             Ch::None,
