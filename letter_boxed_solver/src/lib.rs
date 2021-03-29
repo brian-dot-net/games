@@ -13,6 +13,14 @@ pub enum Ch {
     E,
     F,
     G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
 }
 
 impl Display for Ch {
@@ -26,6 +34,14 @@ impl Display for Ch {
             Ch::E => "E",
             Ch::F => "F",
             Ch::G => "G",
+            Ch::H => "H",
+            Ch::I => "I",
+            Ch::J => "J",
+            Ch::K => "K",
+            Ch::L => "L",
+            Ch::M => "M",
+            Ch::N => "N",
+            Ch::O => "O",
         };
         write!(f, "{}", s)
     }
@@ -69,6 +85,14 @@ impl Index<u8> for St {
             5 => &Ch::E,
             6 => &Ch::F,
             7 => &Ch::G,
+            8 => &Ch::H,
+            9 => &Ch::I,
+            10 => &Ch::J,
+            11 => &Ch::K,
+            12 => &Ch::L,
+            13 => &Ch::M,
+            14 => &Ch::N,
+            15 => &Ch::O,
             _ => &Ch::None,
         }
     }
@@ -87,6 +111,14 @@ impl Add<Ch> for St {
             Ch::E => 5,
             Ch::F => 6,
             Ch::G => 7,
+            Ch::H => 8,
+            Ch::I => 9,
+            Ch::J => 10,
+            Ch::K => 11,
+            Ch::L => 12,
+            Ch::M => 13,
+            Ch::N => 14,
+            Ch::O => 15,
         };
         St((self.0 + 1) | (c << (4 + 5 * self.len())))
     }
@@ -183,6 +215,30 @@ mod tests {
             Ch::None,
             Ch::None,
             Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+            Ch::None,
+        ];
+        let actual: Vec<Ch> = (0..12).map(|i| s[i]).collect();
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn eight_chars() {
+        let s = St::empty() + Ch::H + Ch::I + Ch::J + Ch::K + Ch::L + Ch::M + Ch::N + Ch::O;
+
+        assert_eq!(8, s.len());
+        assert_eq!("HIJKLMNO", s.to_string());
+        let expected = vec![
+            Ch::H,
+            Ch::I,
+            Ch::J,
+            Ch::K,
+            Ch::L,
+            Ch::M,
+            Ch::N,
+            Ch::O,
             Ch::None,
             Ch::None,
             Ch::None,
