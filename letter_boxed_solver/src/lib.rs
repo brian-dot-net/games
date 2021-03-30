@@ -135,6 +135,10 @@ impl Add<Ch> for St {
     type Output = St;
 
     fn add(self, rhs: Ch) -> Self::Output {
+        if self.len() == 12 {
+            panic!("Cannot append any more");
+        }
+
         let c = match rhs {
             Ch::None => 0,
             Ch::A => 1,
@@ -326,5 +330,26 @@ mod tests {
         ];
         let actual: Vec<Ch> = (0..12).map(|i| s[i]).collect();
         assert_eq!(expected, actual);
+    }
+
+    #[test]
+    #[should_panic(expected = "Cannot append any more")]
+    fn append_too_many()
+    {
+        let max = St::empty()
+            + Ch::A
+            + Ch::B
+            + Ch::C
+            + Ch::D
+            + Ch::E
+            + Ch::F
+            + Ch::G
+            + Ch::H
+            + Ch::I
+            + Ch::J
+            + Ch::K
+            + Ch::L;
+
+        let _ = max + Ch::X;
     }
 }
