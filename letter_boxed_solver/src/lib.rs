@@ -1,5 +1,6 @@
 use std::{
     fmt::{Display, Formatter, Result},
+    hash::Hash,
     ops::{Add, Index},
 };
 
@@ -69,7 +70,7 @@ impl Display for Ch {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Hash, PartialEq)]
 pub struct St(u64);
 
 impl St {
@@ -189,6 +190,10 @@ impl Add<Ch> for St {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::{
+        collections::{hash_map::DefaultHasher, HashSet},
+        hash::Hasher,
+    };
 
     #[test]
     fn empty() {
@@ -476,5 +481,26 @@ mod tests {
         assert_eq!(ba, ba);
         assert_ne!(cdefgh, ba);
         assert_eq!(cdefgh, cdefgh);
+    }
+
+    #[test]
+    fn hash_code() {
+        let empty = St::empty();
+        let a = St::empty() + Ch::A;
+        let b = St::empty() + Ch::B;
+        let ab = St::empty() + Ch::A + Ch::B;
+        let ba = St::empty() + Ch::B + Ch::A;
+        let cdefgh = St::empty() + Ch::C + Ch::D + Ch::E + Ch::F + Ch::G + Ch::H;
+        let values = vec![empty, a, b, ab, ba, cdefgh];
+
+        let codes: HashSet<u64> = values
+            .into_iter()
+            .map(|s| {
+                let mut hasher = DefaultHasher::new();
+                s.hash(&mut hasher);
+                hasher.finish()
+            })
+            .collect();
+        assert_eq!(6, codes.len());
     }
 }
