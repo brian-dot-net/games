@@ -81,7 +81,12 @@ impl St {
     }
 
     fn chop(&self) -> St {
-        panic!("Cannot chop any more");
+        if self.len() == 0 {
+            panic!("Cannot chop any more");
+        }
+
+        let mask = !(0x1F << (self.len() * 5 - 1));
+        St((self.0 - 1) & mask)
     }
 }
 
@@ -342,8 +347,7 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Cannot append any more")]
-    fn append_too_many()
-    {
+    fn append_too_many() {
         let max = St::empty()
             + Ch::A
             + Ch::B
@@ -363,8 +367,7 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Out of range")]
-    fn index_too_big()
-    {
+    fn index_too_big() {
         let max = St::empty()
             + Ch::A
             + Ch::B
@@ -384,10 +387,74 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Cannot chop any more")]
-    fn chop_empty()
-    {
+    fn chop_empty() {
         let s = St::empty();
 
         let _ = s.chop();
+    }
+
+    #[test]
+    fn chop_chars() {
+        let s = St::empty()
+            + Ch::A
+            + Ch::B
+            + Ch::C
+            + Ch::D
+            + Ch::E
+            + Ch::F
+            + Ch::G
+            + Ch::H
+            + Ch::I
+            + Ch::J
+            + Ch::K
+            + Ch::L;
+
+        let s = s.chop();
+        assert_eq!(11, s.len());
+        assert_eq!("ABCDEFGHIJK", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(10, s.len());
+        assert_eq!("ABCDEFGHIJ", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(9, s.len());
+        assert_eq!("ABCDEFGHI", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(8, s.len());
+        assert_eq!("ABCDEFGH", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(7, s.len());
+        assert_eq!("ABCDEFG", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(6, s.len());
+        assert_eq!("ABCDEF", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(5, s.len());
+        assert_eq!("ABCDE", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(4, s.len());
+        assert_eq!("ABCD", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(3, s.len());
+        assert_eq!("ABC", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(2, s.len());
+        assert_eq!("AB", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(1, s.len());
+        assert_eq!("A", s.to_string());
+
+        let s = s.chop();
+        assert_eq!(0, s.len());
+        assert_eq!("", s.to_string());
     }
 }
