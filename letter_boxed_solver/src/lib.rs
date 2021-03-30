@@ -79,6 +79,10 @@ impl St {
     fn len(&self) -> u8 {
         (self.0 & 0xF) as u8
     }
+
+    fn chop(&self) -> St {
+        panic!("Cannot chop any more");
+    }
 }
 
 impl Display for St {
@@ -376,5 +380,14 @@ mod tests {
             + Ch::L;
 
         let _ = max[12];
+    }
+
+    #[test]
+    #[should_panic(expected = "Cannot chop any more")]
+    fn chop_empty()
+    {
+        let s = St::empty();
+
+        let _ = s.chop();
     }
 }
