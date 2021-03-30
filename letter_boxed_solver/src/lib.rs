@@ -98,6 +98,10 @@ impl Index<u8> for St {
     type Output = Ch;
 
     fn index(&self, index: u8) -> &Self::Output {
+        if index >= 12 {
+            panic!("Out of range");
+        }
+
         let c = (self.0 >> (4 + 5 * index)) & 0x1F;
         match c {
             1 => &Ch::A,
@@ -351,5 +355,26 @@ mod tests {
             + Ch::L;
 
         let _ = max + Ch::X;
+    }
+
+    #[test]
+    #[should_panic(expected = "Out of range")]
+    fn index_too_big()
+    {
+        let max = St::empty()
+            + Ch::A
+            + Ch::B
+            + Ch::C
+            + Ch::D
+            + Ch::E
+            + Ch::F
+            + Ch::G
+            + Ch::H
+            + Ch::I
+            + Ch::J
+            + Ch::K
+            + Ch::L;
+
+        let _ = max[12];
     }
 }
