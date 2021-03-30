@@ -69,6 +69,7 @@ impl Display for Ch {
     }
 }
 
+#[derive(Debug, PartialEq)]
 pub struct St(u64);
 
 impl St {
@@ -456,5 +457,24 @@ mod tests {
         let s = s.chop();
         assert_eq!(0, s.len());
         assert_eq!("", s.to_string());
+    }
+
+    #[test]
+    fn equality() {
+        let empty = St::empty();
+        let a = St::empty() + Ch::A;
+        let b = St::empty() + Ch::B;
+        let ab = St::empty() + Ch::A + Ch::B;
+        let ba = St::empty() + Ch::B + Ch::A;
+        let cdefgh = St::empty() + Ch::C + Ch::D + Ch::E + Ch::F + Ch::G + Ch::H;
+
+        assert_ne!(empty, a);
+        assert_eq!(empty, empty);
+        assert_eq!(a, a);
+        assert_ne!(a, b);
+        assert_ne!(ab, ba);
+        assert_eq!(ba, ba);
+        assert_ne!(cdefgh, ba);
+        assert_eq!(cdefgh, cdefgh);
     }
 }
