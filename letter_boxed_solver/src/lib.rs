@@ -1,7 +1,8 @@
 use std::{
-    fmt::{Display, Formatter, Result},
+    fmt::{self, Display, Formatter},
     hash::Hash,
     ops::{Add, Index},
+    str::FromStr,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -36,7 +37,7 @@ pub enum Ch {
 }
 
 impl Display for Ch {
-    fn fmt(&self, f: &mut Formatter) -> Result {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let s = match self {
             Ch::None => "",
             Ch::A => "A",
@@ -93,7 +94,7 @@ impl St {
 }
 
 impl Display for St {
-    fn fmt(&self, f: &mut Formatter) -> Result {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         for i in 0..self.len() {
             let r = write!(f, "{}", self[i]);
             if r.is_err() {
@@ -102,6 +103,48 @@ impl Display for St {
         }
 
         Ok(())
+    }
+}
+
+impl FromStr for St {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<St, ()> {
+        let mut value = St::empty();
+        for c in s.chars() {
+            let c = match c {
+                'A' => Ch::A,
+                'B' => Ch::B,
+                'C' => Ch::C,
+                'D' => Ch::D,
+                'E' => Ch::E,
+                'F' => Ch::F,
+                'G' => Ch::G,
+                'H' => Ch::H,
+                'I' => Ch::I,
+                'J' => Ch::J,
+                'K' => Ch::K,
+                'L' => Ch::L,
+                'M' => Ch::M,
+                'N' => Ch::N,
+                'O' => Ch::O,
+                'P' => Ch::P,
+                'Q' => Ch::Q,
+                'R' => Ch::R,
+                'S' => Ch::S,
+                'T' => Ch::T,
+                'U' => Ch::U,
+                'V' => Ch::V,
+                'W' => Ch::W,
+                'X' => Ch::X,
+                'Y' => Ch::Y,
+                'Z' => Ch::Z,
+                _ => Ch::None,
+            };
+            value = value + c;
+        }
+
+        Ok(value)
     }
 }
 
@@ -502,5 +545,27 @@ mod tests {
             })
             .collect();
         assert_eq!(6, codes.len());
+    }
+
+    #[test]
+    fn parse_from_string() {
+        test_parse("");
+        test_parse("A");
+        test_parse("BC");
+        test_parse("DEF");
+        test_parse("GHIJ");
+        test_parse("KLMNO");
+        test_parse("PQRSTU");
+        test_parse("VWXYZAB");
+        test_parse("CDEFGHIJ");
+        test_parse("KLMNOPQRS");
+        test_parse("TUVWXYZABC");
+        test_parse("DEFGHIJKLMN");
+        test_parse("OPQRSTUVWXYZ");
+    }
+
+    fn test_parse(expected: &str) {
+        let s = expected.parse::<St>().unwrap();
+        assert_eq!(expected, s.to_string());
     }
 }
