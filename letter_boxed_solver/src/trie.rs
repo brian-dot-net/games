@@ -155,6 +155,16 @@ mod tests {
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "ONE"));
     }
 
+    #[test]
+    fn load_from_stream_3_words() {
+        let trie = load_trie(vec!["ONE", "TWO", "THREE"]);
+
+        assert_eq!(3, trie.len());
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "ONE"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "TWO"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "THREE"));
+    }
+
     fn init_trie(items: Vec<&str>) -> StTrie {
         let mut trie = StTrie::new();
         for item in items {
