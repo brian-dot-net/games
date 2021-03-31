@@ -1,5 +1,5 @@
 use crate::core::St;
-use std::collections::HashMap;
+use std::{collections::HashMap, io::BufRead};
 
 #[derive(Debug, PartialEq)]
 pub enum NodeKind {
@@ -18,6 +18,10 @@ impl StTrie {
         let nodes = HashMap::new();
         let count = 0;
         StTrie { nodes, count }
+    }
+
+    fn load<B: BufRead>(stream: &mut B) -> StTrie {
+        StTrie::new()
     }
 
     fn len(&self) -> usize {
@@ -58,6 +62,7 @@ impl StTrie {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Cursor;
 
     #[test]
     fn empty() {
@@ -129,6 +134,13 @@ mod tests {
         assert_eq!(0, trie.len());
     }
 
+    #[test]
+    fn load_from_stream_empty() {
+        let trie = load_trie(vec![]);
+
+        assert_eq!(0, trie.len());
+    }
+
     fn init_trie(items: Vec<&str>) -> StTrie {
         let mut trie = StTrie::new();
         for item in items {
@@ -140,5 +152,11 @@ mod tests {
 
     fn find_trie(trie: &StTrie, item: &str) -> NodeKind {
         trie.find(item.parse::<St>().unwrap())
+    }
+
+    fn load_trie(lines: Vec<&str>) -> StTrie {
+        let lines = lines.join("\r\n").as_bytes().to_vec();
+        let mut stream = Cursor::new(lines);
+        StTrie::load(&mut stream)
     }
 }
