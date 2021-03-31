@@ -63,6 +63,18 @@ mod tests {
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "HI"));
     }
 
+    #[test]
+    fn two_items_len_3_no_shared_prefix() {
+        let trie = init_trie(vec!["ABC", "DEF", "GHI"]);
+
+        assert_eq!(3, trie.len());
+        assert_eq!(NodeKind::Prefix, find_trie(&trie, "A"));
+        assert_eq!(NodeKind::Prefix, find_trie(&trie, "AB"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "DEF"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "GHI"));
+    }
+
     fn init_trie(items: Vec<&str>) -> StTrie {
         let mut trie = StTrie::new();
         for item in items {
