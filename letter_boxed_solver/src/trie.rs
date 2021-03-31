@@ -113,6 +113,16 @@ mod tests {
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
     }
 
+    #[test]
+    fn add_nodes_multiple_times_longer_first() {
+        let trie = init_trie(vec!["ABC", "ABC", "AB", "AB"]);
+
+        assert_eq!(2, trie.len());
+        assert_eq!(NodeKind::Prefix, find_trie(&trie, "A"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "AB"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
+    }
+
     fn init_trie(items: Vec<&str>) -> StTrie {
         let mut trie = StTrie::new();
         for item in items {
