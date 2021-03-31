@@ -24,7 +24,7 @@ impl StTrie {
         let mut trie = StTrie::new();
         for line in stream.lines() {
             let word = line.unwrap();
-            if word.len() >= 3 {
+            if word.len() >= 3 && word.len() <= 12 {
                 let value = word.parse::<St>().unwrap();
                 trie.insert(value);
             }
@@ -174,6 +174,15 @@ mod tests {
 
         assert_eq!(1, trie.len());
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "LONG"));
+    }
+
+    #[test]
+    fn load_from_stream_some_words_too_long() {
+        let trie = load_trie(vec!["OK", "OKAY", "THISISTOOLONG", "YES"]);
+
+        assert_eq!(2, trie.len());
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "OKAY"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "YES"));
     }
 
     fn init_trie(items: Vec<&str>) -> StTrie {
