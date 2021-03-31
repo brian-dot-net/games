@@ -71,7 +71,7 @@ impl Display for Ch {
     }
 }
 
-#[derive(Debug, Hash, PartialEq)]
+#[derive(Debug, Eq, Hash, PartialEq)]
 pub struct St(u64);
 
 impl St {
