@@ -8,24 +8,42 @@ pub enum NodeKind {
     Terminal,
 }
 
-pub struct StTrie(HashMap<St, bool>);
+pub struct StTrie {
+    nodes: HashMap<St, bool>,
+    count: usize,
+}
 
 impl StTrie {
     fn new() -> StTrie {
-        let map = HashMap::new();
-        StTrie(map)
+        let nodes = HashMap::new();
+        let count = 0;
+        StTrie { nodes, count }
     }
 
     fn len(&self) -> usize {
-        self.0.len()
+        self.count
     }
 
-    fn insert(&mut self, item: St) {
-        self.0.insert(item, true);
+    fn insert(&mut self, value: St) {
+        if let Some(&true) = self.nodes.get(&value) {
+            return;
+        }
+
+        self.count += 1;
+        self.nodes.insert(value, true);
+        let mut value = value;
+        for _ in 1..value.len() {
+            value = value.chop();
+            if let Some(_) = self.nodes.get(&value) {
+                return;
+            }
+
+            self.nodes.insert(value, false);
+        }
     }
 
-    fn find(&self, item: St) -> NodeKind {
-        match self.0.get(&item) {
+    fn find(&self, value: St) -> NodeKind {
+        match self.nodes.get(&value) {
             None => NodeKind::None,
             Some(&t) => {
                 if t {
@@ -83,6 +101,16 @@ mod tests {
         let trie = init_trie(vec!["ABC"]);
 
         assert_eq!(NodeKind::None, find_trie(&trie, "X"));
+    }
+
+    #[test]
+    fn add_nodes_multiple_times() {
+        let trie = init_trie(vec!["AB", "AB", "ABC", "ABC"]);
+
+        assert_eq!(2, trie.len());
+        assert_eq!(NodeKind::Prefix, find_trie(&trie, "A"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "AB"));
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
     }
 
     fn init_trie(items: Vec<&str>) -> StTrie {

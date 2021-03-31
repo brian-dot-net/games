@@ -71,7 +71,7 @@ impl Display for Ch {
     }
 }
 
-#[derive(Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct St(u64);
 
 impl St {
@@ -79,11 +79,11 @@ impl St {
         St(0)
     }
 
-    fn len(&self) -> u8 {
+    pub fn len(&self) -> u8 {
         (self.0 & 0xF) as u8
     }
 
-    fn chop(&self) -> St {
+    pub fn chop(&self) -> St {
         if self.len() == 0 {
             panic!("Cannot chop any more");
         }
