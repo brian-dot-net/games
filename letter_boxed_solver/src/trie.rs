@@ -1,5 +1,5 @@
 use crate::core::St;
-use std::{collections::HashMap, io::BufRead};
+use std::{collections::HashMap, io::{BufRead, BufReader, Read}};
 
 #[derive(Debug, PartialEq)]
 pub enum NodeKind {
@@ -20,9 +20,10 @@ impl StTrie {
         StTrie { nodes, count }
     }
 
-    fn load<B: BufRead>(stream: &mut B) -> StTrie {
+    pub fn load<R: Read>(stream: &mut R) -> StTrie {
         let mut trie = StTrie::new();
-        for line in stream.lines() {
+        let reader = BufReader::new(stream);
+        for line in reader.lines() {
             let word = line.unwrap();
             if word.len() >= 3 && word.len() <= 12 {
                 let value = word.parse::<St>().unwrap();
@@ -33,7 +34,7 @@ impl StTrie {
         trie
     }
 
-    fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.count
     }
 
