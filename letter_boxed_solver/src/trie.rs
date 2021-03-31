@@ -21,7 +21,13 @@ impl StTrie {
     }
 
     fn load<B: BufRead>(stream: &mut B) -> StTrie {
-        StTrie::new()
+        let mut trie = StTrie::new();
+        for line in stream.lines() {
+            let value = line.unwrap().parse::<St>().unwrap();
+            trie.insert(value);
+        }
+
+        trie
     }
 
     fn len(&self) -> usize {
@@ -139,6 +145,14 @@ mod tests {
         let trie = load_trie(vec![]);
 
         assert_eq!(0, trie.len());
+    }
+
+    #[test]
+    fn load_from_stream_1_word() {
+        let trie = load_trie(vec!["ONE"]);
+
+        assert_eq!(1, trie.len());
+        assert_eq!(NodeKind::Terminal, find_trie(&trie, "ONE"));
     }
 
     fn init_trie(items: Vec<&str>) -> StTrie {
