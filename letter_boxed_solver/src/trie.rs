@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 #[derive(Debug, PartialEq)]
 pub enum NodeKind {
+    None,
     Prefix,
     Terminal,
 }
@@ -25,12 +26,14 @@ impl StTrie {
 
     fn find(&self, item: St) -> NodeKind {
         match self.0.get(&item) {
-            None => NodeKind::Prefix,
-            Some(&t) => if t {
-                NodeKind::Terminal
-             } else {
-                NodeKind::Prefix
-             }
+            None => NodeKind::None,
+            Some(&t) => {
+                if t {
+                    NodeKind::Terminal
+                } else {
+                    NodeKind::Prefix
+                }
+            }
         }
     }
 }
@@ -73,6 +76,13 @@ mod tests {
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "DEF"));
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "GHI"));
+    }
+
+    #[test]
+    fn get_nonexistent_node() {
+        let trie = init_trie(vec!["ABC"]);
+
+        assert_eq!(NodeKind::None, find_trie(&trie, "X"));
     }
 
     fn init_trie(items: Vec<&str>) -> StTrie {
