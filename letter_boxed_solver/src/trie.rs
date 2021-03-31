@@ -25,6 +25,10 @@ impl StTrie {
     }
 
     fn insert(&mut self, value: St) {
+        if value.len() == 0 {
+            return;
+        }
+
         if let Some(&true) = self.nodes.get(&value) {
             return;
         }
@@ -45,13 +49,8 @@ impl StTrie {
     fn find(&self, value: St) -> NodeKind {
         match self.nodes.get(&value) {
             None => NodeKind::None,
-            Some(&t) => {
-                if t {
-                    NodeKind::Terminal
-                } else {
-                    NodeKind::Prefix
-                }
-            }
+            Some(&true) => NodeKind::Terminal,
+            Some(&false) => NodeKind::Prefix,
         }
     }
 }
@@ -121,6 +120,13 @@ mod tests {
         assert_eq!(NodeKind::Prefix, find_trie(&trie, "A"));
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "AB"));
         assert_eq!(NodeKind::Terminal, find_trie(&trie, "ABC"));
+    }
+
+    #[test]
+    fn add_empty_node() {
+        let trie = init_trie(vec![""]);
+
+        assert_eq!(0, trie.len());
     }
 
     fn init_trie(items: Vec<&str>) -> StTrie {
