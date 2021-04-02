@@ -36,6 +36,40 @@ pub enum Ch {
     Z,
 }
 
+impl From<char> for Ch {
+    fn from(c: char) -> Self {
+        match c {
+            'A' => Ch::A,
+            'B' => Ch::B,
+            'C' => Ch::C,
+            'D' => Ch::D,
+            'E' => Ch::E,
+            'F' => Ch::F,
+            'G' => Ch::G,
+            'H' => Ch::H,
+            'I' => Ch::I,
+            'J' => Ch::J,
+            'K' => Ch::K,
+            'L' => Ch::L,
+            'M' => Ch::M,
+            'N' => Ch::N,
+            'O' => Ch::O,
+            'P' => Ch::P,
+            'Q' => Ch::Q,
+            'R' => Ch::R,
+            'S' => Ch::S,
+            'T' => Ch::T,
+            'U' => Ch::U,
+            'V' => Ch::V,
+            'W' => Ch::W,
+            'X' => Ch::X,
+            'Y' => Ch::Y,
+            'Z' => Ch::Z,
+            _ => Ch::None,
+        }
+    }
+}
+
 impl Display for Ch {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let s = match self {
@@ -75,7 +109,7 @@ impl Display for Ch {
 pub struct St(u64);
 
 impl St {
-    fn empty() -> St {
+    pub fn empty() -> St {
         St(0)
     }
 
@@ -112,35 +146,7 @@ impl FromStr for St {
     fn from_str(s: &str) -> Result<St, ()> {
         let mut value = St::empty();
         for c in s.chars() {
-            let c = match c {
-                'A' => Ch::A,
-                'B' => Ch::B,
-                'C' => Ch::C,
-                'D' => Ch::D,
-                'E' => Ch::E,
-                'F' => Ch::F,
-                'G' => Ch::G,
-                'H' => Ch::H,
-                'I' => Ch::I,
-                'J' => Ch::J,
-                'K' => Ch::K,
-                'L' => Ch::L,
-                'M' => Ch::M,
-                'N' => Ch::N,
-                'O' => Ch::O,
-                'P' => Ch::P,
-                'Q' => Ch::Q,
-                'R' => Ch::R,
-                'S' => Ch::S,
-                'T' => Ch::T,
-                'U' => Ch::U,
-                'V' => Ch::V,
-                'W' => Ch::W,
-                'X' => Ch::X,
-                'Y' => Ch::Y,
-                'Z' => Ch::Z,
-                _ => Ch::None,
-            };
+            let c = Ch::from(c);
             value = value + c;
         }
 

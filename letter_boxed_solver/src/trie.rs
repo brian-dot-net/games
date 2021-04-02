@@ -1,5 +1,5 @@
-use crate::core::St;
-use std::{collections::HashMap, io::{BufRead, BufReader, Read}};
+use crate::core::{Ch, St};
+use std::{collections::HashMap, io::Read};
 
 #[derive(Debug, PartialEq)]
 pub enum NodeKind {
@@ -22,16 +22,50 @@ impl StTrie {
 
     pub fn load<R: Read>(stream: &mut R) -> StTrie {
         let mut trie = StTrie::new();
-        let reader = BufReader::new(stream);
-        for line in reader.lines() {
-            let word = line.unwrap();
-            if word.len() >= 3 && word.len() <= 12 {
-                let value = word.parse::<St>().unwrap();
-                trie.insert(value);
+        let mut buf = [0u8; 1024];
+        let mut s = St::empty();
+        loop {
+            let result = stream.read(&mut buf[..]);
+            match result {
+                Ok(n) => {
+                    s = StTrie::process_chunk(&buf[0..n], s, &mut trie);
+                    if n == 0 {
+                        return trie;
+                    }
+                }
+                Err(e) => panic!(e),
+            }
+        }
+    }
+
+    fn process_chunk(chunk: &[u8], mut s: St, trie: &mut StTrie) -> St {
+        let mut skip = false;
+        for b in chunk {
+            match *b as char {
+                '\r' | '\n' => {
+                    if !skip && s.len() > 2 {
+                        trie.insert(s);
+                    }
+
+                    skip = false;
+                    s = St::empty();
+                }
+                c => {
+                    if skip || s.len() == 12 {
+                        skip = true;
+                        s = St::empty();
+                    } else {
+                        s = s + Ch::from(c);
+                    }
+                }
             }
         }
 
-        trie
+        if chunk.len() == 0 && !skip && s.len() > 2 {
+            trie.insert(s);
+        }
+
+        s
     }
 
     pub fn len(&self) -> usize {
