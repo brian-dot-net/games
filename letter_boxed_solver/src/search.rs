@@ -74,13 +74,13 @@ pub struct LetterBoxWords {
 }
 
 impl LetterBoxWords {
-    fn new() -> LetterBoxWords {
+    pub fn new() -> LetterBoxWords {
         let words = HashMap::new();
         let count = 0;
         LetterBoxWords { words, count }
     }
 
-    fn insert(&mut self, word: St, verts: Vertices) {
+    pub fn insert(&mut self, word: St, verts: Vertices) {
         let k = word[0];
         let w = Word { word, verts };
         if let Some(v) = self.words.get_mut(&k) {
@@ -110,7 +110,7 @@ impl LetterBoxWords {
         }
     }
 
-    fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.count
     }
 }

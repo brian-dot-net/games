@@ -1,6 +1,7 @@
 use letter_boxed_solver::{
     core::{LetterBox, St},
-    trie::StTrie,
+    search::{LetterBoxWords, search},
+    trie::StTrie
 };
 use std::{env::args, fs::File, time::Instant};
 
@@ -18,6 +19,12 @@ fn main() {
     let mut stream = File::open(&args[1]).unwrap();
     let trie = StTrie::load(&mut stream);
     log(start, format!("Loaded {} words.", trie.len()).as_str());
+
+    let mut words = LetterBoxWords::new();
+
+    log(start, "Finding valid words...");
+    search(&trie, b, |w, v| words.insert(w, v));
+    log(start, format!("Found {} valid words.", words.len()).as_str());
 }
 
 fn log(start: Instant, message: &str) {
