@@ -238,6 +238,17 @@ impl Add<Ch> for St {
 
 pub struct Vertices(u16);
 
+impl Index<u8> for Vertices {
+    type Output = bool;
+
+    fn index(&self, index: u8) -> &Self::Output {
+        match (self.0 >> index) & 0x1 {
+            0 => &false,
+            _ => &true,
+        }
+    }
+}
+
 impl Display for Vertices {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:012b}", self.0)
@@ -660,6 +671,14 @@ mod tests {
         let _ = b.next(12);
     }
 
+    #[test]
+    fn allows_vertex_lookup() {
+        test_vertex_lookup(0xFC5, "TFTFFFTTTTTT");
+        test_vertex_lookup(0xFA5, "TFTFFTFTTTTT");
+        test_vertex_lookup(0x000, "FFFFFFFFFFFF");
+        test_vertex_lookup(0x0FF, "TTTTTTTTFFFF");
+    }
+
     fn test_parse(expected: &str) {
         let s = expected.parse::<St>().unwrap();
         assert_eq!(expected, s.to_string());
@@ -667,5 +686,15 @@ mod tests {
 
     fn new_box() -> LetterBox {
         LetterBox::new("ABCDEFGHIJKL".parse::<St>().unwrap())
+    }
+
+    fn test_vertex_lookup(bits: u16, expected: &str) {
+        let verts = Vertices(bits);
+
+        let actual = (0..12)
+            .map(|v| if verts[v] { 'T' } else { 'F' })
+            .collect::<String>();
+
+        assert_eq!(expected, actual);
     }
 }
