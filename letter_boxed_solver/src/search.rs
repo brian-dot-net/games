@@ -68,22 +68,30 @@ impl Hash for Word {
     }
 }
 
-pub struct LetterBoxWords(HashMap<Ch, HashSet<Word>>);
+pub struct LetterBoxWords {
+    words: HashMap<Ch, HashSet<Word>>,
+    count: usize,
+}
 
 impl LetterBoxWords {
     fn new() -> LetterBoxWords {
-        LetterBoxWords(HashMap::new())
+        let words = HashMap::new();
+        let count = 0;
+        LetterBoxWords { words, count }
     }
 
     fn insert(&mut self, word: St, verts: Vertices) {
         let k = word[0];
         let w = Word { word, verts };
-        if let Some(v) = self.0.get_mut(&k) {
-            v.insert(w);
+        if let Some(v) = self.words.get_mut(&k) {
+            if v.insert(w) {
+                self.count += 1;
+            }
         } else {
             let mut v = HashSet::new();
             v.insert(w);
-            self.0.insert(k, v);
+            self.words.insert(k, v);
+            self.count += 1;
         }
     }
 
@@ -91,8 +99,8 @@ impl LetterBoxWords {
     where
         F: FnMut(St, St),
     {
-        for w1 in self.0.values().flat_map(|v| v) {
-            if let Some(v) = self.0.get(&w1.last()) {
+        for w1 in self.words.values().flat_map(|v| v) {
+            if let Some(v) = self.words.get(&w1.last()) {
                 for w2 in v {
                     if w1.is_solution_with(&w2) {
                         found(w1.word, w2.word);
@@ -100,6 +108,10 @@ impl LetterBoxWords {
                 }
             }
         }
+    }
+
+    fn len(&self) -> usize {
+        self.count
     }
 }
 
@@ -156,6 +168,29 @@ mod tests {
 
         let expected = vec!["ADB-BECFHJGKIL", "ADBECF-FAHKILJG", "ADBECF-FGJHKIL"];
         assert_eq!(expected, solutions(&words));
+    }
+
+    #[test]
+    fn counts_words() {
+        let mut words = LetterBoxWords::new();
+
+        assert_eq!(0, words.len());
+
+        insert_word(&mut words, "AB", 0);
+
+        assert_eq!(1, words.len());
+
+        insert_word(&mut words, "AB", 0);
+
+        assert_eq!(1, words.len());
+
+        insert_word(&mut words, "ABC", 0);
+
+        assert_eq!(2, words.len());
+
+        insert_word(&mut words, "ABCD", 0);
+
+        assert_eq!(3, words.len());
     }
 
     #[test]
