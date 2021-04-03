@@ -14,7 +14,7 @@ pub struct StTrie {
 }
 
 impl StTrie {
-    fn new() -> StTrie {
+    pub fn new() -> StTrie {
         let nodes = HashMap::new();
         let count = 0;
         StTrie { nodes, count }

@@ -1,8 +1,17 @@
-use crate::core::{Ch, St, Vertices};
+use crate::{
+    core::{Ch, LetterBox, St, Vertices},
+    trie::StTrie,
+};
 use std::{
     collections::{HashMap, HashSet},
     hash::Hash,
 };
+
+pub fn search<F>(trie: &StTrie, b: LetterBox, mut found: F)
+where
+    F: FnMut(St, Vertices),
+{
+}
 
 #[derive(Eq, PartialEq)]
 struct Word {
@@ -117,6 +126,14 @@ mod tests {
         assert_eq!(expected, solutions(&words));
     }
 
+    #[test]
+    fn empty_trie_finds_0()    {
+        let trie = StTrie::new();
+        let expected: Vec<&str> = vec![];
+
+        assert_eq!(expected, words(&trie));
+    }
+
     fn insert_word(words: &mut LetterBoxWords, word: &str, bits: u16) {
         words.insert(word.parse::<St>().unwrap(), Vertices::new(bits));
     }
@@ -127,6 +144,15 @@ mod tests {
         words.find(|w1, w2| found.push(format!("{}-{}", w1, w2)));
 
         found.sort();
+        found
+    }
+
+    fn words(trie: &StTrie) -> Vec<String> {
+        let mut found = vec![];
+        let b = LetterBox::new("ABCDEFGHIJKL".parse::<St>().unwrap());
+
+        search(&trie, b,|w, v| found.push(format!("{}:{}", w, v)));
+
         found
     }
 }
