@@ -25,6 +25,11 @@ fn main() {
     log(start, "Finding valid words...");
     search(&trie, b, |w, v| words.insert(w, v));
     log(start, format!("Found {} valid words.", words.len()).as_str());
+
+    log(start, "Finding solutions...");
+    words.find(|w1, w2| println!("{}-{}", w1, w2));
+
+    log(start, "Done.");
 }
 
 fn log(start: Instant, message: &str) {

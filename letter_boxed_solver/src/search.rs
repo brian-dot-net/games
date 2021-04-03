@@ -95,7 +95,7 @@ impl LetterBoxWords {
         }
     }
 
-    fn find<F>(&self, mut found: F)
+    pub fn find<F>(&self, mut found: F)
     where
         F: FnMut(St, St),
     {
