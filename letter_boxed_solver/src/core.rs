@@ -236,6 +236,22 @@ impl Add<Ch> for St {
     }
 }
 
+pub struct LetterBox(St);
+
+impl LetterBox {
+    fn new(b: St) -> LetterBox {
+        LetterBox(b)
+    }
+}
+
+impl Index<u8> for LetterBox {
+    type Output = Ch;
+
+    fn index(&self, index: u8) -> &Self::Output {
+        &self.0[index]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -570,8 +586,34 @@ mod tests {
         test_parse("OPQRSTUVWXYZ");
     }
 
+    #[test]
+    fn allows_char_lookup() {
+        let b = new_box();
+
+        let expected = vec![
+            Ch::A,
+            Ch::B,
+            Ch::C,
+            Ch::D,
+            Ch::E,
+            Ch::F,
+            Ch::G,
+            Ch::H,
+            Ch::I,
+            Ch::J,
+            Ch::K,
+            Ch::L,
+        ];
+        let actual: Vec<Ch> = (0..12).map(|v| b[v]).collect();
+        assert_eq!(expected, actual);
+    }
+
     fn test_parse(expected: &str) {
         let s = expected.parse::<St>().unwrap();
         assert_eq!(expected, s.to_string());
+    }
+
+    fn new_box() -> LetterBox {
+        LetterBox::new("ABCDEFGHIJKL".parse::<St>().unwrap())
     }
 }
