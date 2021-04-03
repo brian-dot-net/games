@@ -236,11 +236,28 @@ impl Add<Ch> for St {
     }
 }
 
+pub struct Vertices(u16);
+
+impl Display for Vertices {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{:012b}", self.0)
+    }
+}
+
 pub struct LetterBox(St);
 
 impl LetterBox {
     fn new(b: St) -> LetterBox {
         LetterBox(b)
+    }
+
+    fn next(&self, index: u8) -> Vertices {
+        match index {
+            0 | 1 | 2 => Vertices(0b111111111000),
+            3 | 4 | 5 => Vertices(0b111111000111),
+            6 | 7 | 8 => Vertices(0b111000111111),
+            _ => Vertices(0b000111111111),
+        }
     }
 }
 
@@ -614,6 +631,24 @@ mod tests {
         let b = new_box();
 
         let _ = b[12];
+    }
+
+    #[test]
+    fn returns_next_vertices() {
+        let b = new_box();
+
+        assert_eq!("111111111000", b.next(0).to_string());
+        assert_eq!("111111111000", b.next(1).to_string());
+        assert_eq!("111111111000", b.next(2).to_string());
+        assert_eq!("111111000111", b.next(3).to_string());
+        assert_eq!("111111000111", b.next(4).to_string());
+        assert_eq!("111111000111", b.next(5).to_string());
+        assert_eq!("111000111111", b.next(6).to_string());
+        assert_eq!("111000111111", b.next(7).to_string());
+        assert_eq!("111000111111", b.next(8).to_string());
+        assert_eq!("000111111111", b.next(9).to_string());
+        assert_eq!("000111111111", b.next(10).to_string());
+        assert_eq!("000111111111", b.next(11).to_string());
     }
 
     fn test_parse(expected: &str) {
