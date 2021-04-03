@@ -256,7 +256,8 @@ impl LetterBox {
             0 | 1 | 2 => Vertices(0b111111111000),
             3 | 4 | 5 => Vertices(0b111111000111),
             6 | 7 | 8 => Vertices(0b111000111111),
-            _ => Vertices(0b000111111111),
+            9 | 10 | 11 => Vertices(0b000111111111),
+            _ => panic!("Out of range"),
         }
     }
 }
@@ -649,6 +650,14 @@ mod tests {
         assert_eq!("000111111111", b.next(9).to_string());
         assert_eq!("000111111111", b.next(10).to_string());
         assert_eq!("000111111111", b.next(11).to_string());
+    }
+
+    #[test]
+    #[should_panic(expected = "Out of range")]
+    fn fails_next_vertices_out_of_range() {
+        let b = new_box();
+
+        let _ = b.next(12);
     }
 
     fn test_parse(expected: &str) {
