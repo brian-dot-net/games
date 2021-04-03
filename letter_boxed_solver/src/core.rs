@@ -267,6 +267,10 @@ pub struct LetterBox(St);
 
 impl LetterBox {
     fn new(b: St) -> LetterBox {
+        if b.len() != 12 {
+            panic!("Out of range");
+        }
+
         LetterBox(b)
     }
 
@@ -708,6 +712,12 @@ mod tests {
         let b = new_box();
 
         assert_eq!("ABCDEFGHIJKL", b.to_string());
+    }
+
+    #[test]
+    #[should_panic(expected = "Out of range")]
+    fn input_too_short() {
+        let _ = LetterBox::new(St::empty() + Ch::A);
     }
 
     fn test_parse(expected: &str) {
