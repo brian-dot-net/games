@@ -1,6 +1,6 @@
 use crate::{
     core::{Ch, LetterBox, St, Vertices},
-    trie::StTrie,
+    trie::{NodeKind, StTrie},
 };
 use std::{
     collections::{HashMap, HashSet},
@@ -11,6 +11,34 @@ pub fn search<F>(trie: &StTrie, b: LetterBox, mut found: F)
 where
     F: FnMut(St, Vertices),
 {
+    for v1 in 0..12 {
+        let c = b[v1];
+        let verts = Vertices::new(1 << v1);
+        search_next(St::empty() + c, v1, verts, &trie, &b, &mut found);
+    }
+}
+
+fn search_next<F>(str: St, v1: u8, verts: Vertices, trie: &StTrie, b: &LetterBox, found: &mut F)
+where
+    F: FnMut(St, Vertices),
+{
+    let kind = trie.find(str);
+    if kind == NodeKind::None {
+        return;
+    }
+
+    if kind == NodeKind::Terminal {
+        found(str, verts);
+    }
+
+    let next = b.next(v1);
+    for v2 in 0..12 {
+        if next[v2] {
+            let c = b[v2];
+            let next_verts = verts + Vertices::new(1 << v2);
+            search_next(str + c, v2, next_verts, &trie, b, found);
+        }
+    }
 }
 
 #[derive(Eq, PartialEq)]
@@ -127,9 +155,18 @@ mod tests {
     }
 
     #[test]
-    fn empty_trie_finds_0()    {
+    fn empty_trie_finds_0() {
         let trie = StTrie::new();
         let expected: Vec<&str> = vec![];
+
+        assert_eq!(expected, words(&trie));
+    }
+
+    #[test]
+    fn one_value_trie_finds_1() {
+        let mut trie = StTrie::new();
+        trie.insert("ALE".parse::<St>().unwrap());
+        let expected = vec!["ALE:100000010001"];
 
         assert_eq!(expected, words(&trie));
     }
@@ -151,7 +188,7 @@ mod tests {
         let mut found = vec![];
         let b = LetterBox::new("ABCDEFGHIJKL".parse::<St>().unwrap());
 
-        search(&trie, b,|w, v| found.push(format!("{}:{}", w, v)));
+        search(&trie, b, |w, v| found.push(format!("{}:{}", w, v)));
 
         found
     }

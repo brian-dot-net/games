@@ -285,7 +285,7 @@ impl LetterBox {
         LetterBox(b)
     }
 
-    fn next(&self, index: u8) -> Vertices {
+    pub fn next(&self, index: u8) -> Vertices {
         match index {
             0 | 1 | 2 => Vertices(0b111111111000),
             3 | 4 | 5 => Vertices(0b111111000111),

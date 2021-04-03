@@ -72,7 +72,7 @@ impl StTrie {
         self.count
     }
 
-    fn insert(&mut self, value: St) {
+    pub fn insert(&mut self, value: St) {
         if value.len() == 0 {
             return;
         }
@@ -94,7 +94,7 @@ impl StTrie {
         }
     }
 
-    fn find(&self, value: St) -> NodeKind {
+    pub fn find(&self, value: St) -> NodeKind {
         match self.nodes.get(&value) {
             None => NodeKind::None,
             Some(&true) => NodeKind::Terminal,
