@@ -608,6 +608,14 @@ mod tests {
         assert_eq!(expected, actual);
     }
 
+    #[test]
+    #[should_panic(expected = "Out of range")]
+    fn fails_char_lookup_out_of_range() {
+        let b = new_box();
+
+        let _ = b[12];
+    }
+
     fn test_parse(expected: &str) {
         let s = expected.parse::<St>().unwrap();
         assert_eq!(expected, s.to_string());
