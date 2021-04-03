@@ -171,6 +171,39 @@ mod tests {
         assert_eq!(expected, words(&trie));
     }
 
+    #[test]
+    fn twelve_value_trie_finds_all_words() {
+        let mut trie = StTrie::new();
+        trie.insert("ALE".parse::<St>().unwrap());
+        trie.insert("BEG".parse::<St>().unwrap());
+        trie.insert("CEL".parse::<St>().unwrap());
+        trie.insert("DAH".parse::<St>().unwrap());
+        trie.insert("ELF".parse::<St>().unwrap());
+        trie.insert("FIB".parse::<St>().unwrap());
+        trie.insert("GAL".parse::<St>().unwrap());
+        trie.insert("HAD".parse::<St>().unwrap());
+        trie.insert("ICE".parse::<St>().unwrap());
+        trie.insert("JIB".parse::<St>().unwrap());
+        trie.insert("KAE".parse::<St>().unwrap());
+        trie.insert("LIE".parse::<St>().unwrap());
+        let expected = vec![
+            "ALE:100000010001",
+            "BEG:000001010010",
+            "CEL:100000010100",
+            "DAH:000010001001",
+            "ELF:100000110000",
+            "FIB:000100100010",
+            "GAL:100001000001",
+            "HAD:000010001001",
+            "ICE:000100010100",
+            "JIB:001100000010",
+            "KAE:010000010001",
+            "LIE:100100010000",
+        ];
+
+        assert_eq!(expected, words(&trie));
+    }
+
     fn insert_word(words: &mut LetterBoxWords, word: &str, bits: u16) {
         words.insert(word.parse::<St>().unwrap(), Vertices::new(bits));
     }
