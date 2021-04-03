@@ -266,7 +266,7 @@ impl Display for Vertices {
 pub struct LetterBox(St);
 
 impl LetterBox {
-    fn new(b: St) -> LetterBox {
+    pub fn new(b: St) -> LetterBox {
         if b.len() != 12 {
             panic!("Out of range");
         }

@@ -1,17 +1,21 @@
-use letter_boxed_solver::trie::StTrie;
+use letter_boxed_solver::{
+    core::{LetterBox, St},
+    trie::StTrie,
+};
 use std::{env::args, fs::File, time::Instant};
 
 fn main() {
     let start = Instant::now();
-    let args = args();
-    if args.len() != 3 {
+    let args: Vec<String> = args().skip(1).collect();
+    if args.len() != 2 {
         println!("Please specify a Letter Boxed puzzle and a word list file.");
         return;
     }
 
+    let b = LetterBox::new(args[0].parse::<St>().unwrap());
+
     log(start, "Loading trie...");
-    let path = args.skip(2).next().unwrap();
-    let mut stream = File::open(path).unwrap();
+    let mut stream = File::open(&args[1]).unwrap();
     let trie = StTrie::load(&mut stream);
     log(start, format!("Loaded {} words.", trie.len()).as_str());
 }
