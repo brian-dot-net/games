@@ -249,6 +249,14 @@ impl Index<u8> for Vertices {
     }
 }
 
+impl Add for Vertices {
+    type Output = Vertices;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Vertices(self.0 | rhs.0)
+    }
+}
+
 impl Display for Vertices {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:012b}", self.0)
@@ -679,6 +687,16 @@ mod tests {
         test_vertex_lookup(0x0FF, "TTTTTTTTFFFF");
     }
 
+    #[test]
+    fn allows_vertex_union() {
+        test_vertex_union(0x135, 0x642, "011101110111");
+        test_vertex_union(0x531, 0x246, "011101110111");
+        test_vertex_union(0xEFF, 0x1FE, "111111111111");
+        test_vertex_union(0x000, 0x000, "000000000000");
+        test_vertex_union(0x7FF, 0x7EE, "011111111111");
+        test_vertex_union(0x001, 0x020, "000000100001");
+    }
+
     fn test_parse(expected: &str) {
         let s = expected.parse::<St>().unwrap();
         assert_eq!(expected, s.to_string());
@@ -696,5 +714,11 @@ mod tests {
             .collect::<String>();
 
         assert_eq!(expected, actual);
+    }
+
+    fn test_vertex_union(x: u16, y: u16, expected: &str) {
+        let z = Vertices(x) + Vertices(y);
+        
+        assert_eq!(expected, z.to_string());
     }
 }
