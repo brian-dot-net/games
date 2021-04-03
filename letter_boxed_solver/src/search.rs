@@ -1,4 +1,4 @@
-use crate::core::St;
+use crate::core::{St, Vertices};
 
 pub struct LetterBoxWords;
 
@@ -6,6 +6,8 @@ impl LetterBoxWords {
     fn new() -> LetterBoxWords {
         LetterBoxWords
     }
+
+    fn insert(&mut self, word: St, verts: Vertices) {}
 
     fn find<F>(&self, found: F)
     where
@@ -24,6 +26,19 @@ mod tests {
 
         let expected: Vec<String> = vec![];
         assert_eq!(expected, solutions(&words));
+    }
+
+    #[test]
+    fn one_word_finds_nothing() {
+        let mut words = LetterBoxWords::new();
+        insert_word(&mut words, "ALE", 0b100000010001);
+
+        let expected: Vec<String> = vec![];
+        assert_eq!(expected, solutions(&words));
+    }
+
+    fn insert_word(words: &mut LetterBoxWords, word: &str, bits: u16) {
+        words.insert(word.parse::<St>().unwrap(), Vertices::new(bits));
     }
 
     fn solutions(words: &LetterBoxWords) -> Vec<String> {

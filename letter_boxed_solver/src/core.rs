@@ -238,6 +238,12 @@ impl Add<Ch> for St {
 
 pub struct Vertices(u16);
 
+impl Vertices {
+    pub fn new(bits: u16) -> Vertices {
+        Vertices(bits)
+    }
+}
+
 impl Index<u8> for Vertices {
     type Output = bool;
 
