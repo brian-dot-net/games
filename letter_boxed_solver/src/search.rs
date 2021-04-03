@@ -35,9 +35,15 @@ impl LetterBoxWords {
     }
 
     fn insert(&mut self, word: St, verts: Vertices) {
-        let mut v = HashSet::new();
-        v.insert(Word { word, verts });
-        self.0.insert(word[0], v);
+        let k = word[0];
+        let w = Word { word, verts };
+        if let Some(v) = self.0.get_mut(&k) {
+            v.insert(w);
+        } else {
+            let mut v = HashSet::new();
+            v.insert(w);
+            self.0.insert(k, v);
+        }
     }
 
     fn find<F>(&self, mut found: F)
@@ -94,6 +100,20 @@ mod tests {
         insert_word(&mut words, "FGJHKIL", 0b111111100000);
 
         let expected = vec!["ADBECF-FGJHKIL"];
+        assert_eq!(expected, solutions(&words));
+    }
+
+    #[test]
+    fn many_words_finds_all_solutions() {
+        let mut words = LetterBoxWords::new();
+        insert_word(&mut words, "ADB", 0b000000001011);
+        insert_word(&mut words, "ADBECF", 0b000000111111);
+        insert_word(&mut words, "BECFHJGKIL", 0b111111111110);
+        insert_word(&mut words, "FGJHKIL", 0b111111100000);
+        insert_word(&mut words, "FAHKILJG", 0b111111100001);
+        insert_word(&mut words, "FAHKILJ", 0b111110100001);
+
+        let expected = vec!["ADB-BECFHJGKIL", "ADBECF-FAHKILJG", "ADBECF-FGJHKIL"];
         assert_eq!(expected, solutions(&words));
     }
 
