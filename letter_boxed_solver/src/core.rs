@@ -5,7 +5,7 @@ use std::{
     str::FromStr,
 };
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Ch {
     None,
     A,
@@ -236,11 +236,16 @@ impl Add<Ch> for St {
     }
 }
 
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct Vertices(u16);
 
 impl Vertices {
     pub fn new(bits: u16) -> Vertices {
         Vertices(bits)
+    }
+
+    pub fn is_complete(&self) -> bool {
+        self.0 == 0xFFF
     }
 }
 
