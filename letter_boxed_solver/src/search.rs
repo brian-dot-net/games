@@ -204,6 +204,20 @@ mod tests {
         assert_eq!(expected, words(&trie));
     }
 
+    #[test]
+    fn search_does_not_return_invalid_moves() {
+        let mut trie = StTrie::new();
+        trie.insert("ABC".parse::<St>().unwrap());
+        trie.insert("DEF".parse::<St>().unwrap());
+        trie.insert("GHI".parse::<St>().unwrap());
+        trie.insert("JKL".parse::<St>().unwrap());
+        trie.insert("MOW".parse::<St>().unwrap());
+        trie.insert("ALA".parse::<St>().unwrap());
+        let expected = vec!["ALA:100000000001"];
+
+        assert_eq!(expected, words(&trie));
+    }
+
     fn insert_word(words: &mut LetterBoxWords, word: &str, bits: u16) {
         words.insert(word.parse::<St>().unwrap(), Vertices::new(bits));
     }
