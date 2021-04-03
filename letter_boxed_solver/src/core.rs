@@ -281,6 +281,12 @@ impl LetterBox {
     }
 }
 
+impl Display for LetterBox {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
 impl Index<u8> for LetterBox {
     type Output = Ch;
 
@@ -697,6 +703,13 @@ mod tests {
         test_vertex_union(0x001, 0x020, "000000100001");
     }
 
+    #[test]
+    fn string_value() {
+        let b = new_box();
+
+        assert_eq!("ABCDEFGHIJKL", b.to_string());
+    }
+
     fn test_parse(expected: &str) {
         let s = expected.parse::<St>().unwrap();
         assert_eq!(expected, s.to_string());
@@ -718,7 +731,7 @@ mod tests {
 
     fn test_vertex_union(x: u16, y: u16, expected: &str) {
         let z = Vertices(x) + Vertices(y);
-        
+
         assert_eq!(expected, z.to_string());
     }
 }
