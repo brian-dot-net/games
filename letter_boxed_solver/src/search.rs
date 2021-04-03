@@ -31,6 +31,10 @@ where
         found(str, verts);
     }
 
+    if str.len() == 12 {
+        return;
+    }
+
     let next = b.next(v1);
     for v2 in 0..12 {
         if next[v2] {
@@ -214,6 +218,27 @@ mod tests {
         trie.insert("MOW".parse::<St>().unwrap());
         trie.insert("ALA".parse::<St>().unwrap());
         let expected = vec!["ALA:100000000001"];
+
+        assert_eq!(expected, words(&trie));
+    }
+
+    #[test]
+    fn search_does_not_build_too_long_words() {
+        let mut trie = StTrie::new();
+        trie.insert("LA".parse::<St>().unwrap());
+        trie.insert("LALA".parse::<St>().unwrap());
+        trie.insert("LALALA".parse::<St>().unwrap());
+        trie.insert("LALALALA".parse::<St>().unwrap());
+        trie.insert("LALALALALA".parse::<St>().unwrap());
+        trie.insert("LALALALALALA".parse::<St>().unwrap());
+        let expected = vec![
+            "LA:100000000001",
+            "LALA:100000000001",
+            "LALALA:100000000001",
+            "LALALALA:100000000001",
+            "LALALALALA:100000000001",
+            "LALALALALALA:100000000001",
+        ];
 
         assert_eq!(expected, words(&trie));
     }
