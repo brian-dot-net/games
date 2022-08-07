@@ -18,8 +18,8 @@ namespace Words.Benchmark
         private static readonly Str WordStr6 = Str.Parse(WordString6);
         private static readonly Str WordStr12 = Str.Parse(WordString12);
 
-        private StringTrie stringTrie;
-        private StrTrie strTrie;
+        private StringTrie? stringTrie;
+        private StrTrie? strTrie;
 
         [Params(-1, 6, 12)]
         public int Len { get; set; }
@@ -35,13 +35,13 @@ namespace Words.Benchmark
         [Benchmark]
         public int StringF()
         {
-            return Find(this.stringTrie, this.WordString(), 0);
+            return Find(this.stringTrie!, this.WordString(), 0);
         }
 
         [Benchmark]
         public int StrF()
         {
-            return Find(this.strTrie, this.WordStr());
+            return Find(this.strTrie!, this.WordStr());
         }
 
         private static int Find(StringTrie.INode node, string word, int index)
@@ -53,10 +53,10 @@ namespace Words.Benchmark
 
             if (index == word.Length)
             {
-                return node.Value.Length;
+                return node.Value!.Length;
             }
 
-            return Find(node[word[index]], word, index + 1);
+            return Find(node[word[index]!]!, word, index + 1);
         }
 
         private static int Find(StrTrie trie, Str word)

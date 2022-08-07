@@ -4,7 +4,6 @@
 
 namespace Words
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
 
@@ -21,25 +20,25 @@ namespace Words
         {
             bool IsTerminal { get; }
 
-            string Value { get; }
+            string? Value { get; }
 
-            INode this[char key] { get; }
+            INode? this[char key] { get; }
         }
 
         public int Count { get; private set; }
 
         public bool IsTerminal => this.root.IsTerminal;
 
-        public string Value => this.root.Value;
+        public string? Value => this.root.Value;
 
-        public INode this[char key] => this.root[key];
+        public INode? this[char key] => this.root[key];
 
         public static StringTrie Load(Stream stream)
         {
             StringTrie trie = new StringTrie();
             using (StreamReader reader = new StreamReader(stream))
             {
-                string line;
+                string? line;
                 do
                 {
                     line = reader.ReadLine();
@@ -56,7 +55,7 @@ namespace Words
 
         public void Add(string value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
             {
                 return;
             }
@@ -78,13 +77,13 @@ namespace Words
 
             public bool IsTerminal => this.Value != null;
 
-            public string Value { get; set; }
+            public string? Value { get; set; }
 
-            public INode this[char key]
+            public INode? this[char key]
             {
                 get
                 {
-                    this.children.TryGetValue(key, out Node child);
+                    this.children.TryGetValue(key, out Node? child);
                     return child;
                 }
             }
@@ -103,7 +102,7 @@ namespace Words
                 }
 
                 char key = value[index];
-                if (!this.children.TryGetValue(key, out Node child))
+                if (!this.children.TryGetValue(key, out Node? child))
                 {
                     child = new Node();
                     this.children.Add(key, child);

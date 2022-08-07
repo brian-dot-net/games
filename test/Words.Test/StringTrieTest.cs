@@ -40,10 +40,10 @@ namespace Words.Test
             trie.Add("HA");
 
             trie.Count.Should().Be(2);
-            var node = trie['H'];
+            var node = trie['H']!;
             node.IsTerminal.Should().BeFalse();
-            node['A'].IsTerminal.Should().BeTrue();
-            node['I'].IsTerminal.Should().BeTrue();
+            node['A']!.IsTerminal.Should().BeTrue();
+            node['I']!.IsTerminal.Should().BeTrue();
         }
 
         [Fact]
@@ -56,13 +56,13 @@ namespace Words.Test
             trie.Add("GHI");
 
             trie.Count.Should().Be(3);
-            var one = trie['A']['B']['C'];
+            var one = trie['A']!['B']!['C']!;
             one.IsTerminal.Should().BeTrue();
             one.Value.Should().Be("ABC");
-            var two = trie['D']['E']['F'];
+            var two = trie['D']!['E']!['F']!;
             two.IsTerminal.Should().BeTrue();
             two.Value.Should().Be("DEF");
-            var three = trie['G']['H']['I'];
+            var three = trie['G']!['H']!['I']!;
             three.IsTerminal.Should().BeTrue();
             three.Value.Should().Be("GHI");
         }
@@ -115,16 +115,6 @@ namespace Words.Test
         }
 
         [Fact]
-        public void AddNullNode()
-        {
-            StringTrie trie = new StringTrie();
-
-            trie.Add(null);
-
-            trie.Count.Should().Be(0);
-        }
-
-        [Fact]
         public void LoadFromStreamEmpty()
         {
             StringTrie trie = Load();
@@ -138,7 +128,7 @@ namespace Words.Test
             StringTrie trie = Load("ONE");
 
             trie.Count.Should().Be(1);
-            trie['O']['N']['E'].Value.Should().Be("ONE");
+            trie['O']!['N']!['E']!.Value.Should().Be("ONE");
         }
 
         [Fact]
@@ -147,9 +137,9 @@ namespace Words.Test
             StringTrie trie = Load("ONE", "TWO", "THREE");
 
             trie.Count.Should().Be(3);
-            trie['O']['N']['E'].Value.Should().Be("ONE");
-            trie['T']['W']['O'].Value.Should().Be("TWO");
-            trie['T']['H']['R']['E']['E'].Value.Should().Be("THREE");
+            trie['O']!['N']!['E']!.Value.Should().Be("ONE");
+            trie['T']!['W']!['O']!.Value.Should().Be("TWO");
+            trie['T']!['H']!['R']!['E']!['E']!.Value.Should().Be("THREE");
         }
 
         [Fact]
@@ -158,7 +148,7 @@ namespace Words.Test
             StringTrie trie = Load("S", "SH", "LONG");
 
             trie.Count.Should().Be(1);
-            trie['L']['O']['N']['G'].Value.Should().Be("LONG");
+            trie['L']!['O']!['N']!['G']!.Value.Should().Be("LONG");
         }
 
         [Fact]
@@ -167,8 +157,8 @@ namespace Words.Test
             StringTrie trie = Load("OK", "OKAY", "THISISTOOLONG", "YES");
 
             trie.Count.Should().Be(2);
-            trie['O']['K']['A']['Y'].Value.Should().Be("OKAY");
-            trie['Y']['E']['S'].Value.Should().Be("YES");
+            trie['O']!['K']!['A']!['Y']!.Value.Should().Be("OKAY");
+            trie['Y']!['E']!['S']!.Value.Should().Be("YES");
         }
 
         private static StringTrie Load(params string[] lines)

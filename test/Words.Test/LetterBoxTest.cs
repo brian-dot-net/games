@@ -137,14 +137,6 @@ namespace Words.Test
             act.Should().Throw<ArgumentOutOfRangeException>().Which.ParamName.Should().Be("box");
         }
 
-        [Fact]
-        public void InputNull()
-        {
-            Action act = () => new LetterBox(null);
-
-            act.Should().Throw<ArgumentNullException>().Which.ParamName.Should().Be("box");
-        }
-
-        private static LetterBox New(string input = null) => new LetterBox(input ?? "ABCDEFGHIJKL");
+        private static LetterBox New(string? input = null) => new LetterBox(input ?? "ABCDEFGHIJKL");
     }
 }

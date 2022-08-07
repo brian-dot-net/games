@@ -27,7 +27,7 @@ namespace Words
             }
         }
 
-        private void Next(StringTrie.INode node, int v1, LetterBox.Vertices verts, Action<string, LetterBox.Vertices> found)
+        private void Next(StringTrie.INode? node, int v1, LetterBox.Vertices verts, Action<string, LetterBox.Vertices> found)
         {
             if (node == null)
             {
@@ -36,7 +36,7 @@ namespace Words
 
             if (node.IsTerminal)
             {
-                found(node.Value, verts);
+                found(node.Value!, verts);
             }
 
             LetterBox.Vertices next = this.box.Next(v1);

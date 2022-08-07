@@ -5,6 +5,7 @@
     <StyleCopFileName>stylecop.json</StyleCopFileName>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)$(RuleSetFileName)</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectDir>$(MSBuildProjectDirectory)\</_ProjectDir>

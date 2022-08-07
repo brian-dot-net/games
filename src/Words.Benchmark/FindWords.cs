@@ -12,8 +12,8 @@ namespace Words.Benchmark
     [MemoryDiagnoser]
     public class FindWords
     {
-        private LetterBoxSearch stringSearch;
-        private LetterBoxStrSearch strSearch;
+        private LetterBoxSearch? stringSearch;
+        private LetterBoxStrSearch? strSearch;
 
         [GlobalSetup]
         public void Setup()
@@ -31,7 +31,7 @@ namespace Words.Benchmark
         public int StringF()
         {
             int count = 0;
-            this.stringSearch.Run((w, v) => ++count);
+            this.stringSearch!.Run((w, v) => ++count);
             return count;
         }
 
@@ -39,7 +39,7 @@ namespace Words.Benchmark
         public int StrF()
         {
             int count = 0;
-            this.strSearch.Run((w, v) => ++count);
+            this.strSearch!.Run((w, v) => ++count);
             return count;
         }
     }

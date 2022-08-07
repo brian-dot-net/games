@@ -21,7 +21,7 @@ namespace Words
 
         public void Add(string word, LetterBox.Vertices verts)
         {
-            HashSet<Word> keyedWords;
+            HashSet<Word>? keyedWords;
             char key = word[0];
             if (!this.words.TryGetValue(key, out keyedWords))
             {
@@ -39,7 +39,7 @@ namespace Words
         {
             foreach (Word w1 in this.words.Values.SelectMany(w => w))
             {
-                if (this.words.TryGetValue(w1.Last, out HashSet<Word> inner))
+                if (this.words.TryGetValue(w1.Last, out HashSet<Word>? inner))
                 {
                     foreach (Word w2 in inner)
                     {
