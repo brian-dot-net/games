@@ -16,7 +16,7 @@ namespace Words.Test
         {
             LetterBoxStr box = New();
 
-            Enumerable.Range(0, 12).Select(v => box[(byte)v]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(v => box[(byte)v]).Should().ContainInOrder(
                 Ch.A, Ch.B, Ch.C, Ch.D, Ch.E, Ch.F, Ch.G, Ch.H, Ch.I, Ch.J, Ch.K, Ch.L);
         }
 

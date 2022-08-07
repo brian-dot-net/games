@@ -19,7 +19,7 @@ namespace Words.Test
 
             s.Length.Should().Be(0);
             s.ToString().Should().Be(string.Empty);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 Ch.None,
                 Ch.None,
                 Ch.None,
@@ -45,7 +45,7 @@ namespace Words.Test
 
             s.Length.Should().Be(1);
             s.ToString().Should().Be(expected);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 c0,
                 Ch.None,
                 Ch.None,
@@ -72,7 +72,7 @@ namespace Words.Test
 
             s.Length.Should().Be(2);
             s.ToString().Should().Be(expected);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 c0,
                 c1,
                 Ch.None,
@@ -101,7 +101,7 @@ namespace Words.Test
 
             s.Length.Should().Be(4);
             s.ToString().Should().Be(expected);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 c0,
                 c1,
                 c2,
@@ -134,7 +134,7 @@ namespace Words.Test
 
             s.Length.Should().Be(8);
             s.ToString().Should().Be(expected);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 c0,
                 c1,
                 c2,
@@ -171,7 +171,7 @@ namespace Words.Test
 
             s.Length.Should().Be(12);
             s.ToString().Should().Be(expected);
-            Enumerable.Range(0, 12).Select(i => s[i]).Should().BeEquivalentTo(
+            Enumerable.Range(0, 12).Select(i => s[i]).Should().ContainInOrder(
                 c0,
                 c1,
                 c2,
